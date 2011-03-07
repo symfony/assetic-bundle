@@ -16,29 +16,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 /**
- * Adds services tagged as filters to the filter manager.
+ * Adds services tagged as workers to the asset factory.
  *
  * @author Kris Wallsmith <kris.wallsmith@symfony.com>
  */
-class FilterManagerPass implements CompilerPassInterface
+class AssetFactoryPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('assetic.filter_manager')) {
+        if (!$container->hasDefinition('assetic.asset_factory')) {
             return;
         }
 
-        $mapping = array();
-        foreach ($container->findTaggedServiceIds('assetic.filter') as $id => $attributes) {
-            foreach ($attributes as $attr) {
-                if (isset($attr['alias'])) {
-                    $mapping[$attr['alias']] = $id;
-                }
-            }
+        $factory = $container->getDefinition('assetic.asset_factory');
+        foreach ($container->findTaggedServiceIds('assetic.factory_worker') as $id => $attr) {
+            $factory->addMethodCall('addWorker', array(new Reference($id)));
         }
-
-        $container
-            ->getDefinition('assetic.filter_manager')
-            ->setArgument(1, $mapping);
     }
 }
