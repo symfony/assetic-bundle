@@ -16,20 +16,21 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 
-class DumpCommandTest extends \PHPUnit_Framework_TestCase
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
+class DumpCommandTest extends TestCase
 {
     private $writeTo;
     private $application;
     private $definition;
     private $kernel;
     private $container;
+    private $command;
     private $am;
 
     protected function setUp()
     {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
+        parent::setUp();
 
         $this->writeTo = sys_get_temp_dir().'/assetic_dump';
 
@@ -82,6 +83,14 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
             array_map('unlink', glob($this->writeTo.'/*'));
             rmdir($this->writeTo);
         }
+
+        $this->writeTo = null;
+        $this->application = null;
+        $this->definition = null;
+        $this->kernel = null;
+        $this->container = null;
+        $this->command = null;
+        $this->am = null;
     }
 
     public function testEmptyAssetManager()

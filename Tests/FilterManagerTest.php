@@ -13,15 +13,10 @@ namespace Symfony\Bundle\AsseticBundle\Tests;
 
 use Symfony\Bundle\AsseticBundle\FilterManager;
 
-class FilterManagerTest extends \PHPUnit_Framework_TestCase
-{
-    protected function setUp()
-    {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
-    }
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
 
+class FilterManagerTest extends TestCase
+{
     public function testGet()
     {
         $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');

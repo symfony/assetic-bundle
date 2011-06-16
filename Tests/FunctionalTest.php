@@ -15,18 +15,18 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Util\Filesystem;
 
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
 /**
  * @group functional
  */
-class FunctionalTest extends \PHPUnit_Framework_TestCase
+class FunctionalTest extends TestCase
 {
     protected $cacheDir;
 
     protected function setUp()
     {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
+        parent::setUp();
 
         $this->cacheDir = __DIR__.'/Resources/cache';
         if (file_exists($this->cacheDir)) {
@@ -41,6 +41,8 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = new Filesystem();
         $filesystem->remove($this->cacheDir);
+
+        $this->cacheDir = null;
     }
 
     public function testTwigRenderDebug()

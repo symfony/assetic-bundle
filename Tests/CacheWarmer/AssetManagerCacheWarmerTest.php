@@ -13,15 +13,10 @@ namespace Symfony\Bundle\AsseticBundle\Tests\CacheWarmer;
 
 use Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer;
 
-class AssetManagerCacheWarmerTest extends \PHPUnit_Framework_TestCase
-{
-    protected function setUp()
-    {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
-    }
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
 
+class AssetManagerCacheWarmerTest extends TestCase
+{
     public function testWarmUp()
     {
         $am = $this

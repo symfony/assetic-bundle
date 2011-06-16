@@ -13,7 +13,9 @@ namespace Symfony\Bundle\AsseticBundle\Tests\Controller;
 
 use Symfony\Bundle\AsseticBundle\Controller\AsseticController;
 
-class AsseticControllerTest extends \PHPUnit_Framework_TestCase
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
+class AsseticControllerTest extends TestCase
 {
     protected $request;
     protected $headers;
@@ -24,9 +26,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
+        parent::setUp();
 
         $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request');
         $this->headers = $this->getMock('Symfony\\Component\\HttpFoundation\\ParameterBag');
@@ -37,6 +37,15 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $this->cache = $this->getMock('Assetic\\Cache\\CacheInterface');
 
         $this->controller = new AsseticController($this->request, $this->am, $this->cache);
+    }
+
+    protected function tearDown()
+    {
+        $this->request = null;
+        $this->headers = null;
+        $this->am = null;
+        $this->cache = null;
+        $this->controller = null;
     }
 
     public function testRenderNotFound()
