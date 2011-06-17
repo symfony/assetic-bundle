@@ -12,6 +12,7 @@
             <xsd:element name="bundle" type="bundle" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="filter" type="filter" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="twig" type="twig" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="asset" type="asset" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
         <xsd:attribute name="debug" type="xsd:string" />
         <xsd:attribute name="use-controller" type="xsd:string" />
