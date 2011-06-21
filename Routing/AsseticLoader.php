@@ -13,6 +13,7 @@ namespace Symfony\Bundle\AsseticBundle\Routing;
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\LazyAssetManager;
+use Symfony\Bundle\AsseticBundle\Config\AsseticResource;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\Route;
@@ -54,9 +55,7 @@ class AsseticLoader extends Loader
                 $resources = array($resources);
             }
             foreach ($resources as $resource) {
-                if (file_exists($path = (string) $resource)) {
-                    $routes->addResource(new FileResource($path));
-                }
+                $routes->addResource(new AsseticResource($resource));
             }
         }
 
