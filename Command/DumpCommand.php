@@ -13,7 +13,7 @@ namespace Symfony\Bundle\AsseticBundle\Command;
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\LazyAssetManager;
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class DumpCommand extends Command
+class DumpCommand extends ContainerAwareCommand
 {
     private $basePath;
     private $am;
@@ -45,8 +45,8 @@ class DumpCommand extends Command
     {
         parent::initialize($input, $output);
 
-        $this->basePath = $input->getArgument('write_to') ?: $this->container->getParameter('assetic.write_to');
-        $this->am = $this->container->get('assetic.asset_manager');
+        $this->basePath = $input->getArgument('write_to') ?: $this->getContainer()->getParameter('assetic.write_to');
+        $this->am = $this->getContainer()->get('assetic.asset_manager');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
