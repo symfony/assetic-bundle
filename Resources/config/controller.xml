@@ -29,7 +29,7 @@
             <tag name="assetic.factory_worker" />
         </service>
         <service id="assetic.request_listener" class="%assetic.request_listener.class%">
-            <tag name="kernel.listener" event="core.request" method="onCoreRequest" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
     </services>
 </container>
