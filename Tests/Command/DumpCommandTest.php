@@ -40,6 +40,7 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
+        $this->helperSet = $this->getMock('Symfony\\Component\\Console\\Helper\\HelperSet');
         $this->container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
         $this->am = $this->getMockBuilder('Assetic\\Factory\\LazyAssetManager')
             ->disableOriginalConstructor()
@@ -60,6 +61,9 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
         $this->application->expects($this->any())
             ->method('getKernel')
             ->will($this->returnValue($this->kernel));
+        $this->application->expects($this->once())
+            ->method('getHelperSet')
+            ->will($this->returnValue($this->helperSet));
         $this->kernel->expects($this->any())
             ->method('getContainer')
             ->will($this->returnValue($this->container));
