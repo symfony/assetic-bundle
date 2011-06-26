@@ -7,12 +7,26 @@
     <parameters>
         <parameter key="assetic.filter.compass.class">Assetic\Filter\CompassFilter</parameter>
         <parameter key="assetic.filter.compass.bin">/usr/bin/compass</parameter>
+        <parameter key="assetic.filter.compass.debug">%assetic.debug%</parameter>
+        <parameter key="assetic.filter.compass.style">compact</parameter>
+        <parameter key="assetic.filter.compass.images_dir">null</parameter>
+        <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>
+        <parameter key="assetic.filter.compass.http_path">null</parameter>
+        <parameter key="assetic.filter.compass.http_images_path">null</parameter>
+        <parameter key="assetic.filter.compass.http_javascripts_path">null</parameter>
     </parameters>
 
     <services>
         <service id="assetic.filter.compass" class="%assetic.filter.compass.class%">
             <tag name="assetic.filter" alias="compass" />
             <argument>%assetic.filter.compass.bin%</argument>
+            <call method="setDebugInfo"><argument>%assetic.filter.compass.debug%</argument></call>
+            <call method="setStyle"><argument>%assetic.filter.compass.style%</argument></call>
+            <call method="setImagesDir"><argument>%assetic.filter.compass.images_dir%</argument></call>
+            <call method="setJavascriptsDir"><argument>%assetic.filter.compass.javascripts_dir%</argument></call>
+            <call method="setHttpPath"><argument>%assetic.filter.compass.http_path%</argument></call>
+            <call method="setHttpImagesPath"><argument>%assetic.filter.compass.http_images_path%</argument></call>
+            <call method="setHttpJavascriptsPath"><argument>%assetic.filter.compass.http_javascripts_path%</argument></call>
         </service>
     </services>
 </container>
