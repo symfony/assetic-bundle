@@ -67,7 +67,6 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('bundles')
                     ->defaultValue($this->bundles)
-                    ->requiresAtLeastOneElement()
                     ->prototype('scalar')
                         ->validate()
                             ->ifNotInArray($this->bundles)
