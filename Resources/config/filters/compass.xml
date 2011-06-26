@@ -6,13 +6,13 @@
 
     <parameters>
         <parameter key="assetic.filter.compass.class">Assetic\Filter\CompassFilter</parameter>
-        <parameter key="assetic.filter.compass.sass">%assetic.sass.bin%</parameter>
+        <parameter key="assetic.filter.compass.bin">/usr/bin/compass</parameter>
     </parameters>
 
     <services>
         <service id="assetic.filter.compass" class="%assetic.filter.compass.class%">
             <tag name="assetic.filter" alias="compass" />
-            <argument>%assetic.filter.compass.sass%</argument>
+            <argument>%assetic.filter.compass.bin%</argument>
         </service>
     </services>
 </container>
