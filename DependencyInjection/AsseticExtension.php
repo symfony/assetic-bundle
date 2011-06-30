@@ -42,7 +42,12 @@ class AsseticExtension extends Extension
         $loader->load('templating_twig.xml');
         $loader->load('templating_php.xml');
 
-        $config = self::processConfigs($configs, $container->getParameter('kernel.debug'), array_keys($container->getParameter('kernel.bundles')));
+        $configuration = new MainConfiguration(
+            $container->getParameter('kernel.debug'),
+            array_keys($container->getParameter('kernel.bundles'))
+        );
+        $processor = new Processor();
+        $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
         $container->setParameter('assetic.use_controller', $config['use_controller']);
@@ -118,23 +123,6 @@ class AsseticExtension extends Extension
 
         // register config resources
         self::registerFormulaResources($container, $parameterBag->resolveValue($config['bundles']));
-    }
-
-    /**
-     * Merges the user's config arrays.
-     *
-     * @param array   $configs An array of config arrays
-     * @param Boolean $debug   The debug mode
-     * @param array   $bundles An array of all bundle names
-     *
-     * @return array The merged config
-     */
-    static protected function processConfigs(array $configs, $debug, array $bundles)
-    {
-        $processor = new Processor();
-        $configuration = new MainConfiguration($debug, $bundles);
-
-        return $processor->processConfiguration($configuration, $configs);
     }
 
     /**
