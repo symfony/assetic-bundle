@@ -42,11 +42,8 @@ class AsseticExtension extends Extension
         $loader->load('templating_twig.xml');
         $loader->load('templating_php.xml');
 
-        $configuration = new MainConfiguration(
-            $container->getParameter('kernel.debug'),
-            array_keys($container->getParameter('kernel.bundles'))
-        );
         $processor = new Processor();
+        $configuration = new MainConfiguration(array_keys($container->getParameter('kernel.bundles')));
         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);

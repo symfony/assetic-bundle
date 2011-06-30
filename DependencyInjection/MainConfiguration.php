@@ -27,17 +27,14 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class MainConfiguration implements ConfigurationInterface
 {
     private $bundles;
-    private $debug;
 
     /**
      * Constructor
      *
-     * @param Boolean $debug    Whether to use the debug mode
-     * @param array   $bundles  An array of bundle names
+     * @param array $bundles An array of bundle names
      */
-    public function __construct($debug, array $bundles)
+    public function __construct(array $bundles)
     {
-        $this->debug = (Boolean) $debug;
         $this->bundles = $bundles;
     }
 
@@ -53,8 +50,8 @@ class MainConfiguration implements ConfigurationInterface
 
         $builder->root('assetic')
             ->children()
-                ->booleanNode('debug')->defaultValue($this->debug)->end()
-                ->booleanNode('use_controller')->defaultValue($this->debug)->end()
+                ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
+                ->booleanNode('use_controller')->defaultValue('%kernel.debug%')->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
