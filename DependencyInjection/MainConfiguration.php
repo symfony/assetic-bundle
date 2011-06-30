@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class Configuration implements ConfigurationInterface
+class MainConfiguration implements ConfigurationInterface
 {
     private $bundles;
     private $debug;

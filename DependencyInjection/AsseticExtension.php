@@ -132,7 +132,7 @@ class AsseticExtension extends Extension
     static protected function processConfigs(array $configs, $debug, array $bundles)
     {
         $processor = new Processor();
-        $configuration = new Configuration($debug, $bundles);
+        $configuration = new MainConfiguration($debug, $bundles);
 
         return $processor->processConfiguration($configuration, $configs);
     }
