@@ -35,8 +35,6 @@ class AsseticExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $parameterBag = $container->getParameterBag();
-
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('assetic.xml');
         $loader->load('templating_twig.xml');
@@ -71,7 +69,7 @@ class AsseticExtension extends Extension
         // register filters
         foreach ($config['filters'] as $name => $filter) {
             if (isset($filter['resource'])) {
-                $loader->load($parameterBag->resolveValue($filter['resource']));
+                $loader->load($container->getParameterBag()->resolveValue($filter['resource']));
                 unset($filter['resource']);
             } else {
                 $loader->load('filters/'.$name.'.xml');
@@ -108,7 +106,7 @@ class AsseticExtension extends Extension
         $container->setParameter('assetic.twig_extension.functions', $config['twig']['functions']);
 
         // choose dynamic or static
-        if ($parameterBag->resolveValue($parameterBag->get('assetic.use_controller'))) {
+        if ($container->getParameterBag()->resolveValue($container->getParameterBag()->get('assetic.use_controller'))) {
             $loader->load('controller.xml');
             $container->getDefinition('assetic.helper.dynamic')->addTag('templating.helper', array('alias' => 'assetic'));
             $container->removeDefinition('assetic.helper.static');
@@ -119,7 +117,7 @@ class AsseticExtension extends Extension
         }
 
         // register config resources
-        self::registerFormulaResources($container, $parameterBag->resolveValue($config['bundles']));
+        self::registerFormulaResources($container, $container->getParameterBag()->resolveValue($config['bundles']));
     }
 
     /**
