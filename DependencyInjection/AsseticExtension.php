@@ -139,7 +139,7 @@ class AsseticExtension extends Extension
             foreach (array('twig', 'php') as $engine) {
                 $container->setDefinition(
                     'assetic.'.$engine.'_directory_resource.'.$name,
-                    self::createDirectoryResourceDefinition($name, $engine, array(
+                    new DirectoryResourceDefinition($name, $engine, array(
                         $container->getParameter('kernel.root_dir').'/Resources/'.$name.'/views',
                         dirname($rc->getFileName()).'/Resources/views',
                     ))
@@ -151,51 +151,11 @@ class AsseticExtension extends Extension
         foreach (array('twig', 'php') as $engine) {
             $container->setDefinition(
                 'assetic.'.$engine.'_directory_resource.kernel',
-                self::createDirectoryResourceDefinition('', $engine, array(
+                new DirectoryResourceDefinition('', $engine, array(
                     $container->getParameter('kernel.root_dir').'/Resources/views',
                 ))
             );
         }
-    }
-
-    /**
-     * Creates a directory resource definition.
-     *
-     * If more than one directory is provided a coalescing definition will be
-     * returned.
-     *
-     * @param string $bundle A bundle name or empty string
-     * @param string $engine The templating engine
-     * @param array  $dirs   An array of directories to merge
-     *
-     * @return Definition A resource definition
-     */
-    static public function createDirectoryResourceDefinition($bundle, $engine, array $dirs)
-    {
-        $dirResources = array();
-        foreach ($dirs as $dir) {
-            $dirResources[] = $dirResource = new Definition('%assetic.directory_resource.class%');
-            $dirResource
-                ->addArgument(new Reference('templating.loader'))
-                ->addArgument($bundle)
-                ->addArgument($dir)
-                ->addArgument('/^[^.]+\.[^.]+\.'.$engine.'$/')
-                ->setPublic(false);
-        }
-
-        if (1 == count($dirResources)) {
-            // no need to coalesce
-            $definition = $dirResources[0];
-        } else {
-            $definition = new Definition('%assetic.coalescing_directory_resource.class%');
-            $definition
-                ->addArgument($dirResources)
-                ->setPublic(false);
-        }
-
-        return $definition
-            ->addTag('assetic.templating.'.$engine)
-            ->addTag('assetic.formula_resource', array('loader' => $engine));
     }
 
     /**
