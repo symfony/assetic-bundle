@@ -35,13 +35,15 @@ class AsseticExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $bundles = $container->getParameter('kernel.bundles');
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('assetic.xml');
         $loader->load('templating_twig.xml');
         $loader->load('templating_php.xml');
 
         $processor = new Processor();
-        $configuration = new MainConfiguration(array_keys($container->getParameter('kernel.bundles')));
+        $configuration = new MainConfiguration(array_keys($bundles));
         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
@@ -116,43 +118,23 @@ class AsseticExtension extends Extension
             $container->removeDefinition('assetic.helper.dynamic');
         }
 
-        // register config resources
-        self::registerFormulaResources($container, $container->getParameterBag()->resolveValue($config['bundles']));
-    }
-
-    /**
-     * Registers factory resources for certain bundles.
-     *
-     * @param ContainerBuilder $container The container
-     * @param array            $bundles   An array of select bundle names
-     *
-     * @throws InvalidArgumentException If registering resources from a bundle that doesn't exist
-     */
-    static protected function registerFormulaResources(ContainerBuilder $container, array $bundles)
-    {
-        $map = $container->getParameter('kernel.bundles');
-
-        // bundle views/ directories and kernel overrides
-        foreach ($bundles as $name) {
-            $rc = new \ReflectionClass($map[$name]);
+        // bundle and kernel resources
+        foreach ($container->getParameterBag()->resolveValue($config['bundles']) as $bundle) {
+            $rc = new \ReflectionClass($bundles[$bundle]);
             foreach (array('twig', 'php') as $engine) {
                 $container->setDefinition(
-                    'assetic.'.$engine.'_directory_resource.'.$name,
-                    new DirectoryResourceDefinition($name, $engine, array(
-                        $container->getParameter('kernel.root_dir').'/Resources/'.$name.'/views',
+                    'assetic.'.$engine.'_directory_resource.'.$bundle,
+                    new DirectoryResourceDefinition($bundle, $engine, array(
+                        $container->getParameter('kernel.root_dir').'/Resources/'.$bundle.'/views',
                         dirname($rc->getFileName()).'/Resources/views',
                     ))
                 );
             }
         }
-
-        // kernel views/ directory
         foreach (array('twig', 'php') as $engine) {
             $container->setDefinition(
                 'assetic.'.$engine.'_directory_resource.kernel',
-                new DirectoryResourceDefinition('', $engine, array(
-                    $container->getParameter('kernel.root_dir').'/Resources/views',
-                ))
+                new DirectoryResourceDefinition('', $engine, array($container->getParameter('kernel.root_dir').'/Resources/views'))
             );
         }
     }
