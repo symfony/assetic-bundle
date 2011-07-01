@@ -131,7 +131,6 @@ class AsseticExtension extends Extension
     static protected function registerFormulaResources(ContainerBuilder $container, array $bundles)
     {
         $map = $container->getParameter('kernel.bundles');
-        $am  = $container->getDefinition('assetic.asset_manager');
 
         // bundle views/ directories and kernel overrides
         foreach ($bundles as $name) {
