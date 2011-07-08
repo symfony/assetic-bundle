@@ -55,6 +55,7 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
         $this->definition->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue(array(
+                new InputOption('--verbose', '-v', InputOption::VALUE_NONE, 'Increase verbosity of messages.'),
                 new InputOption('--env', '-e', InputOption::VALUE_REQUIRED, 'The Environment name.', 'dev'),
                 new InputOption('--no-debug', null, InputOption::VALUE_NONE, 'Switches off debug mode.'),
             )));

@@ -27,6 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DumpCommand extends ContainerAwareCommand
 {
     private $basePath;
+    private $verbose;
     private $am;
 
     protected function configure()
@@ -46,6 +47,7 @@ class DumpCommand extends ContainerAwareCommand
         parent::initialize($input, $output);
 
         $this->basePath = $input->getArgument('write_to') ?: $this->getContainer()->getParameter('assetic.write_to');
+        $this->verbose = $input->getOption('verbose');
         $this->am = $this->getContainer()->get('assetic.asset_manager');
     }
 
@@ -180,13 +182,27 @@ class DumpCommand extends ContainerAwareCommand
     {
         $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '', $asset->getTargetPath());
         if (!is_dir($dir = dirname($target))) {
-            $output->writeln('<info>[dir+]</info> '.$dir);
+            $output->writeln('<info>[dir+]</info>  '.$dir);
             if (false === @mkdir($dir, 0777, true)) {
                 throw new \RuntimeException('Unable to create directory '.$dir);
             }
         }
 
         $output->writeln('<info>[file+]</info> '.$target);
+        if ($this->verbose) {
+            if ($asset instanceof \Traversable) {
+                foreach ($asset as $leaf) {
+                    $root = $leaf->getSourceRoot();
+                    $path = $leaf->getSourcePath();
+                    $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                }
+            } else {
+                $root = $asset->getSourceRoot();
+                $path = $asset->getSourcePath();
+                $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+            }
+        }
+
         if (false === @file_put_contents($target, $asset->dump())) {
             throw new \RuntimeException('Unable to write file '.$target);
         }
