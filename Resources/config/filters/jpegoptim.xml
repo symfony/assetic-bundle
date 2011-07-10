@@ -15,12 +15,8 @@
         <service id="assetic.filter.jpegoptim" class="%assetic.filter.jpegoptim.class%">
             <tag name="assetic.filter" alias="jpegoptim" />
             <argument>%assetic.filter.jpegoptim.bin%</argument>
-            <call method="setStripAll">
-                <argument>%assetic.filter.jpegoptim.strip_all%</argument>
-            </call>
-            <call method="setMax">
-                <argument>%assetic.filter.jpegoptim.max%</argument>
-            </call>
+            <call method="setStripAll"><argument>%assetic.filter.jpegoptim.strip_all%</argument></call>
+            <call method="setMax"><argument>%assetic.filter.jpegoptim.max%</argument></call>
         </service>
     </services>
 </container>

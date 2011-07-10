@@ -17,18 +17,10 @@
         <service id="assetic.filter.jpegtran" class="%assetic.filter.jpegtran.class%">
             <tag name="assetic.filter" alias="jpegtran" />
             <argument>%assetic.filter.jpegtran.bin%</argument>
-            <call method="setCopy">
-                <argument>%assetic.filter.jpegtran.copy%</argument>
-            </call>
-            <call method="setOptimize">
-                <argument>%assetic.filter.jpegtran.optimize%</argument>
-            </call>
-            <call method="setProgressive">
-                <argument>%assetic.filter.jpegtran.progressive%</argument>
-            </call>
-            <call method="setRestart">
-                <argument>%assetic.filter.jpegtran.restart%</argument>
-            </call>
+            <call method="setCopy"><argument>%assetic.filter.jpegtran.copy%</argument></call>
+            <call method="setOptimize"><argument>%assetic.filter.jpegtran.optimize%</argument></call>
+            <call method="setProgressive"><argument>%assetic.filter.jpegtran.progressive%</argument></call>
+            <call method="setRestart"><argument>%assetic.filter.jpegtran.restart%</argument></call>
         </service>
     </services>
 </container>

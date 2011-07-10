@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.yui_css.class">Assetic\Filter\Yui\CssCompressorFilter</parameter>
         <parameter key="assetic.filter.yui_css.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.yui_css.jar" />
+        <parameter key="assetic.filter.yui_css.charset"></parameter>
     </parameters>
 
     <services>
@@ -15,6 +16,7 @@
             <tag name="assetic.filter" alias="yui_css" />
             <argument>%assetic.filter.yui_css.jar%</argument>
             <argument>%assetic.filter.yui_css.java%</argument>
+            <call method="setCharset"><argument>%assetic.filter.yui_css.charset%</argument></call>
         </service>
     </services>
 </container>

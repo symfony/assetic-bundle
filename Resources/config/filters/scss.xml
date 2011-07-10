@@ -7,12 +7,16 @@
     <parameters>
         <parameter key="assetic.filter.scss.class">Assetic\Filter\Sass\ScssFilter</parameter>
         <parameter key="assetic.filter.scss.sass">%assetic.sass.bin%</parameter>
+        <parameter key="assetic.filter.scss.style">null</parameter>
+        <parameter key="assetic.filter.scss.compass">null</parameter>
     </parameters>
 
     <services>
         <service id="assetic.filter.scss" class="%assetic.filter.scss.class%">
             <tag name="assetic.filter" alias="scss" />
             <argument>%assetic.filter.scss.sass%</argument>
+            <call method="setStyle"><argument>%assetic.filter.scss.style%</argument></call>
+            <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
         </service>
     </services>
 </container>

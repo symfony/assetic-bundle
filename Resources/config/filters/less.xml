@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.less.class">Assetic\Filter\LessFilter</parameter>
         <parameter key="assetic.filter.less.node">%assetic.node.bin%</parameter>
         <parameter key="assetic.filter.less.node_paths">%assetic.node.paths%</parameter>
+        <parameter key="assetic.filter.less.compress">null</parameter>
     </parameters>
 
     <services>
@@ -15,6 +16,7 @@
             <tag name="assetic.filter" alias="less" />
             <argument>%assetic.filter.less.node%</argument>
             <argument>%assetic.filter.less.node_paths%</argument>
+            <call method="setCompress"><argument>%assetic.filter.less.compress%</argument></call>
         </service>
     </services>
 </container>

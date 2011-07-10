@@ -14,9 +14,7 @@
         <service id="assetic.filter.optipng" class="%assetic.filter.optipng.class%">
             <tag name="assetic.filter" alias="optipng" />
             <argument>%assetic.filter.optipng.bin%</argument>
-            <call method="setLevel">
-                <argument>%assetic.filter.optipng.level%</argument>
-            </call>
+            <call method="setLevel"><argument>%assetic.filter.optipng.level%</argument></call>
         </service>
     </services>
 </container>
