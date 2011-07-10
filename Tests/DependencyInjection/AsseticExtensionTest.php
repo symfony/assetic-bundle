@@ -116,7 +116,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('pngout'),
             array('sass'),
             array('scss'),
-            array('sprockets'),
+            array('sprockets', array('include_dirs' => array('foo'))),
             array('stylus'),
             array('yui_css', array('jar' => '/path/to/yuicompressor.jar')),
             array('yui_js', array('jar' => '/path/to/yuicompressor.jar')),

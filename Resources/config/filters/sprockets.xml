@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.sprockets.class">Assetic\Filter\SprocketsFilter</parameter>
         <parameter key="assetic.filter.sprockets.bin">/usr/bin/sprocketize</parameter>
         <parameter key="assetic.filter.sprockets.asset_root">%assetic.write_to%</parameter>
+        <parameter key="assetic.filter.sprockets.include_dirs" type="collection" />
     </parameters>
 
     <services>
