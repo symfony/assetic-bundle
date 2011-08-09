@@ -67,7 +67,7 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
     private function checkNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
         if ($node instanceof \Twig_Node_Expression_Function) {
-            $name = $node->getNode('name')->getAttribute('name');
+            $name = $node->getAttribute('name');
             if ($env->getFunction($name) instanceof AsseticFilterFunction) {
                 $arguments = array();
                 foreach ($node->getNode('arguments') as $argument) {
