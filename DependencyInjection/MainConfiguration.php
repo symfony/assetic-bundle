@@ -52,6 +52,7 @@ class MainConfiguration implements ConfigurationInterface
             ->children()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->booleanNode('use_controller')->defaultValue('%kernel.debug%')->end()
+                ->booleanNode('cache_warming')->defaultTrue()->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
