@@ -5,14 +5,24 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+
+        <parameter key="assetic.asset_manager_cache_warmer.class">Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer</parameter>
         <parameter key="assetic.asset_writer_cache_warmer.class">Symfony\Bundle\AsseticBundle\CacheWarmer\AssetWriterCacheWarmer</parameter>
+
     </parameters>
 
     <services>
+
+        <service id="assetic.asset_manager_cache_warmer" class="%assetic.asset_manager_cache_warmer.class%" public="false">
+            <tag name="kernel.cache_warmer" priority="10" />
+            <argument type="service" id="service_container" />
+        </service>
+
         <service id="assetic.asset_writer_cache_warmer" class="%assetic.asset_writer_cache_warmer.class%" public="false">
             <tag name="kernel.cache_warmer" />
             <argument type="service" id="service_container" />
             <argument type="service" id="assetic.asset_writer" />
         </service>
+
     </services>
 </container>
