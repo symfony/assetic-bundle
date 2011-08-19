@@ -34,7 +34,7 @@ class AsseticNode extends BaseAsseticNode
     private function getPathFunction($name)
     {
         return new \Twig_Node_Expression_Function(
-            new \Twig_Node_Expression_Name('path', $this->getLine()),
+            'path',
             new \Twig_Node(array(new \Twig_Node_Expression_Constant('_assetic_'.$name, $this->getLine()))),
             $this->getLine()
         );
@@ -49,7 +49,7 @@ class AsseticNode extends BaseAsseticNode
         }
 
         return new \Twig_Node_Expression_Function(
-            new \Twig_Node_Expression_Name('asset', $this->getLine()),
+            'asset',
             new \Twig_Node($arguments),
             $this->getLine()
         );
