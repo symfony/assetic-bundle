@@ -34,6 +34,8 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
         list($input, $filters, $options) = $formula;
         $line = $node->getLine();
 
+        $useNodeName = version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<');
+
         // check context and call either asset() or path()
         return new \Twig_Node_Expression_Conditional(
             new \Twig_Node_Expression_GetAttr(
@@ -44,14 +46,14 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                new \Twig_Node_Expression_Name('path', $line),
+                $useNodeName ? new \Twig_Node_Expression_Name('path', $line) : 'path',
                 new \Twig_Node(array(
                     new \Twig_Node_Expression_Constant('_assetic_'.$options['name'], $line),
                 )),
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                new \Twig_Node_Expression_Name('asset', $line),
+                $useNodeName ? new \Twig_Node_Expression_Name('asset', $line) : 'asset',
                 new \Twig_Node(array($node, new \Twig_Node_Expression_Constant(isset($options['package']) ? $options['package'] : null, $line))),
                 $line
             ),
