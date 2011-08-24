@@ -20,6 +20,13 @@ use Assetic\Extension\Twig\AsseticFilterFunction;
  */
 class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
 {
+    private $useNodeName;
+
+    public function __construct()
+    {
+        $this->useNodeName = version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<');
+    }
+
     public function enterNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
         return $node;
@@ -34,8 +41,6 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
         list($input, $filters, $options) = $formula;
         $line = $node->getLine();
 
-        $useNodeName = version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<');
-
         // check context and call either asset() or path()
         return new \Twig_Node_Expression_Conditional(
             new \Twig_Node_Expression_GetAttr(
@@ -46,14 +51,14 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                $useNodeName ? new \Twig_Node_Expression_Name('path', $line) : 'path',
+                $this->useNodeName ? new \Twig_Node_Expression_Name('path', $line) : 'path',
                 new \Twig_Node(array(
                     new \Twig_Node_Expression_Constant('_assetic_'.$options['name'], $line),
                 )),
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                $useNodeName ? new \Twig_Node_Expression_Name('asset', $line) : 'asset',
+                $this->useNodeName ? new \Twig_Node_Expression_Name('asset', $line) : 'asset',
                 new \Twig_Node(array($node, new \Twig_Node_Expression_Constant(isset($options['package']) ? $options['package'] : null, $line))),
                 $line
             ),
@@ -69,7 +74,9 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
     private function checkNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
         if ($node instanceof \Twig_Node_Expression_Function) {
-            $name = $node->getNode('name')->getAttribute('name');
+            $name = $this->useNodeName
+                ? $node->getNode('name')->getAttribute('name')
+                : $node->getAttribute('name');
             if ($env->getFunction($name) instanceof AsseticFilterFunction) {
                 $arguments = array();
                 foreach ($node->getNode('arguments') as $argument) {
