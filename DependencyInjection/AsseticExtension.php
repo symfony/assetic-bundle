@@ -117,6 +117,10 @@ class AsseticExtension extends Extension
             $container->removeDefinition('assetic.helper.dynamic');
         }
 
+        if ($config['cache_warming']) {
+            $loader->load('cache_warming.xml');
+        }
+
         // bundle and kernel resources
         foreach ($container->getParameterBag()->resolveValue($config['bundles']) as $bundle) {
             $rc = new \ReflectionClass($bundles[$bundle]);
