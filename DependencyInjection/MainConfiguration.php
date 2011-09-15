@@ -142,6 +142,15 @@ class MainConfiguration implements ConfigurationInterface
                             ->thenInvalid('The assetic.filters config %s must be either null or an array.')
                         ->end()
                     ->end()
+                    ->validate()
+                        ->always(function($v) use ($finder) {
+                            if (isset($v['compass']) && !isset($v['compass']['bin'])) {
+                                $v['compass']['bin'] = $finder->find('compass', '/usr/bin/compass');
+                            }
+
+                            return $v;
+                        })
+                    ->end()
                 ->end()
             ->end()
 
