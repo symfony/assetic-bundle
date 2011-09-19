@@ -55,6 +55,7 @@ class MainConfiguration implements ConfigurationInterface
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
                 ->booleanNode('dump_on_warmup')->end()
+                ->booleanNode('disable_profiler')->defaultFalse()->end()
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
                 ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()

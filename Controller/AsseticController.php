@@ -18,6 +18,7 @@ use Assetic\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 /**
  * Serves assets.
@@ -29,16 +30,24 @@ class AsseticController
     protected $request;
     protected $am;
     protected $cache;
+    protected $disableProfiler;
+    protected $profiler;
 
-    public function __construct(Request $request, LazyAssetManager $am, CacheInterface $cache)
+    public function __construct(Request $request, LazyAssetManager $am, CacheInterface $cache, $disableProfiler = false, Profiler $profiler = null)
     {
         $this->request = $request;
         $this->am = $am;
         $this->cache = $cache;
+        $this->disableProfiler = (boolean) $disableProfiler;
+        $this->profiler = $profiler;
     }
 
     public function render($name, $pos = null)
     {
+        if ($this->disableProfiler && null !== $this->profiler) {
+            $this->profiler->disable();
+        }
+
         if (!$this->am->has($name)) {
             throw new NotFoundHttpException(sprintf('The "%s" asset could not be found.', $name));
         }
