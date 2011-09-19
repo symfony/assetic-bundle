@@ -30,21 +30,21 @@ class AsseticController
     protected $request;
     protected $am;
     protected $cache;
-    protected $disableProfiler;
+    protected $enableProfiler;
     protected $profiler;
 
-    public function __construct(Request $request, LazyAssetManager $am, CacheInterface $cache, $disableProfiler = false, Profiler $profiler = null)
+    public function __construct(Request $request, LazyAssetManager $am, CacheInterface $cache, $enableProfiler = false, Profiler $profiler = null)
     {
         $this->request = $request;
         $this->am = $am;
         $this->cache = $cache;
-        $this->disableProfiler = (boolean) $disableProfiler;
+        $this->enableProfiler = (boolean) $enableProfiler;
         $this->profiler = $profiler;
     }
 
     public function render($name, $pos = null)
     {
-        if ($this->disableProfiler && null !== $this->profiler) {
+        if (!$this->enableProfiler && null !== $this->profiler) {
             $this->profiler->disable();
         }
 

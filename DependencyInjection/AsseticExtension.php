@@ -46,8 +46,8 @@ class AsseticExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
-        $container->setParameter('assetic.use_controller', $config['use_controller']);
-        $container->setParameter('assetic.disable_profiler', $config['disable_profiler']);
+        $container->setParameter('assetic.use_controller', $config['use_controller']['enabled']);
+        $container->setParameter('assetic.enable_profiler', $config['use_controller']['profiler']);
         $container->setParameter('assetic.read_from', $config['read_from']);
         $container->setParameter('assetic.write_to', $config['write_to']);
 
