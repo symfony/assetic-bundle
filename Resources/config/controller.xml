@@ -21,6 +21,8 @@
             <argument type="service" id="request" />
             <argument type="service" id="assetic.asset_manager" />
             <argument type="service" id="assetic.cache" />
+            <argument>%assetic.enable_profiler%</argument>
+            <argument type="service" id="profiler" on-invalid="null" />
         </service>
         <service id="assetic.cache" class="%assetic.cache.class%" public="false">
             <argument>%assetic.cache_dir%/assets</argument>
