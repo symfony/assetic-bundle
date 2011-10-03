@@ -208,14 +208,14 @@ class DumpCommand extends ContainerAwareCommand
         }
 
         if (!empty($this->manifest['additionalFiles'])) {
-            $finder = new Finder();
             foreach ($this->manifest['additionalFiles'] as $path) {
+                $finder = new Finder(); // Needs to be reinialized for each path
                 $iterator = $finder->files()
                     ->in(dirname($basePath.$path))
                     ->name(basename($path));
                 foreach ($iterator as $file) {
                     if ($file->isFile()) {
-                        $paths[] = str_replace($basePath.'/', '', $file->getRealPath());
+                        $paths[] = str_replace($basePath.'/', '', $file->getPath()).'/'.$file->getFilename();
                     }
                 }
             }
