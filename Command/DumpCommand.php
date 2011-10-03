@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Dumps assets to the filesystem.
@@ -29,6 +30,7 @@ class DumpCommand extends ContainerAwareCommand
     private $basePath;
     private $verbose;
     private $am;
+    private $manifest;
 
     protected function configure()
     {
@@ -47,6 +49,7 @@ class DumpCommand extends ContainerAwareCommand
         parent::initialize($input, $output);
 
         $this->basePath = $input->getArgument('write_to') ?: $this->getContainer()->getParameter('assetic.write_to');
+        $this->manifest = $this->getContainer()->getParameter('assetic.manifest');
         $this->verbose = $input->getOption('verbose');
         $this->am = $this->getContainer()->get('assetic.asset_manager');
     }
@@ -57,11 +60,17 @@ class DumpCommand extends ContainerAwareCommand
         $output->writeln(sprintf('Debug mode is <comment>%s</comment>.', $input->getOption('no-debug') ? 'off' : 'on'));
         $output->writeln('');
 
+        $paths = array();
         if (!$input->getOption('watch')) {
             foreach ($this->am->getNames() as $name) {
+                $asset = $this->am->get($name);
+                $paths[] = $asset->getTargetPath();
                 $this->dumpAsset($name, $output);
             }
 
+            if ($this->manifest !== false) {
+                $this->dumpManifest($paths, $output);
+            }
             return;
         }
 
@@ -97,10 +106,17 @@ class DumpCommand extends ContainerAwareCommand
         $error = '';
         while (true) {
             try {
+                $paths = array();
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
                         $this->dumpAsset($name, $output);
                     }
+                    $asset = $this->am->get($name);
+                    $paths[] = $asset->getTargetPath();
+                }
+
+                if ($this->manifest !== false) {
+                    $this->dumpManifest($paths, $output);
                 }
 
                 // reset the asset manager
@@ -166,6 +182,58 @@ class DumpCommand extends ContainerAwareCommand
         if (isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug()) {
             foreach ($asset as $leaf) {
                 $this->doDump($leaf, $output);
+            }
+        }
+    }
+
+    /**
+     * Writes an optional cache manifestfile for HTML5 Offline Pages.
+     *
+     * @param array           $paths   An array containing the paths to the built assetic files
+     * @param OutputInterface $output The command output
+     */
+    private function dumpManifest($paths, OutputInterface $output)
+    {
+        $basePath = realpath(rtrim($this->basePath, '/'));
+        $target = $basePath.'/'.$this->manifest['name'];
+        $output->writeln('<info>[file+]</info> '.$target);
+        if (file_exists($target)) {
+            $manifest = file_get_contents($target);
+            if (preg_match('/^#Version: (\d+)$/m', $manifest, $matches)) {
+                $version = (int)$matches[1];
+            }
+        }
+        if (empty($version)) {
+            $version = 0;
+        }
+
+        if (!empty($this->manifest['additionalFiles'])) {
+            $finder = new Finder();
+            foreach ($this->manifest['additionalFiles'] as $path) {
+                $iterator = $finder->files()
+                    ->in(dirname($basePath.$path))
+                    ->name(basename($path));
+                foreach ($iterator as $file) {
+                    if ($file->isFile()) {
+                        $paths[] = str_replace($basePath.'/', '', $file->getRealPath());
+                    }
+                }
+            }
+        }
+
+        $list = implode("\n", $paths);
+
+        $newManifest = <<< EOF
+CACHE MANIFEST
+#Version: $version
+$list
+EOF;
+        if (isset($manifest) && $newManifest === $manifest) {
+            $output->writeln('<info>Not writing manifest: files did not change</info> '.$target);
+        } else {
+            $manifest = str_replace("#Version: $version", "#Version: ".($version+1), $newManifest);
+            if (false === @file_put_contents($target, $manifest)) {
+                throw new \RuntimeException('Unable to write file '.$target);
             }
         }
     }

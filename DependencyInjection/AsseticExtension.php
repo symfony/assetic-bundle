@@ -50,6 +50,7 @@ class AsseticExtension extends Extension
         $container->setParameter('assetic.enable_profiler', $config['use_controller']['profiler']);
         $container->setParameter('assetic.read_from', $config['read_from']);
         $container->setParameter('assetic.write_to', $config['write_to']);
+        $container->setParameter('assetic.manifest', (array() === $config['manifest']) ? false : $config['manifest']);
 
         $container->setParameter('assetic.java.bin', $config['java']);
         $container->setParameter('assetic.node.bin', $config['node']);
