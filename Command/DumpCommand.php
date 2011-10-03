@@ -207,8 +207,8 @@ class DumpCommand extends ContainerAwareCommand
             $version = 0;
         }
 
-        if (!empty($this->manifest['additionalFiles'])) {
-            foreach ($this->manifest['additionalFiles'] as $path) {
+        if (!empty($this->manifest['cacheFiles'])) {
+            foreach ($this->manifest['cacheFiles'] as $path) {
                 $finder = new Finder(); // Needs to be reinialized for each path
                 $iterator = $finder->files()
                     ->in(dirname($basePath.$path))
@@ -221,12 +221,18 @@ class DumpCommand extends ContainerAwareCommand
             }
         }
 
+        $networkUrls = implode("\n", $this->manifest['networkRessources']);
+        $cacheUrls = implode("\n", $this->manifest['cacheRessources']);
         $list = implode("\n", $paths);
 
         $newManifest = <<< EOF
 CACHE MANIFEST
 #Version: $version
 $list
+$cacheUrls
+
+NETWORK:
+$networkUrls
 EOF;
         if (isset($manifest) && $newManifest === $manifest) {
             $output->writeln('<info>Not writing manifest: files did not change</info> '.$target);

@@ -53,13 +53,23 @@ class MainConfiguration implements ConfigurationInterface
                 ->arrayNode('manifest')
                     ->children()
                         ->scalarNode('name')->defaultValue('cache.manifest')->end()
-                        ->arrayNode('additionalFiles')->
+                        ->arrayNode('cacheFiles')->
+                            prototype('scalar')
+                                ->defaultValue(array())
+                            ->end()
+                        ->end()
+                        ->arrayNode('cacheRessources')->
+                            prototype('scalar')
+                                ->defaultValue(array())
+                            ->end()
+                        ->end()
+                        ->arrayNode('networkRessources')->
                             prototype('scalar')
                                 ->defaultValue(array())
                             ->end()
                         ->end()
                     ->end()
-                    ->treatTrueLike(array('name' => 'cache.manifest', 'additionalFiles' => array()))
+                    ->treatTrueLike(array('name' => 'cache.manifest', 'cacheRessources' => array(), 'cacheFiles' => array(), 'networkRessources' => array()))
                     ->canBeUnset()
                 ->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
