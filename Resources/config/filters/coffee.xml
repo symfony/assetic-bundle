@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.coffee.class">Assetic\Filter\CoffeeScriptFilter</parameter>
         <parameter key="assetic.filter.coffee.bin">/usr/bin/coffee</parameter>
         <parameter key="assetic.filter.coffee.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.coffee.bare">null</parameter>
     </parameters>
 
     <services>
@@ -15,6 +16,7 @@
             <tag name="assetic.filter" alias="coffee" />
             <argument>%assetic.filter.coffee.bin%</argument>
             <argument>%assetic.filter.coffee.node%</argument>
+            <call method="setBare"><argument>%assetic.filter.coffee.bare%</argument></call>
         </service>
     </services>
 </container>
