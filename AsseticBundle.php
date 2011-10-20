@@ -16,6 +16,7 @@ use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\AssetManagerPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\FilterManagerPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckCssEmbedFilterPass;
+use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckSmartSpritesFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\TemplatingPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\SprocketsFilterPass;
@@ -35,6 +36,7 @@ class AsseticBundle extends Bundle
 
         $container->addCompilerPass(new CheckClosureFilterPass());
         $container->addCompilerPass(new CheckCssEmbedFilterPass());
+        $container->addCompilerPass(new CheckSmartSpritesFilterPass());
         $container->addCompilerPass(new CheckYuiFilterPass());
         $container->addCompilerPass(new SprocketsFilterPass());
         $container->addCompilerPass(new TemplatingPass());
