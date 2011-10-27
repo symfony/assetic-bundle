@@ -18,9 +18,11 @@
     </testsuites>
 
     <php>
-       <!-- <server name="SYMFONY" value="/path/to/symfony/src" /> -->
-       <!-- <server name="ASSETIC" value="/path/to/assetic/src" /> -->
-       <!-- <server name="TWIG" value="/path/to/twig/lib" /> -->
+	<server name="SYMFONY" value="/var/www/tradimo.dev/trunk/vendor/symfony/src" />
+
++        <server name="ASSETIC" value="/var/www/tradimo.dev/trunk/vendor/assetic/src" /> 
+
++        <server name="TWIG" value="/var/www/tradimo.dev/trunk/vendor/twig/lib" />
     </php>
 
     <filter>
