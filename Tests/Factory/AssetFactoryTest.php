@@ -31,75 +31,75 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
         $this->factory = new AssetFactory($this->kernel, $this->container, $this->parameterBag, '/path/to/web');
     }
 
-//    public function testBundleNotation()
-//    {
-//        $input = '@MyBundle/Resources/css/main.css';
-//        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
-//
-//        $this->parameterBag->expects($this->once())
-//            ->method('resolveValue')
-//            ->will($this->returnCallback(function($v) { return $v; }));
-//        $this->kernel->expects($this->once())
-//            ->method('getBundle')
-//            ->with('MyBundle')
-//            ->will($this->returnValue($bundle));
-//        $this->kernel->expects($this->once())
-//            ->method('locateResource')
-//            ->with($input)
-//            ->will($this->returnValue('/path/to/MyBundle/Resources/css/main.css'));
-//        $bundle->expects($this->once())
-//            ->method('getPath')
-//            ->will($this->returnValue('/path/to/MyBundle'));
-//
-//        $coll = $this->factory->createAsset($input)->all();
-//        $asset = $coll[0];
-//
-//        $this->assertEquals('/path/to/MyBundle', $asset->getSourceRoot(), '->createAsset() sets the asset root');
-//        $this->assertEquals('Resources/css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
-//       
-//    }
-//       
-//    public function testBundleNotationFindInAppResource()
-//    {
-//        $input = '@MyBundle/Resources/css/main.css';
-//        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
-//        $tmprootdir = sys_get_temp_dir() . '/rootdir';
-//        $resources_root =  $tmprootdir . '/dir/app/Resources/MyBundle';
-//        $resource = $resources_root . '/css/main.css';
-//        
-//        $this->parameterBag->expects($this->once())
-//            ->method('resolveValue')
-//            ->will($this->returnCallback(function($v) { return $v; }));
-//        //Search in Resources for existing css
-//        $this->kernel->expects($this->once())
-//            ->method('getRootDir')
-//            ->will($this->returnValue($tmprootdir . '/dir/app'));
-//        $this->kernel->expects($this->once())
-//            ->method('locateResource')
-//            ->with($input)
-//            ->will($this->returnValue($resource));
-//        $bundle->expects($this->never())
-//            ->method('getPath')
-//            ->will($this->returnValue('/path/to/MyBundle'));
-//        
-//        $pathinfos = pathinfo($resource);
-//        
-//        if(is_dir($tmprootdir)) {
-//            $this->rrmdir($tmprootdir);
-//        }
-//        
-//        mkdir($pathinfos['dirname'], 0777,true);
-//        touch($resource);
-//
-//        $coll = $this->factory->createAsset($input)->all();
-//        $asset = $coll[0];
-//
-//        $this->assertEquals($resources_root, $asset->getSourceRoot(), '->createAsset() sets the asset root');
-//        $this->assertEquals('css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
-//        
-//        $this->rrmdir($tmprootdir);
-//     
-//    }
+    public function testBundleNotation()
+    {
+        $input = '@MyBundle/Resources/css/main.css';
+        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
+
+        $this->parameterBag->expects($this->once())
+            ->method('resolveValue')
+            ->will($this->returnCallback(function($v) { return $v; }));
+        $this->kernel->expects($this->once())
+            ->method('getBundle')
+            ->with('MyBundle')
+            ->will($this->returnValue($bundle));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->with($input)
+            ->will($this->returnValue('/path/to/MyBundle/Resources/css/main.css'));
+        $bundle->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/path/to/MyBundle'));
+
+        $coll = $this->factory->createAsset($input)->all();
+        $asset = $coll[0];
+
+        $this->assertEquals('/path/to/MyBundle', $asset->getSourceRoot(), '->createAsset() sets the asset root');
+        $this->assertEquals('Resources/css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
+       
+    }
+       
+    public function testBundleNotationFindInAppResource()
+    {
+        $input = '@MyBundle/Resources/css/main.css';
+        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
+        $tmprootdir = sys_get_temp_dir() . '/rootdir';
+        $resources_root =  $tmprootdir . '/dir/app/Resources/MyBundle';
+        $resource = $resources_root . '/css/main.css';
+        
+        $this->parameterBag->expects($this->once())
+            ->method('resolveValue')
+            ->will($this->returnCallback(function($v) { return $v; }));
+        //Search in Resources for existing css
+        $this->kernel->expects($this->once())
+            ->method('getRootDir')
+            ->will($this->returnValue($tmprootdir . '/dir/app'));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->with($input)
+            ->will($this->returnValue($resource));
+        $bundle->expects($this->never())
+            ->method('getPath')
+            ->will($this->returnValue('/path/to/MyBundle'));
+        
+        $pathinfos = pathinfo($resource);
+        
+        if(is_dir($tmprootdir)) {
+            $this->rrmdir($tmprootdir);
+        }
+        
+        mkdir($pathinfos['dirname'], 0777,true);
+        touch($resource);
+
+        $coll = $this->factory->createAsset($input)->all();
+        $asset = $coll[0];
+
+        $this->assertEquals($resources_root, $asset->getSourceRoot(), '->createAsset() sets the asset root');
+        $this->assertEquals('css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
+        
+        $this->rrmdir($tmprootdir);
+     
+    }
     
     /**
      * @see http://php.net/manual/de/function.rmdir.php
@@ -122,34 +122,34 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
    }
  }
     
-//    /**
-//     * @dataProvider getGlobs
-//     */
-//    public function testBundleGlobNotation($input)
-//    {
-//        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
-//
-//        $this->parameterBag->expects($this->once())
-//            ->method('resolveValue')
-//            ->will($this->returnCallback(function($v) { return $v; }));
-//        $this->kernel->expects($this->once())
-//            ->method('getBundle')
-//            ->with('MyBundle')
-//            ->will($this->returnValue($bundle));
-//        $this->kernel->expects($this->once())
-//            ->method('locateResource')
-//            ->with('@MyBundle/Resources/css/')
-//            ->will($this->returnValue('/path/to/MyBundle/Resources/css/'));
-//        $bundle->expects($this->once())
-//            ->method('getPath')
-//            ->will($this->returnValue('/path/to/MyBundle'));
-//
-//        $coll = $this->factory->createAsset($input)->all();
-//        $asset = $coll[0];
-//
-//        $this->assertEquals('/path/to/MyBundle', $asset->getSourceRoot(), '->createAsset() sets the asset root');
-//        $this->assertNull($asset->getSourcePath(), '->createAsset() sets the asset path to null');
-//    }
+    /**
+     * @dataProvider getGlobs
+     */
+    public function testBundleGlobNotation($input)
+    {
+        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
+
+        $this->parameterBag->expects($this->once())
+            ->method('resolveValue')
+            ->will($this->returnCallback(function($v) { return $v; }));
+        $this->kernel->expects($this->once())
+            ->method('getBundle')
+            ->with('MyBundle')
+            ->will($this->returnValue($bundle));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->with('@MyBundle/Resources/css/')
+            ->will($this->returnValue('/path/to/MyBundle/Resources/css/'));
+        $bundle->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue('/path/to/MyBundle'));
+
+        $coll = $this->factory->createAsset($input)->all();
+        $asset = $coll[0];
+
+        $this->assertEquals('/path/to/MyBundle', $asset->getSourceRoot(), '->createAsset() sets the asset root');
+        $this->assertNull($asset->getSourcePath(), '->createAsset() sets the asset path to null');
+    }
     
     /**
      * @dataProvider getGlobs
