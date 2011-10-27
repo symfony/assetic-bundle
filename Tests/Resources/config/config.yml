@@ -7,8 +7,9 @@ framework:
     validation:    { enabled: true, enable_annotations: true }
     templating:    { engines: ['twig', 'php'] }
     session:
-        lifetime:   3600
-        auto_start: false
+        default_locale: en
+        lifetime:       3600
+        auto_start:     false
 
 twig:
     debug:            %kernel.debug%

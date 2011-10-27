@@ -43,7 +43,7 @@ class AsseticExtension extends Extension
 
         $processor = new Processor();
         $configuration = new MainConfiguration(array_keys($bundles));
-        $config = $processor->processConfiguration($configuration, $configs);
+         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
         $container->setParameter('assetic.use_controller', $config['use_controller']['enabled']);
@@ -54,6 +54,7 @@ class AsseticExtension extends Extension
         $container->setParameter('assetic.java.bin', $config['java']);
         $container->setParameter('assetic.node.bin', $config['node']);
         $container->setParameter('assetic.sass.bin', $config['sass']);
+        $container->setParameter('assetic.sass.loadpaths', $config['sass_loadpaths']);
 
         // register formulae
         $formulae = array();

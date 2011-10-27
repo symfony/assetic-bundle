@@ -54,7 +54,7 @@ class AssetFactory extends BaseAssetFactory
     protected function parseInput($input, array $options = array())
     {
         $input = $this->parameterBag->resolveValue($input);
-
+        
         // expand bundle notation
         if ('@' == $input[0] && false !== strpos($input, '/')) {
             // use the bundle path as this asset's root
@@ -62,21 +62,47 @@ class AssetFactory extends BaseAssetFactory
             if (false !== $pos = strpos($bundle, '/')) {
                 $bundle = substr($bundle, 0, $pos);
             }
-            $options['root'] = array($this->kernel->getBundle($bundle)->getPath());
-
+            
+            $applicationRootDir = $this->kernel->getRootDir();
+            $appResourcesOverwriteDir = $applicationRootDir . '/Resources/' . $bundle;
+            
+            if(is_dir($appResourcesOverwriteDir)) {
+               $options['root'] = array($appResourcesOverwriteDir);
+            } else {
+                $options['root'] = array($this->getBundlesPath($bundle));
+            }
+            
             // canonicalize the input
             if (false !== $pos = strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
-                $input = $this->kernel->locateResource($before).'*'.$after;
+                
+                try {
+                    $input = $this->kernel->locateResource($before, $applicationRootDir . '/Resources').'*'.$after;
+                } catch(\InvalidArgumentException $e) {
+                    $input = $this->kernel->locateResource($before).'*'.$after;
+                }
+                
             } else {
-                $input = $this->kernel->locateResource($input);
+                
+                try {
+                    $input = $this->kernel->locateResource($input, $applicationRootDir . '/Resources');
+                } catch(\InvalidArgumentException $e) {
+                    $input = $this->kernel->locateResource($input);
+                }
+                
             }
         }
-
+        
+        
         return parent::parseInput($input, $options);
     }
-
+    
+    private function getBundlesPath($bundle)
+    {
+        return $this->kernel->getBundle($bundle)->getPath();
+    }
+    
     protected function createAssetReference($name)
     {
         if (!$this->getAssetManager()) {
