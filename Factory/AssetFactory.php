@@ -54,7 +54,6 @@ class AssetFactory extends BaseAssetFactory
     protected function parseInput($input, array $options = array())
     {
         $input = $this->parameterBag->resolveValue($input);
-        
         // expand bundle notation
         if ('@' == $input[0] && false !== strpos($input, '/')) {
             // use the bundle path as this asset's root
@@ -64,6 +63,7 @@ class AssetFactory extends BaseAssetFactory
             }
             
             $applicationRootDir = $this->kernel->getRootDir();
+            //@todo: should become configurable
             $appResourcesOverwriteDir = $applicationRootDir . '/Resources/' . $bundle;
             
             if(is_dir($appResourcesOverwriteDir)) {
