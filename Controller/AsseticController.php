@@ -58,7 +58,8 @@ class AsseticController
         }
 
         $response = $this->createResponse();
-
+        $response->setExpires(new \DateTime());
+        
         // last-modified
         if (null !== $lastModified = $asset->getLastModified()) {
             $date = new \DateTime();
