@@ -61,40 +61,36 @@ class AssetFactory extends BaseAssetFactory
             if (false !== $pos = strpos($bundle, '/')) {
                 $bundle = substr($bundle, 0, $pos);
             }
-            
+
             $applicationRootDir = $this->kernel->getRootDir();
             //@todo: should become configurable
-            $appResourcesOverwriteDir = $applicationRootDir . '/Resources/' . $bundle;
-            
-            if(is_dir($appResourcesOverwriteDir)) {
+            $appResourcesOverwriteDir = $applicationRootDir . '/Resources/' . $bundle . '/public';
+
+            if (is_dir($appResourcesOverwriteDir)) {
                $options['root'] = array($appResourcesOverwriteDir);
             } else {
                 $options['root'] = array($this->getBundlesPath($bundle));
             }
-            
+
             // canonicalize the input
             if (false !== $pos = strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
-                
+
                 try {
                     $input = $this->kernel->locateResource($before, $applicationRootDir . '/Resources').'*'.$after;
                 } catch(\InvalidArgumentException $e) {
                     $input = $this->kernel->locateResource($before).'*'.$after;
                 }
-                
             } else {
-                
                 try {
                     $input = $this->kernel->locateResource($input, $applicationRootDir . '/Resources');
                 } catch(\InvalidArgumentException $e) {
                     $input = $this->kernel->locateResource($input);
                 }
-                
             }
         }
-        
-        
+
         return parent::parseInput($input, $options);
     }
     
