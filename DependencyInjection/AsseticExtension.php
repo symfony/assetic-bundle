@@ -43,7 +43,7 @@ class AsseticExtension extends Extension
 
         $processor = new Processor();
         $configuration = new MainConfiguration(array_keys($bundles));
-         $config = $processor->processConfiguration($configuration, $configs);
+        $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
         $container->setParameter('assetic.use_controller', $config['use_controller']['enabled']);
