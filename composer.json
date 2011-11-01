@@ -3,7 +3,7 @@
     "description": "Integrates Assetic into Symfony2",
     "keywords": ["assets", "compression", "minification"],
     "homepage": "https://github.com/symfony/AsseticBundle",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
