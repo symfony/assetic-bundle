@@ -21,7 +21,9 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\HttpFoundation\Request;
 
-class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
+class AsseticExtensionTest extends TestCase
 {
     private $kernel;
     private $container;
@@ -42,9 +44,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
+        parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
 
@@ -61,6 +61,12 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container->setParameter('kernel.root_dir', __DIR__);
         $this->container->setParameter('kernel.charset', 'UTF-8');
         $this->container->set('kernel', $this->kernel);
+    }
+
+    protected function tearDown()
+    {
+        $this->kernel = null;
+        $this->container = null;
     }
 
     /**

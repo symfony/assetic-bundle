@@ -13,13 +13,22 @@ namespace Symfony\Bundle\AsseticBundle\Tests\Factory\Resource;
 
 use Symfony\Bundle\AsseticBundle\Factory\Resource\FileResource;
 
-class FileResourceTest extends \PHPUnit_Framework_TestCase
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
+class FileResourceTest extends TestCase
 {
     private $loader;
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->loader = $this->getMock('Symfony\\Component\\Templating\\Loader\\LoaderInterface');
+    }
+
+    protected function tearDown()
+    {
+        $this->loader = null;
     }
 
     public function testCastAsString()

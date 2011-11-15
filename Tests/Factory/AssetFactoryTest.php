@@ -13,22 +13,31 @@ namespace Symfony\Bundle\AsseticBundle\Tests\Factory;
 
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
-class AssetFactoryTest extends \PHPUnit_Framework_TestCase
+use Symfony\Bundle\AsseticBundle\Tests\TestCase;
+
+class AssetFactoryTest extends TestCase
 {
     protected $kernel;
     protected $factory;
+    protected $parameterBag;
     protected $container;
 
     protected function setUp()
     {
-        if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
-        }
+        parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
         $this->container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerInterface');
         $this->parameterBag = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBagInterface');
         $this->factory = new AssetFactory($this->kernel, $this->container, $this->parameterBag, '/path/to/web');
+    }
+
+    protected function tearDown()
+    {
+        $this->kernel = null;
+        $this->container = null;
+        $this->parameterBag = null;
+        $this->factory = null;
     }
 
     public function testBundleNotation()
