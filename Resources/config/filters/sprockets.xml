@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="assetic.filter.sprockets.class">Assetic\Filter\SprocketsFilter</parameter>
-        <parameter key="assetic.filter.sprockets.bin">/usr/bin/sprocketize</parameter>
+        <parameter key="assetic.filter.sprockets.lib_dir">null</parameter>
         <parameter key="assetic.filter.sprockets.asset_root">%assetic.write_to%</parameter>
         <parameter key="assetic.filter.sprockets.include_dirs" type="collection" />
     </parameters>
@@ -14,7 +14,7 @@
     <services>
         <service id="assetic.filter.sprockets" class="%assetic.filter.sprockets.class%">
             <tag name="assetic.filter" alias="sprockets" />
-            <argument>%assetic.filter.sprockets.bin%</argument>
+            <argument>%assetic.filter.sprockets.lib_dir%</argument>
             <call method="setAssetRoot"><argument>%assetic.filter.sprockets.asset_root%</argument></call>
         </service>
     </services>
