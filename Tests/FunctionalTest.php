@@ -13,7 +13,7 @@ namespace Symfony\Bundle\AsseticBundle\Tests;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @group functional
