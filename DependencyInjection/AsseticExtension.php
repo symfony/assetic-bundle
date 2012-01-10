@@ -53,6 +53,7 @@ class AsseticExtension extends Extension
 
         $container->setParameter('assetic.java.bin', $config['java']);
         $container->setParameter('assetic.node.bin', $config['node']);
+        $container->setParameter('assetic.ruby.bin', $config['ruby']);
         $container->setParameter('assetic.sass.bin', $config['sass']);
 
         // register formulae
