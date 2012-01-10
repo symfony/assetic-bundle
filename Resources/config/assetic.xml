@@ -19,6 +19,7 @@
 
         <parameter key="assetic.node.paths" type="collection"></parameter>
         <parameter key="assetic.cache_dir">%kernel.cache_dir%/assetic</parameter>
+        <parameter key="assetic.bundles" type="collection"></parameter>
     </parameters>
 
     <services>

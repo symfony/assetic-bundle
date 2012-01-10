@@ -121,25 +121,7 @@ class AsseticExtension extends Extension
             $loader->load('asset_writer.xml');
         }
 
-        // bundle and kernel resources
-        foreach ($container->getParameterBag()->resolveValue($config['bundles']) as $bundle) {
-            $rc = new \ReflectionClass($bundles[$bundle]);
-            foreach (array('twig', 'php') as $engine) {
-                $container->setDefinition(
-                    'assetic.'.$engine.'_directory_resource.'.$bundle,
-                    new DirectoryResourceDefinition($bundle, $engine, array(
-                        $container->getParameter('kernel.root_dir').'/Resources/'.$bundle.'/views',
-                        dirname($rc->getFileName()).'/Resources/views',
-                    ))
-                );
-            }
-        }
-        foreach (array('twig', 'php') as $engine) {
-            $container->setDefinition(
-                'assetic.'.$engine.'_directory_resource.kernel',
-                new DirectoryResourceDefinition('', $engine, array($container->getParameter('kernel.root_dir').'/Resources/views'))
-            );
-        }
+        $container->setParameter('assetic.bundles', $config['bundles']);
     }
 
     /**
