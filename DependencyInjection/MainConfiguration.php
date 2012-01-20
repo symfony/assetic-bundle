@@ -50,6 +50,28 @@ class MainConfiguration implements ConfigurationInterface
 
         $builder->root('assetic')
             ->children()
+                ->arrayNode('manifest')
+                    ->children()
+                        ->scalarNode('name')->defaultValue('cache.manifest')->end()
+                        ->arrayNode('cacheFiles')->
+                            prototype('scalar')
+                                ->defaultValue(array())
+                            ->end()
+                        ->end()
+                        ->arrayNode('cacheRessources')->
+                            prototype('scalar')
+                                ->defaultValue(array())
+                            ->end()
+                        ->end()
+                        ->arrayNode('networkRessources')->
+                            prototype('scalar')
+                                ->defaultValue(array())
+                            ->end()
+                        ->end()
+                    ->end()
+                    ->treatTrueLike(array('name' => 'cache.manifest', 'cacheRessources' => array(), 'cacheFiles' => array(), 'networkRessources' => array()))
+                    ->canBeUnset()
+                ->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('use_controller')
                     ->addDefaultsIfNotSet()
