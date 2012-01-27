@@ -29,6 +29,7 @@ class DumpCommand extends ContainerAwareCommand
     private $basePath;
     private $verbose;
     private $am;
+    private $targets = array();
 
     protected function configure()
     {
@@ -181,6 +182,11 @@ class DumpCommand extends ContainerAwareCommand
     private function doDump(AssetInterface $asset, OutputInterface $output)
     {
         $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '', $asset->getTargetPath());
+        if (in_array($target, $this->targets)) {
+            throw new \RuntimeException('Asset target '.$target.' was specified twice in your project');
+        }
+        $this->targets[] = $target;
+
         if (!is_dir($dir = dirname($target))) {
             $output->writeln('<info>[dir+]</info>  '.$dir);
             if (false === @mkdir($dir, 0777, true)) {
