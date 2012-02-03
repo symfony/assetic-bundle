@@ -42,7 +42,7 @@ class AsseticExtension extends Extension
         $loader->load('templating_php.xml');
 
         $processor = new Processor();
-        $configuration = new MainConfiguration(array_keys($bundles));
+        $configuration = new Configuration(array_keys($bundles));
         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
