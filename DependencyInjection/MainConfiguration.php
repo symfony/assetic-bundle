@@ -62,7 +62,6 @@ class MainConfiguration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
-                ->booleanNode('dump_on_warmup')->end()
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
                 ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()

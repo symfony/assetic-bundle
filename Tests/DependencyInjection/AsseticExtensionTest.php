@@ -145,8 +145,8 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
     public function getUseControllerKeys()
     {
         return array(
-            array(true, array('assetic.routing_loader', 'assetic.controller'), array('assetic.asset_writer_cache_warmer', 'assetic.asset_writer')),
-            array(false, array('assetic.asset_writer_cache_warmer', 'assetic.asset_writer'), array('assetic.routing_loader', 'assetic.controller')),
+            array(true, array('assetic.routing_loader', 'assetic.controller'), array()),
+            array(false, array(), array('assetic.routing_loader', 'assetic.controller')),
         );
     }
 

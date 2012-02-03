@@ -118,10 +118,6 @@ class AsseticExtension extends Extension
             $container->removeDefinition('assetic.helper.dynamic');
         }
 
-        if (isset($config['dump_on_warmup']) ? $config['dump_on_warmup'] : !$useController) {
-            $loader->load('asset_writer.xml');
-        }
-
         $container->setParameter('assetic.bundles', $config['bundles']);
     }
 
