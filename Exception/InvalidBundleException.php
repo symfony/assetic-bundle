@@ -18,7 +18,7 @@ class InvalidBundleException extends \LogicException
         $message = sprintf('You must add %s to the assetic.bundle config to use %s in %s.', $bundle, $usage, $template);
 
         if ($enabled) {
-            $message .= sprintf(' (currently enabled: %s)', implode(', ', $this->enabled));
+            $message .= sprintf(' (currently enabled: %s)', implode(', ', $enabled));
         }
 
         parent::__construct($message, $code, $previous);
