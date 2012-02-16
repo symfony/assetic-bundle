@@ -40,10 +40,15 @@ class AsseticTokenParser extends BaseAsseticTokenParser
     {
         if ($this->templateNameParser && is_array($this->enabledBundles)) {
             // check the bundle
-            $templateRef = $this->templateNameParser->parse($this->parser->getStream()->getFilename());
-            $bundle = $templateRef->get('bundle');
-            if ($bundle && !in_array($bundle, $this->enabledBundles)) {
-                throw new InvalidBundleException($bundle, "the {% {$this->getTag()} %} tag", $templateRef->getLogicalName(), $this->enabledBundles);
+            try {
+                $templateRef = $this->templateNameParser->parse($this->parser->getStream()->getFilename());
+                $bundle = $templateRef->get('bundle');
+                if ($bundle && !in_array($bundle, $this->enabledBundles)) {
+                    throw new InvalidBundleException($bundle, "the {% {$this->getTag()} %} tag", $templateRef->getLogicalName(), $this->enabledBundles);
+                }
+            } catch(\RuntimeException $e) {
+                // this happens when the filename isn't a Bundle:* url
+                // and it contains ".."
             }
         }
 
