@@ -34,15 +34,13 @@ class AsseticExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $bundles = $container->getParameter('kernel.bundles');
-
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('assetic.xml');
         $loader->load('templating_twig.xml');
         $loader->load('templating_php.xml');
 
         $processor = new Processor();
-        $configuration = new Configuration(array_keys($bundles));
+        $configuration = $this->getConfiguration($configs, $container);
         $config = $processor->processConfiguration($configuration, $configs);
 
         $container->setParameter('assetic.debug', $config['debug']);
@@ -134,5 +132,12 @@ class AsseticExtension extends Extension
     public function getNamespace()
     {
         return 'http://symfony.com/schema/dic/assetic';
+    }
+
+    public function getConfiguration(array $config, ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        return new Configuration(array_keys($bundles));
     }
 }
