@@ -72,7 +72,10 @@ class FileResource implements ResourceInterface
     {
         $parts = explode('/', strtr($file, '\\', '/'));
         $elements = explode('.', array_pop($parts));
+        $engine = array_pop($elements);
+        $format = array_pop($elements);
+        $name = implode('.', $elements);
 
-        return new TemplateReference($bundle, implode('/', $parts), $elements[0], $elements[1], $elements[2]);
+        return new TemplateReference($bundle, implode('/', $parts), $name, $format, $engine);
     }
 }
