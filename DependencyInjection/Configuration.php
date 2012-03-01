@@ -68,6 +68,17 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
             ->end()
 
+            // variables
+            ->fixXmlConfig('variable')
+            ->children()
+                ->arrayNode('variables')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+            ->end()
+
             // bundles
             ->fixXmlConfig('bundle')
             ->children()

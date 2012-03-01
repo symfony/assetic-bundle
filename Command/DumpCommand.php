@@ -11,6 +11,9 @@
 
 namespace Symfony\Bundle\AsseticBundle\Command;
 
+use Assetic\Util\PathUtils;
+
+use Assetic\AssetWriter;
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\LazyAssetManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -180,31 +183,42 @@ class DumpCommand extends ContainerAwareCommand
      */
     private function doDump(AssetInterface $asset, OutputInterface $output)
     {
-        $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '', $asset->getTargetPath());
-        if (!is_dir($dir = dirname($target))) {
-            $output->writeln('<info>[dir+]</info>  '.$dir);
-            if (false === @mkdir($dir, 0777, true)) {
-                throw new \RuntimeException('Unable to create directory '.$dir);
-            }
-        }
+        $writer = new AssetWriter(sys_get_temp_dir(), $this->getContainer()->getParameter('assetic.variables'));
+        $ref = new \ReflectionMethod($writer, 'getCombinations');
+        $ref->setAccessible(true);
+        $combinations = $ref->invoke($writer, $asset->getVars());
 
-        $output->writeln('<info>[file+]</info> '.$target);
-        if ($this->verbose) {
-            if ($asset instanceof \Traversable) {
-                foreach ($asset as $leaf) {
-                    $root = $leaf->getSourceRoot();
-                    $path = $leaf->getSourcePath();
+        foreach ($combinations as $combination) {
+            $asset->setValues($combination);
+
+            $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '',
+                PathUtils::resolvePath($asset->getTargetPath(), $asset->getVars(),
+                    $asset->getValues()));
+            if (!is_dir($dir = dirname($target))) {
+                $output->writeln('<info>[dir+]</info>  '.$dir);
+                if (false === @mkdir($dir, 0777, true)) {
+                    throw new \RuntimeException('Unable to create directory '.$dir);
+                }
+            }
+
+            $output->writeln('<info>[file+]</info> '.$target);
+            if ($this->verbose) {
+                if ($asset instanceof \Traversable) {
+                    foreach ($asset as $leaf) {
+                        $root = $leaf->getSourceRoot();
+                        $path = $leaf->getSourcePath();
+                        $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                    }
+                } else {
+                    $root = $asset->getSourceRoot();
+                    $path = $asset->getSourcePath();
                     $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                 }
-            } else {
-                $root = $asset->getSourceRoot();
-                $path = $asset->getSourcePath();
-                $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
             }
-        }
 
-        if (false === @file_put_contents($target, $asset->dump())) {
-            throw new \RuntimeException('Unable to write file '.$target);
+            if (false === @file_put_contents($target, $asset->dump())) {
+                throw new \RuntimeException('Unable to write file '.$target);
+            }
         }
     }
 }

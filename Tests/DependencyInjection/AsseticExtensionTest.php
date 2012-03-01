@@ -207,6 +207,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 
         $container = new $class();
         $container->enterScope('request');
+        $container->set('request', Request::create('/'));
         $container->set('kernel', $this->kernel);
 
         return $container;
