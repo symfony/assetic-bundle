@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="assetic.filter.smartsprites.class">Assetic\Filter\SmartSpritesFilter</parameter>
+        <parameter key="assetic.filter.smartsprites.path" />
+        <parameter key="assetic.filter.smartsprites.charset">%kernel.charset%</parameter>
+        <parameter key="assetic.filter.smartsprites.loglevel">ERROR</parameter>
+        <parameter key="assetic.filter.smartsprites.document_root">%kernel.root_dir%/../web/</parameter>
+        <parameter key="assetic.filter.smartsprites.sprites_depth">AUTO</parameter>
+        <parameter key="assetic.filter.smartsprites.sprites_ie6">false</parameter>
+        <parameter key="assetic.filter.smartsprites.css_file_suffix"></parameter>
+    </parameters>
+
+    <services>
+        <service id="assetic.filter.smartsprites" class="%assetic.filter.smartsprites.class%">
+            <tag name="assetic.filter" alias="smartsprites" />
+            <argument>%assetic.filter.smartsprites.path%</argument>
+            <call method="setCharset"><argument>%assetic.filter.smartsprites.charset%</argument></call>
+            <call method="setLogLevel"><argument>%assetic.filter.smartsprites.loglevel%</argument></call>
+            <call method="setDocumentRoot"><argument>%assetic.filter.smartsprites.document_root%</argument></call>
+            <call method="setSpritesDepth"><argument>%assetic.filter.smartsprites.sprites_depth%</argument></call>
+            <call method="setSpritesIe6"><argument>%assetic.filter.smartsprites.sprites_ie6%</argument></call>
+            <call method="setCssFileSuffix"><argument>%assetic.filter.smartsprites.css_file_suffix%</argument></call>
+        </service>
+    </services>
+</container>

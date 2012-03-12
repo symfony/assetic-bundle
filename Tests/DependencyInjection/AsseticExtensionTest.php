@@ -105,6 +105,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('coffee'),
             array('compass'),
             array('cssembed', array('jar' => '/path/to/cssembed.jar')),
+            array('csssprites', array('jar' => '/path/to/csssprites.jar')),
             array('cssimport'),
             array('cssrewrite'),
             array('jpegoptim'),
