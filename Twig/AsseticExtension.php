@@ -11,8 +11,10 @@
 
 namespace Symfony\Bundle\AsseticBundle\Twig;
 
+use Assetic\ValueSupplierInterface;
 use Assetic\Extension\Twig\AsseticExtension as BaseAsseticExtension;
 use Assetic\Factory\AssetFactory;
+use Symfony\Component\Templating\TemplateNameParserInterface;
 
 /**
  * Assetic extension.
@@ -23,25 +25,29 @@ class AsseticExtension extends BaseAsseticExtension
 {
     private $useController;
 
-    public function __construct(AssetFactory $factory, $useController = false, $functions = array())
+    public function __construct(AssetFactory $factory, TemplateNameParserInterface $templateNameParser, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
     {
-        parent::__construct($factory, $functions);
+        parent::__construct($factory, $functions, $valueSupplier);
 
         $this->useController = $useController;
+        $this->templateNameParser = $templateNameParser;
+        $this->enabledBundles = $enabledBundles;
     }
 
     public function getTokenParsers()
     {
         return array(
-            new AsseticTokenParser($this->factory, 'javascripts', 'js/*.js', false, array('package')),
-            new AsseticTokenParser($this->factory, 'stylesheets', 'css/*.css', false, array('package')),
-            new AsseticTokenParser($this->factory, 'image', 'images/*', true, array('package')),
+            $this->createTokenParser('javascripts', 'js/*.js'),
+            $this->createTokenParser('stylesheets', 'css/*.css'),
+            $this->createTokenParser('image', 'images/*', true),
         );
     }
 
     public function getNodeVisitors()
     {
-        return array(new AsseticNodeVisitor());
+        return array(
+            new AsseticNodeVisitor($this->templateNameParser, $this->enabledBundles),
+        );
     }
 
     public function getGlobals()
@@ -50,5 +56,14 @@ class AsseticExtension extends BaseAsseticExtension
         $globals['assetic']['use_controller'] = $this->useController;
 
         return $globals;
+    }
+
+    private function createTokenParser($tag, $output, $single = false)
+    {
+        $tokenParser = new AsseticTokenParser($this->factory, $tag, $output, $single, array('package'));
+        $tokenParser->setTemplateNameParser($this->templateNameParser);
+        $tokenParser->setEnabledBundles($this->enabledBundles);
+
+        return $tokenParser;
     }
 }

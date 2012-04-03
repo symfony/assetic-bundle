@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class MainConfiguration implements ConfigurationInterface
+class Configuration implements ConfigurationInterface
 {
     private $bundles;
 
@@ -62,11 +62,21 @@ class MainConfiguration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
-                ->booleanNode('dump_on_warmup')->end()
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
                 ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
                 ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
+            ->end()
+
+            // variables
+            ->fixXmlConfig('variable')
+            ->children()
+                ->arrayNode('variables')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
             ->end()
 
             // bundles
@@ -87,7 +97,6 @@ class MainConfiguration implements ConfigurationInterface
             ->fixXmlConfig('asset')
             ->children()
                 ->arrayNode('assets')
-                    ->addDefaultsIfNotSet()
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
                     ->prototype('array')
@@ -142,7 +151,6 @@ class MainConfiguration implements ConfigurationInterface
             ->fixXmlConfig('filter')
             ->children()
                 ->arrayNode('filters')
-                    ->addDefaultsIfNotSet()
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
                     ->prototype('variable')
@@ -168,11 +176,9 @@ class MainConfiguration implements ConfigurationInterface
             ->children()
                 ->arrayNode('twig')
                     ->addDefaultsIfNotSet()
-                    ->defaultValue(array())
                     ->fixXmlConfig('function')
                     ->children()
                         ->arrayNode('functions')
-                            ->addDefaultsIfNotSet()
                             ->defaultValue(array())
                             ->useAttributeAsKey('name')
                             ->prototype('variable')

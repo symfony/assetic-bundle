@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.compass.class">Assetic\Filter\CompassFilter</parameter>
         <parameter key="assetic.filter.compass.bin">/usr/bin/compass</parameter>
-        <parameter key="assetic.filter.compass.debug">%assetic.debug%</parameter>
+        <parameter key="assetic.filter.compass.debug">false</parameter>
         <parameter key="assetic.filter.compass.style">null</parameter>
         <parameter key="assetic.filter.compass.images_dir">null</parameter>
         <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>

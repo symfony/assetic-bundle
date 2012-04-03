@@ -12,6 +12,8 @@
 namespace Symfony\Bundle\AsseticBundle\Twig;
 
 use Assetic\Extension\Twig\AsseticFilterFunction;
+use Symfony\Bundle\AsseticBundle\Exception\InvalidBundleException;
+use Symfony\Component\Templating\TemplateNameParserInterface;
 
 /**
  * Assetic node visitor.
@@ -20,10 +22,15 @@ use Assetic\Extension\Twig\AsseticFilterFunction;
  */
 class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
 {
+    private $templateNameParser;
+    private $enabledBundles;
     private $useNodeName;
 
-    public function __construct()
+    public function __construct(TemplateNameParserInterface $templateNameParser, array $enabledBundles)
     {
+        $this->templateNameParser = $templateNameParser;
+        $this->enabledBundles = $enabledBundles;
+
         $this->useNodeName = version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<');
     }
 
@@ -34,8 +41,15 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
 
     public function leaveNode(\Twig_NodeInterface $node, \Twig_Environment $env)
     {
-        if (!$formula = $this->checkNode($node, $env)) {
+        if (!$formula = $this->checkNode($node, $env, $name)) {
             return $node;
+        }
+
+        // check the bundle
+        $templateRef = $this->templateNameParser->parse($env->getParser()->getStream()->getFilename());
+        $bundle = $templateRef->get('bundle');
+        if ($bundle && !in_array($bundle, $this->enabledBundles)) {
+            throw new InvalidBundleException($bundle, "the $name() function", $templateRef->getLogicalName(), $this->enabledBundles);
         }
 
         list($input, $filters, $options) = $formula;
@@ -71,7 +85,7 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
      *
      * @return array|null The formula
      */
-    private function checkNode(\Twig_NodeInterface $node, \Twig_Environment $env)
+    private function checkNode(\Twig_NodeInterface $node, \Twig_Environment $env, & $name = null)
     {
         if ($node instanceof \Twig_Node_Expression_Function) {
             $name = $this->useNodeName

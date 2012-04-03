@@ -1,5 +1,6 @@
 {
     "name": "symfony/assetic-bundle",
+    "version": "2.1.0",
     "description": "Integrates Assetic into Symfony2",
     "keywords": ["assets", "compression", "minification"],
     "homepage": "https://github.com/symfony/AsseticBundle",
@@ -15,7 +16,7 @@
     "require": {
         "php": ">=5.3.0",
         "symfony/framework-bundle": "2.*",
-        "kriswallsmith/assetic": "master-dev"
+        "kriswallsmith/assetic": ">=1.1.0-dev"
     },
     "suggest": {
         "symfony/twig-bundle": "2.*"
