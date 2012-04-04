@@ -12,7 +12,7 @@
     <services>
         <service id="assetic.filter.lessphp" class="%assetic.filter.lessphp.class%">
             <tag name="assetic.filter" alias="lessphp" />
-            <argument>%assetic.filter.lessphp.presets%</argument>
+            <call method="setPresets"><argument>%assetic.filter.lessphp.presets%</argument></call>
         </service>
     </services>
 </container>
