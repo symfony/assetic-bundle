@@ -51,7 +51,14 @@ class FileResource implements ResourceInterface
 
     public function getContent()
     {
-        return $this->loader->load($this->getTemplate())->getContent();
+        $templateReference = $this->getTemplate();
+        $fileResource = $this->loader->load($templateReference);
+
+        if (!$fileResource) {
+            throw new \InvalidArgumentException(sprintf('Unable to find template "%s".', $templateReference));
+        }
+
+        return $fileResource->getContent();
     }
 
     public function __toString()
