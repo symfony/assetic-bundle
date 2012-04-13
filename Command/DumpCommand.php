@@ -58,10 +58,10 @@ class DumpCommand extends ContainerAwareCommand
     {
         $output->writeln(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
         $output->writeln(sprintf('Debug mode is <comment>%s</comment>.', $input->getOption('no-debug') ? 'off' : 'on'));
-        $output->writeln('');
 
         if (!$input->getOption('watch')) {
             foreach ($this->am->getNames() as $name) {
+                $output->writeln('');
                 $this->dumpAsset($name, $output);
             }
 
@@ -102,6 +102,9 @@ class DumpCommand extends ContainerAwareCommand
             try {
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
+                        $output->writeln('');
+                        $output->writeln(date('Y-m-d H:i:s'));
+
                         $this->dumpAsset($name, $output);
                     }
                 }
