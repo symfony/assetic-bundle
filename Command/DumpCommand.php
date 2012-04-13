@@ -195,13 +195,21 @@ class DumpCommand extends ContainerAwareCommand
                 PathUtils::resolvePath($asset->getTargetPath(), $asset->getVars(),
                     $asset->getValues()));
             if (!is_dir($dir = dirname($target))) {
-                $output->writeln('<info>[dir+]</info>  '.$dir);
+                $output->writeln(sprintf(
+                    '<comment>%s</comment> <info>[dir+]</info> %s',
+                    date('H:i:s'),
+                    $dir
+                ));
                 if (false === @mkdir($dir, 0777, true)) {
                     throw new \RuntimeException('Unable to create directory '.$dir);
                 }
             }
 
-            $output->writeln('<info>[file+]</info> '.$target);
+            $output->writeln(sprintf(
+                '<comment>%s</comment> <info>[file+]</info> %s',
+                date('H:i:s'),
+                $target
+            ));
             if ($this->verbose) {
                 if ($asset instanceof \Traversable) {
                     foreach ($asset as $leaf) {
