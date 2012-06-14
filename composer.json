@@ -24,5 +24,10 @@
     "autoload": {
         "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }
     },
-    "target-dir": "Symfony/Bundle/AsseticBundle"
+    "target-dir": "Symfony/Bundle/AsseticBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
+    }
 }
