@@ -15,11 +15,11 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "symfony/framework-bundle": "2.*",
-        "kriswallsmith/assetic": ">=1.1.0-dev"
+        "symfony/framework-bundle": "2.1.*",
+        "kriswallsmith/assetic": "1.1.*"
     },
     "suggest": {
-        "symfony/twig-bundle": "2.*"
+        "symfony/twig-bundle": "2.1.*"
     },
     "autoload": {
         "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }
