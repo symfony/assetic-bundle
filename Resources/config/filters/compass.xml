@@ -13,6 +13,7 @@
         <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>
         <parameter key="assetic.filter.compass.http_path">null</parameter>
         <parameter key="assetic.filter.compass.http_images_path">null</parameter>
+        <parameter key="assetic.filter.compass.generated_images_path">null</parameter>
         <parameter key="assetic.filter.compass.http_javascripts_path">null</parameter>
         <parameter key="assetic.filter.compass.plugins" type="collection" />
     </parameters>
@@ -27,6 +28,7 @@
             <call method="setJavascriptsDir"><argument>%assetic.filter.compass.javascripts_dir%</argument></call>
             <call method="setHttpPath"><argument>%assetic.filter.compass.http_path%</argument></call>
             <call method="setHttpImagesPath"><argument>%assetic.filter.compass.http_images_path%</argument></call>
+            <call method="setGeneratedImagesPath"><argument>%assetic.filter.compass.generated_images_path%</argument></call>
             <call method="setHttpJavascriptsPath"><argument>%assetic.filter.compass.http_javascripts_path%</argument></call>
             <call method="setPlugins"><argument>%assetic.filter.compass.plugins%</argument></call>
         </service>
