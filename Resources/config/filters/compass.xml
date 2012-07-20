@@ -22,6 +22,7 @@
         <service id="assetic.filter.compass" class="%assetic.filter.compass.class%">
             <tag name="assetic.filter" alias="compass" />
             <argument>%assetic.filter.compass.bin%</argument>
+            <argument>%assetic.ruby.bin%</argument>
             <call method="setDebugInfo"><argument>%assetic.filter.compass.debug%</argument></call>
             <call method="setStyle"><argument>%assetic.filter.compass.style%</argument></call>
             <call method="setImagesDir"><argument>%assetic.filter.compass.images_dir%</argument></call>
