@@ -95,6 +95,9 @@ class DumpCommand extends ContainerAwareCommand
             $previously = array();
         } else {
             $previously = unserialize(file_get_contents($cache));
+            if (!is_array($previously)) {
+                $previously = array();
+            }
         }
 
         $error = '';
@@ -119,6 +122,7 @@ class DumpCommand extends ContainerAwareCommand
                     $output->writeln('<error>[error]</error> '.$msg);
                     $error = $msg;
                 }
+                sleep($input->getOption('period'));
             }
         }
     }
