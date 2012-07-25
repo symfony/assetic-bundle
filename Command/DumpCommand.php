@@ -115,15 +115,13 @@ class DumpCommand extends ContainerAwareCommand
 
                 file_put_contents($cache, serialize($previously));
                 $error = '';
-
-                sleep($input->getOption('period'));
             } catch (\Exception $e) {
                 if ($error != $msg = $e->getMessage()) {
                     $output->writeln('<error>[error]</error> '.$msg);
                     $error = $msg;
                 }
-                sleep($input->getOption('period'));
             }
+            sleep($input->getOption('period'));
         }
     }
 
