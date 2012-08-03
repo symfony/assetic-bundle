@@ -19,6 +19,7 @@ use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\FilterManagerPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckCssEmbedFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\TemplatingPass;
+use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\ScssPhpFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\SprocketsFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\RouterResourcePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -45,5 +46,6 @@ class AsseticBundle extends Bundle
         $container->addCompilerPass(new AssetManagerPass());
         $container->addCompilerPass(new FilterManagerPass());
         $container->addCompilerPass(new RouterResourcePass());
+        $container->addCompilerPass(new ScssPhpFilterPass());
     }
 }

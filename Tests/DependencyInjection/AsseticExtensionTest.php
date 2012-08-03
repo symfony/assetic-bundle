@@ -111,7 +111,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('jpegtran'),
             array('less'),
             array('lessphp'),
-            array('scssphp'),
+            array('scssphp', array('compass' => true)),
             array('optipng'),
             array('packager'),
             array('pngout'),
