@@ -10,6 +10,9 @@
 
     <services>
         <service id="assetic.filter.scssphp" class="%assetic.filter.scssphp.class%">
+            <call method="enableCompass">
+                <argument>%assetic.filter.scssphp.compass%</argument>
+            </call>
             <tag name="assetic.filter" alias="scssphp" />
         </service>
     </services>

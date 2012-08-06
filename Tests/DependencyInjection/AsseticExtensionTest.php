@@ -213,4 +213,17 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 
         return $container;
     }
+
+    public function testCompassCanBeEnabled()
+    {
+        $extension = new AsseticExtension();
+        $extension->load(array(array(
+            'filters' => array(
+                'scssphp' => array('compass' => true),
+            ),
+        )), $this->container);
+
+        $this->assertTrue($this->container->get('assetic.filter.scssphp')->isCompassEnabled());
+        //$this->getDumpedContainer();
+    }
 }
