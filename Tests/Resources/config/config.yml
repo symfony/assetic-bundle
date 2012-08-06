@@ -1,5 +1,4 @@
 framework:
-    charset:       UTF-8
     secret: xxxxxxxxxx
     csrf_protection:
         enabled: true
@@ -8,7 +7,6 @@ framework:
     templating:    { engines: ['twig', 'php'] }
     session:
         lifetime:   3600
-        auto_start: false
 
 twig:
     debug:            %kernel.debug%

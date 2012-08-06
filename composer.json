@@ -6,6 +6,7 @@
     "homepage": "https://github.com/symfony/AsseticBundle",
     "type": "symfony-bundle",
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Kris Wallsmith",
@@ -17,6 +18,15 @@
         "php": ">=5.3.0",
         "symfony/framework-bundle": "2.1.*",
         "kriswallsmith/assetic": "1.1.*"
+    },
+    "require-dev": {
+        "symfony/twig-bundle": "2.1.*",
+        "symfony/console": "2.1.*",
+        "symfony/class-loader": "2.1.*",
+        "symfony/yaml": "2.1.*",
+        "symfony/form": "2.1.*",
+        "symfony/dom-crawler": "2.1.*",
+        "symfony/css-selector": "2.1.*"
     },
     "suggest": {
         "symfony/twig-bundle": "2.1.*"

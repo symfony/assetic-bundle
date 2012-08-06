@@ -29,6 +29,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request');
+        $this->request->expects($this->any())->method('isMethodSafe')->will($this->returnValue(true));
         $this->headers = $this->getMock('Symfony\\Component\\HttpFoundation\\ParameterBag');
         $this->request->headers = $this->headers;
         $this->am = $this->getMockBuilder('Assetic\\Factory\\LazyAssetManager')
