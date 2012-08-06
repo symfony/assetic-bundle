@@ -9,19 +9,13 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="./Tests/bootstrap.php"
+         bootstrap="./vendor/autoload.php"
 >
     <testsuites>
         <testsuite name="AsseticBundle Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
-
-    <php>
-        <!-- <server name="SYMFONY" value="/path/to/symfony/src" /> -->
-        <!-- <server name="ASSETIC" value="/path/to/assetic/src" /> -->
-        <!-- <server name="TWIG" value="/path/to/twig/lib" /> -->
-    </php>
 
     <filter>
         <whitelist>
