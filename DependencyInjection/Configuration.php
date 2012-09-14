@@ -11,6 +11,7 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection;
 
+use Assetic\Factory\Worker\CacheBustingWorker;
 use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -168,6 +169,31 @@ class Configuration implements ConfigurationInterface
 
                             return $v;
                         })
+                    ->end()
+                ->end()
+            ->end()
+
+            // workers
+            ->children()
+                ->arrayNode('workers')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('cache_busting')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->booleanNode('enabled')->defaultFalse()->end()
+                                ->enumNode('strategy')
+                                    ->values(array(CacheBustingWorker::STRATEGY_CONTENT, CacheBustingWorker::STRATEGY_MODIFICATION))
+                                    ->defaultValue(CacheBustingWorker::STRATEGY_CONTENT)
+                                    ->beforeNormalization()
+                                        ->ifString()
+                                        ->then(function($v) {
+                                            return constant('Assetic\Factory\Worker\CacheBustingWorker::STRATEGY_'.strtoupper($v));
+                                        })
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()

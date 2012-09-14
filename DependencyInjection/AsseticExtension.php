@@ -118,6 +118,11 @@ class AsseticExtension extends Extension
         }
 
         $container->setParameter('assetic.bundles', $config['bundles']);
+
+        $container->setParameter('assetic.worker.cache_busting.strategy', $config['workers']['cache_busting']['strategy']);
+        if ($config['workers']['cache_busting']['enabled']) {
+            $container->getDefinition('assetic.worker.cache_busting')->addTag('assetic.factory_worker');
+        }
     }
 
     /**
