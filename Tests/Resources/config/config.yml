@@ -16,6 +16,8 @@ twig:
 
 assetic:
     use_controller: true
+    gzip: true
+    gzip_level: 9
     read_from:      "%kernel.root_dir%/web"
     bundles:        [ TestBundle ]
     assets:
