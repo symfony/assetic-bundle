@@ -176,10 +176,14 @@ class DumpCommand extends ContainerAwareCommand
      * @param AssetInterface  $asset  An asset
      * @param OutputInterface $output The command output
      *
-     * @throws RuntimeException If there is a problem writing the asset
+     * @throws \RuntimeException If there is a problem writing the asset
+     * @return void
      */
     private function doDump(AssetInterface $asset, OutputInterface $output)
     {
+        $gzip = $this->getContainer()->getParameter('assetic.gzip');
+        $gzipLevel = $this->getContainer()->getParameter('assetic.gzip_level');
+
         $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '', $asset->getTargetPath());
         if (!is_dir($dir = dirname($target))) {
             $output->writeln('<info>[dir+]</info>  '.$dir);
@@ -188,7 +192,7 @@ class DumpCommand extends ContainerAwareCommand
             }
         }
 
-        $output->writeln('<info>[file+]</info> '.$target);
+        $output->writeln(($gzip) ? '<info>[file+][gzip]</info> ' . $target : '<info>[file+]</info> ' . $target);
         if ($this->verbose) {
             if ($asset instanceof \Traversable) {
                 foreach ($asset as $leaf) {
@@ -205,6 +209,17 @@ class DumpCommand extends ContainerAwareCommand
 
         if (false === @file_put_contents($target, $asset->dump())) {
             throw new \RuntimeException('Unable to write file '.$target);
+        }
+
+        // use gzip
+        if ($gzip) {
+            if(!function_exists("gzcompress")) {
+                throw new \RuntimeException('Unable to find Zlib library');
+            }
+
+            if (false === @file_put_contents($target . '.gz', gzcompress($asset->dump(), $gzipLevel))) {
+                throw new \RuntimeException('Unable to write file ' . $target . '.gz');
+            }
         }
     }
 }
