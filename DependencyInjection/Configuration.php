@@ -51,6 +51,8 @@ class Configuration implements ConfigurationInterface
         $builder->root('assetic')
             ->children()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
+                ->booleanNode('gzip')->defaultFalse()->end()
+                ->scalarNode('gzip_level')->defaultValue(9)->end()
                 ->arrayNode('use_controller')
                     ->addDefaultsIfNotSet()
                     ->treatTrueLike(array('enabled' => true))
