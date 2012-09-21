@@ -55,8 +55,8 @@ class AsseticExtension extends Extension
         $container->setParameter('assetic.ruby.bin', $config['ruby']);
         $container->setParameter('assetic.sass.bin', $config['sass']);
 
-        $container->setParameter('assetic.gzip', $config['gzip']);
-        $container->setParameter('assetic.gzip_level', $config['gzip_level']);
+        $container->setParameter('assetic.gzip.enable', $config['gzip']['enable']);
+        $container->setParameter('assetic.gzip.level', $config['gzip']['level']);
 
         // register formulae
         $formulae = array();

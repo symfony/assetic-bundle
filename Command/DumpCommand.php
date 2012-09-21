@@ -31,6 +31,7 @@ class DumpCommand extends ContainerAwareCommand
 {
     private $basePath;
     private $verbose;
+    /** @var \Assetic\AssetManager */
     private $am;
 
     protected function configure()
@@ -205,8 +206,8 @@ class DumpCommand extends ContainerAwareCommand
      */
     private function doDump(AssetInterface $asset, OutputInterface $output)
     {
-        $gzip = $this->getContainer()->getParameter('assetic.gzip');
-        $gzipLevel = $this->getContainer()->getParameter('assetic.gzip_level');
+        $gzip = $this->getContainer()->getParameter('assetic.gzip.enable');
+        $gzipLevel = $this->getContainer()->getParameter('assetic.gzip.level');
 
         $writer = new AssetWriter(sys_get_temp_dir(), $this->getContainer()->getParameter('assetic.variables'));
         $ref = new \ReflectionMethod($writer, 'getCombinations');
@@ -256,7 +257,7 @@ class DumpCommand extends ContainerAwareCommand
 
             // use gzip
             if ($gzip) {
-                if(!function_exists("gzcompress")) {
+                if (!function_exists('gzcompress')) {
                     throw new \RuntimeException('Unable to find Zlib library');
                 }
 
