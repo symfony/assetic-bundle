@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "symfony/twig-bundle": ">=2.1.0,<2.3-dev",
-        "symfony/console": ">=2.1.0,<2.3-dev*",
+        "symfony/console": ">=2.1.0,<2.3-dev",
         "symfony/class-loader": ">=2.1.0,<2.3-dev",
         "symfony/yaml": ">=2.1.0,<2.3-dev",
         "symfony/form": ">=2.1.0,<2.3-dev",
