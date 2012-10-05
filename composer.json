@@ -1,0 +1,28 @@
+{
+    "name": "symfony/assetic-bundle",
+    "version": "2.0.2",
+    "description": "Integrates Assetic into Symfony2",
+    "keywords": ["assets", "compression", "minification"],
+    "homepage": "https://github.com/symfony/AsseticBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kris Wallsmith",
+            "email": "kris.wallsmith@gmail.com",
+            "homepage": "http://kriswallsmith.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/framework-bundle": "2.0.*",
+        "kriswallsmith/assetic": "1.0.*"
+    },
+    "suggest": {
+        "symfony/twig-bundle": "2.0.*"
+    },
+    "autoload": {
+        "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }
+    },
+    "target-dir": "Symfony/Bundle/AsseticBundle"
+}
