@@ -68,7 +68,7 @@ class DirectoryResourceDefinition extends Definition
             ->addArgument(new Reference('templating.loader'))
             ->addArgument($bundle)
             ->addArgument($dir)
-            ->addArgument('/^[^.]+\.[^.]+\.'.$engine.'$/')
+            ->addArgument('/\.[^.]+\.'.$engine.'$/')
             ->setPublic(false)
         ;
     }
