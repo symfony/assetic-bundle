@@ -58,6 +58,68 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Resources/css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
     }
 
+    public function testBundleNotationFindInAppResource()
+    {
+        $input = '@MyBundle/Resources/css/main.css';
+        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
+        $tmprootdir = sys_get_temp_dir() . '/rootdir';
+        $resources_root =  $tmprootdir . '/dir/app/Resources/MyBundle/public';
+        $resource = $resources_root . '/css/main.css';
+
+        $this->parameterBag->expects($this->once())
+            ->method('resolveValue')
+            ->will($this->returnCallback(function($v) { return $v; }));
+        //Search in Resources for existing css
+        $this->kernel->expects($this->once())
+            ->method('getRootDir')
+            ->will($this->returnValue($tmprootdir . '/dir/app'));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->with($input)
+            ->will($this->returnValue($resource));
+        $bundle->expects($this->never())
+            ->method('getPath')
+            ->will($this->returnValue('/path/to/MyBundle'));
+
+        $pathinfos = pathinfo($resource);
+
+        if(is_dir($tmprootdir)) {
+            $this->rrmdir($tmprootdir);
+        }
+
+        mkdir($pathinfos['dirname'], 0777,true);
+        touch($resource);
+
+        $coll = $this->factory->createAsset($input)->all();
+        $asset = $coll[0];
+
+        $this->assertEquals($resources_root, $asset->getSourceRoot(), '->createAsset() sets the asset root');
+        $this->assertEquals('css/main.css', $asset->getSourcePath(), '->createAsset() sets the asset path');
+        
+        $this->rrmdir($tmprootdir);
+    }
+
+    /**
+     * @see http://php.net/manual/de/function.rmdir.php
+     */
+    private function rrmdir($dir) 
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") {
+                        $this->rrmdir($dir."/".$object); 
+                    } else {
+                        unlink($dir."/".$object);   
+                    }
+                }
+            }
+            reset($objects);
+            rmdir($dir);
+        }
+    }
+
     /**
      * @dataProvider getGlobs
      */
@@ -85,6 +147,56 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('/path/to/MyBundle', $asset->getSourceRoot(), '->createAsset() sets the asset root');
         $this->assertNull($asset->getSourcePath(), '->createAsset() sets the asset path to null');
+    }
+
+    /**
+     * @dataProvider getGlobs
+     */
+    public function testBundleGlobNotationFindInAppResource($input)
+    {
+        $bundle = $this->getMock('Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface');
+        $tmprootdir = sys_get_temp_dir() . '/rootdir';
+        $resources_root =  $tmprootdir . '/dir/app/Resources/MyBundle/public';
+        $resource_1 = $resources_root . '/css/main_1.css';
+        $resource_2 = $resources_root . '/css/main_2.css';
+        $resource_3 = $resources_root . '/css/main/main_3.css';
+
+        $this->parameterBag->expects($this->once())
+            ->method('resolveValue')
+            ->will($this->returnCallback(function($v) { return $v; }));
+        $this->kernel->expects($this->once())
+            ->method('getBundle')
+            ->with('MyBundle')
+            ->will($this->returnValue($bundle));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
+            ->with('@MyBundle/Resources/css/')
+            ->will($this->returnValue($resources_root . '/css/'));
+        $bundle->expects($this->once())
+            ->method('getPath')
+            ->will($this->returnValue($resources_root));
+        
+        $pathinfos = pathinfo($resource_1);
+        
+        if(is_dir($tmprootdir)) {
+            $this->rrmdir($tmprootdir);
+        }
+
+        mkdir($pathinfos['dirname'], 0777,true);
+        touch($resource_1);
+        touch($resource_2);
+
+        $pathinfos = pathinfo($resource_3);
+        mkdir($pathinfos['dirname'], 0777,true);
+        touch($resource_3);
+
+        $coll = $this->factory->createAsset($input)->all();
+        $asset = $coll[0];
+
+        $this->assertEquals($resources_root, $asset->getSourceRoot(), '->createAsset() sets the asset root');
+        $this->assertNull($asset->getSourcePath(), '->createAsset() sets the asset path to null');
+
+        $this->rrmdir($tmprootdir);
     }
 
     public function getGlobs()

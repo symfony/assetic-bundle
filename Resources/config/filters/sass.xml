@@ -17,6 +17,7 @@
             <argument>%assetic.filter.sass.bin%</argument>
             <call method="setStyle"><argument>%assetic.filter.sass.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.sass.compass%</argument></call>
+            <call method="addLoadPaths"><argument>%assetic.sass.loadpaths%</argument></call>
         </service>
     </services>
 </container>

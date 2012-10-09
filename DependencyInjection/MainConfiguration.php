@@ -67,6 +67,9 @@ class MainConfiguration implements ConfigurationInterface
                 ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
                 ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
+                ->arrayNode('sass_loadpaths')
+                    ->prototype('scalar')->end()
+                ->end()
             ->end()
 
             // bundles
