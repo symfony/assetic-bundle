@@ -9,6 +9,7 @@
         <parameter key="assetic.filter.scss.sass">%assetic.sass.bin%</parameter>
         <parameter key="assetic.filter.scss.style">null</parameter>
         <parameter key="assetic.filter.scss.compass">null</parameter>
+        <parameter key="assetic.filter.scss.load_path">%kernel.root_dir%/../web</parameter>
     </parameters>
 
     <services>
@@ -18,6 +19,7 @@
             <argument>%assetic.ruby.bin%</argument>
             <call method="setStyle"><argument>%assetic.filter.scss.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
+            <call method="addLoadPath"><argument>%assetic.filter.scss.load_path%</argument></call>
         </service>
     </services>
 </container>
