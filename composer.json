@@ -1,5 +1,5 @@
 {
-    "name": "symfony/assetic-bundle",
+    "name": "icans/assetic-bundle",
     "version": "2.0.2",
     "description": "Integrates Assetic into Symfony2",
     "keywords": ["assets", "compression", "minification"],
@@ -20,6 +20,9 @@
     },
     "suggest": {
         "symfony/twig-bundle": "2.0.*"
+    },
+    "replace": {
+        "symfony/assetic-bundle": "self.version"
     },
     "autoload": {
         "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }
