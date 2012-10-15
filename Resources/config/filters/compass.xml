@@ -9,6 +9,7 @@
         <parameter key="assetic.filter.compass.bin">/usr/bin/compass</parameter>
         <parameter key="assetic.filter.compass.debug">false</parameter>
         <parameter key="assetic.filter.compass.style">null</parameter>
+        <parameter key="assetic.filter.compass.config_options" type="collection" />
         <parameter key="assetic.filter.compass.images_dir">null</parameter>
         <parameter key="assetic.filter.compass.fonts_dir">null</parameter>
         <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>
@@ -42,6 +43,7 @@
             <call method="setPlugins"><argument>%assetic.filter.compass.plugins%</argument></call>
             <call method="setLoadPaths"><argument>%assetic.filter.compass.load_paths%</argument></call>
             <call method="setHomeEnv"><argument>%assetic.filter.compass.home_env%</argument></call>
+            <call method="setConfigOptions"><argument>%assetic.filter.compass.config_options%</argument></call>
         </service>
     </services>
 </container>
