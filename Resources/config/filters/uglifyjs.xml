@@ -11,6 +11,7 @@
         <parameter key="assetic.filter.uglifyjs.beautify">false</parameter>
         <parameter key="assetic.filter.uglifyjs.no_copyright">false</parameter>
         <parameter key="assetic.filter.uglifyjs.unsafe">false</parameter>
+        <parameter key="assetic.filter.uglifyjs.mangle">false</parameter>
     </parameters>
 
     <services>
@@ -26,6 +27,9 @@
             </call>
             <call method="setUnsafe">
                 <argument>%assetic.filter.uglifyjs.unsafe%</argument>
+            </call>
+            <call method="setMangle">
+                <argument>%assetic.filter.uglifyjs.mangle%</argument>
             </call>
         </service>
     </services>
