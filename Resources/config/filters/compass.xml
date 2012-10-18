@@ -18,7 +18,7 @@
         <parameter key="assetic.filter.compass.http_javascripts_path">null</parameter>
         <parameter key="assetic.filter.compass.plugins" type="collection" />
         <parameter key="assetic.filter.compass.load_paths" type="collection" />
-        <parameter key="assetic.filter.compass.home_env">true</parameter>
+        <parameter key="assetic.filter.compass.home_env">false</parameter>
     </parameters>
 
     <services>
