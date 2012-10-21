@@ -60,7 +60,7 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
             new \Twig_Node_Expression_GetAttr(
                 new \Twig_Node_Expression_Name('assetic', $line),
                 new \Twig_Node_Expression_Constant('use_controller', $line),
-                new \Twig_Node(),
+                new \Twig_Node_Expression_Array(array(), 0),
                 \Twig_TemplateInterface::ARRAY_CALL,
                 $line
             ),
