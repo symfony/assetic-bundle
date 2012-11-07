@@ -6,12 +6,16 @@
 
     <parameters>
         <parameter key="assetic.filter.scssphp.class">Assetic\Filter\ScssphpFilter</parameter>
+        <parameter key="assetic.filter.scssphp.import_paths" type="collection" />
     </parameters>
 
     <services>
         <service id="assetic.filter.scssphp" class="%assetic.filter.scssphp.class%">
             <call method="enableCompass">
                 <argument>%assetic.filter.scssphp.compass%</argument>
+            </call>
+            <call method="setImportPaths">
+                <argument>%assetic.filter.scssphp.import_paths%</argument>
             </call>
             <tag name="assetic.filter" alias="scssphp" />
         </service>
