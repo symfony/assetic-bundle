@@ -15,6 +15,7 @@ use Assetic\Factory\AssetFactory as BaseAssetFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Assetic\Asset\AssetCollection;
 
 /**
  * Loads asset formulae from the filesystem.
@@ -68,9 +69,28 @@ class AssetFactory extends BaseAssetFactory
             if (false !== $pos = strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
-                $input = $this->kernel->locateResource($before,$this->container->getParameter('kernel.root_dir').'/Resources').'*'.$after;
+                // support globs like /path/to/bootstrap/js/bootstrap-*.js
+                if (false !== $pos = strrpos($before, '/')) {
+                    $pos++;
+                    $after = substr($before,$pos).'*'.$after;
+                    $before = substr($before,0,$pos);
+                } else {
+                    $after = '*'.$after;
+                }
+                // retrieve all related folders for current bundle notation
+                $globAssetFolders = $this->kernel->locateResource($before, $this->container->getParameter('kernel.root_dir').'/Resources',false);
+                if(count($globAssetFolders) == 1) {
+                    $input = $globAssetFolders[0].$after;
+                } else {
+                    $collection = new AssetCollection();
+                    foreach($globAssetFolders as $globAssetFolder) {
+                        $input = $globAssetFolder.$after;
+                        $collection->add(parent::parseInput($input, $options));
+                    }
+                    return $collection;
+                }
             } else {
-                $input = $this->kernel->locateResource($input,$this->container->getParameter('kernel.root_dir').'/Resources');
+                $input = $this->kernel->locateResource($input, $this->container->getParameter('kernel.root_dir').'/Resources');
             }
         }
 
