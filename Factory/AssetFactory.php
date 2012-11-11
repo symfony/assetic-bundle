@@ -72,18 +72,18 @@ class AssetFactory extends BaseAssetFactory
                 // support globs like /path/to/bootstrap/js/bootstrap-*.js
                 if (false !== $pos = strrpos($before, '/')) {
                     $pos++;
-                    $after = substr($before,$pos).'*'.$after;
-                    $before = substr($before,0,$pos);
+                    $after = substr($before, $pos).'*'.$after;
+                    $before = substr($before, 0, $pos);
                 } else {
                     $after = '*'.$after;
                 }
                 // retrieve all related folders for current bundle notation
-                $globAssetFolders = $this->kernel->locateResource($before, $this->container->getParameter('kernel.root_dir').'/Resources',false);
+                $globAssetFolders = $this->kernel->locateResource($before, $this->container->getParameter('kernel.root_dir').'/Resources', false);
                 if(count($globAssetFolders) == 1) {
                     $input = $globAssetFolders[0].$after;
                 } else {
                     $collection = new AssetCollection();
-                    foreach($globAssetFolders as $globAssetFolder) {
+                    foreach ($globAssetFolders as $globAssetFolder) {
                         $input = $globAssetFolder.$after;
                         $collection->add(parent::parseInput($input, $options));
                     }
