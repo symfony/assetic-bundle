@@ -21,14 +21,7 @@ class DefaultValueSupplier implements ValueSupplierInterface
 
     public function getValues()
     {
-        if (!$this->container->isScopeActive('request')) {
-            return array();
-        }
-
-        $request = $this->container->get('request');
-
         return array(
-            'locale' => $request->getLocale(),
             'env'    => $this->container->getParameter('kernel.environment'),
         );
     }

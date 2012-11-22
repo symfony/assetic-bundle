@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="assetic.twig_extension.class">Symfony\Bundle\AsseticBundle\Twig\AsseticExtension</parameter>
         <parameter key="assetic.twig_formula_loader.class">Assetic\Extension\Twig\TwigFormulaLoader</parameter>
+        <parameter key="assetic.twig_request_listener.class">Symfony\Bundle\AsseticBundle\EventListener\TwigRequestListener</parameter>
     </parameters>
 
     <services>
@@ -30,6 +31,10 @@
         <service id="assetic.twig_formula_loader.real" class="%assetic.twig_formula_loader.class%" public="false">
             <tag name="assetic.templating.twig" />
             <argument type="service" id="twig" />
+        </service>
+        <service id="assetic.twig_request_listener" class="%assetic.twig_request_listener.class%">
+            <argument type="service" id="twig"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
     </services>
 </container>
