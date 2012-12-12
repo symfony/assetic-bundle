@@ -20,18 +20,27 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class FunctionalTest extends \PHPUnit_Framework_TestCase
 {
-    protected $cacheDir;
+    static protected $cacheDir;
 
-    protected function setUp()
+    static public function setUpBeforeClass()
     {
         if (!class_exists('Assetic\\AssetManager')) {
-            $this->markTestSkipped('Assetic is not available.');
+            self::markTestSkipped('Assetic is not available.');
         }
 
-        $this->cacheDir = __DIR__.'/Resources/cache';
-        if (!file_exists($this->cacheDir)) {
-            mkdir($this->cacheDir, 0777, true);
+        self::$cacheDir = __DIR__.'/Resources/cache';
+        if (file_exists(self::$cacheDir)) {
+            $filesystem = new Filesystem();
+            $filesystem->remove(self::$cacheDir);
         }
+
+        mkdir(self::$cacheDir, 0777, true);
+    }
+
+    static public function tearDownAfterClass()
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove(self::$cacheDir);
     }
 
     public function testTwigRenderDebug()
