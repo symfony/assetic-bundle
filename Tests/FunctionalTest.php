@@ -29,18 +29,9 @@ class FunctionalTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->cacheDir = __DIR__.'/Resources/cache';
-        if (file_exists($this->cacheDir)) {
-            $filesystem = new Filesystem();
-            $filesystem->remove($this->cacheDir);
+        if (!file_exists($this->cacheDir)) {
+            mkdir($this->cacheDir, 0777, true);
         }
-
-        mkdir($this->cacheDir, 0777, true);
-    }
-
-    protected function tearDown()
-    {
-        $filesystem = new Filesystem();
-        $filesystem->remove($this->cacheDir);
     }
 
     public function testTwigRenderDebug()
