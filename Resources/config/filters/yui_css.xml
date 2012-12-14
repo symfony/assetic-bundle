@@ -9,6 +9,7 @@
         <parameter key="assetic.filter.yui_css.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.yui_css.jar" />
         <parameter key="assetic.filter.yui_css.charset">%kernel.charset%</parameter>
+        <parameter key="assetic.filter.yui_css.timeout">null</parameter>
     </parameters>
 
     <services>
@@ -17,6 +18,7 @@
             <argument>%assetic.filter.yui_css.jar%</argument>
             <argument>%assetic.filter.yui_css.java%</argument>
             <call method="setCharset"><argument>%assetic.filter.yui_css.charset%</argument></call>
+            <call method="setTimeout"><argument>%assetic.filter.yui_css.timeout%</argument></call>
         </service>
     </services>
 </container>
