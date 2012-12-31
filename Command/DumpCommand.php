@@ -15,7 +15,6 @@ use Assetic\Util\PathUtils;
 
 use Assetic\AssetWriter;
 use Assetic\Asset\AssetInterface;
-use Assetic\Factory\LazyAssetManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
