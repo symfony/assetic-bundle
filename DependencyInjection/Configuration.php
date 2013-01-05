@@ -51,6 +51,8 @@ class Configuration implements ConfigurationInterface
         $builder->root('assetic')
             ->children()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
+                ->booleanNode('cache')->defaultFalse()->end()
+                ->variableNode('cache_dir')->defaultValue(sys_get_temp_dir()."/assetic/cache")->end()
                 ->arrayNode('use_controller')
                     ->addDefaultsIfNotSet()
                     ->treatTrueLike(array('enabled' => true))
