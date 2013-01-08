@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.uglifycss.class">Assetic\Filter\UglifyCssFilter</parameter>
         <parameter key="assetic.filter.uglifycss.bin">/usr/bin/uglifycss</parameter>
         <parameter key="assetic.filter.uglifycss.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.uglifycss.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.uglifycss.expand_vars">false</parameter>
         <parameter key="assetic.filter.uglifycss.ugly_comments">false</parameter>
         <parameter key="assetic.filter.uglifycss.cute_comments">false</parameter>
@@ -18,6 +19,9 @@
             <tag name="assetic.filter" alias="uglifycss" />
             <argument>%assetic.filter.uglifycss.bin%</argument>
             <argument>%assetic.filter.uglifycss.node%</argument>
+            <call method="setNodePaths">
+                <argument>%assetic.filter.uglifycss.node_paths%</argument>
+            </call>
             <call method="setExpandVars">
                 <argument>%assetic.filter.uglifycss.expand_vars%</argument>
             </call>
