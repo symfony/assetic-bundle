@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.handlebars.class">Assetic\Filter\HandlebarsFilter</parameter>
         <parameter key="assetic.filter.handlebars.bin">/usr/bin/handlebars</parameter>
         <parameter key="assetic.filter.handlebars.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.handlebars.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.handlebars.minimize">false</parameter>
         <parameter key="assetic.filter.handlebars.simple">false</parameter>
     </parameters>
@@ -17,6 +18,9 @@
             <tag name="assetic.filter" alias="handlebars" />
             <argument>%assetic.filter.handlebars.bin%</argument>
             <argument>%assetic.filter.handlebars.node%</argument>
+            <call method="setNodePaths">
+                <argument>%assetic.filter.handlebars.node_paths%</argument>
+            </call>
             <call method="setMinimize">
                 <argument>%assetic.filter.handlebars.minimize%</argument>
             </call>
