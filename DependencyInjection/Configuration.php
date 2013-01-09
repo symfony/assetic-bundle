@@ -65,7 +65,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
                 ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->arrayNode('node_paths')
-                    ->addDefaultsIfNotSet()
                     ->prototype('scalar')->end()
                 ->end()
                 ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
