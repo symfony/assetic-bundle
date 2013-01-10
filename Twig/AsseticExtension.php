@@ -11,9 +11,10 @@
 
 namespace Symfony\Bundle\AsseticBundle\Twig;
 
-use Assetic\ValueSupplierInterface;
+use Assetic\Cache\ConfigCache;
 use Assetic\Extension\Twig\AsseticExtension as BaseAsseticExtension;
 use Assetic\Factory\AssetFactory;
+use Assetic\ValueSupplierInterface;
 use Symfony\Component\Templating\TemplateNameParserInterface;
 
 /**
@@ -27,9 +28,9 @@ class AsseticExtension extends BaseAsseticExtension
     private $templateNameParser;
     private $enabledBundles;
 
-    public function __construct(AssetFactory $factory, TemplateNameParserInterface $templateNameParser, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
+    public function __construct(AssetFactory $factory, ConfigCache $cache, TemplateNameParserInterface $templateNameParser, $useController = false, $functions = array(), $enabledBundles = array(), ValueSupplierInterface $valueSupplier = null)
     {
-        parent::__construct($factory, $functions, $valueSupplier);
+        parent::__construct($factory, $cache, $functions, $valueSupplier);
 
         $this->useController = $useController;
         $this->templateNameParser = $templateNameParser;
@@ -47,9 +48,9 @@ class AsseticExtension extends BaseAsseticExtension
 
     public function getNodeVisitors()
     {
-        return array(
+        return array_merge(parent::getNodeVisitors(), array(
             new AsseticNodeVisitor($this->templateNameParser, $this->enabledBundles),
-        );
+        ));
     }
 
     public function getGlobals()
