@@ -15,7 +15,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.uglifyjs" class="%assetic.filter.uglifyjs2.class%">
+        <service id="assetic.filter.uglifyjs2" class="%assetic.filter.uglifyjs2.class%">
             <tag name="assetic.filter" alias="uglifyjs2" />
             <argument>%assetic.filter.uglifyjs2.bin%</argument>
             <argument>%assetic.filter.uglifyjs2.node%</argument>
