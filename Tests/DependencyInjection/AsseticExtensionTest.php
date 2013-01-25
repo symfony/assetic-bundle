@@ -108,6 +108,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('cssimport'),
             array('cssmin'),
             array('cssrewrite'),
+            array('dart'),
             array('gss'),
             array('handlebars'),
             array('jpegoptim'),
