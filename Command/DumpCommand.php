@@ -14,7 +14,9 @@ namespace Symfony\Bundle\AsseticBundle\Command;
 use Assetic\Util\PathUtils;
 
 use Assetic\AssetWriter;
+use Assetic\Asset\AssetCache;
 use Assetic\Asset\AssetInterface;
+use Assetic\Cache\FilesystemCache;
 use Assetic\Factory\LazyAssetManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -186,12 +188,12 @@ class DumpCommand extends ContainerAwareCommand
     private function dumpAsset($name, OutputInterface $output)
     {
         if($this->getContainer()->getParameter('assetic.cache')==true){
-            $asset = new \Assetic\Asset\AssetCache(
+            $asset = new AssetCache(
                 $this->am->get($name),
-                new \Assetic\Cache\FilesystemCache($this->getContainer()->getParameter('assetic.cache_dir'))
+                new FilesystemCache($this->getContainer()->getParameter('assetic.cache_dir'))
             );
         }else{
-            $asset=$this->am->get($name);
+            $asset = $this->am->get($name);
         }
 
         $formula = $this->am->getFormula($name);
@@ -201,13 +203,13 @@ class DumpCommand extends ContainerAwareCommand
 
         // dump each leaf if debug
         if (isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug()) {
-            if ($asset instanceof \Assetic\Asset\AssetCache){
+            if ($asset instanceof AssetCache){
                 $refObj  = new \ReflectionObject( $asset );
                 $refProp = $refObj->getProperty( 'asset' );
                 $refProp->setAccessible( true );
                 $assets = $refProp->getValue( $asset );
             }else{
-                $assets=$asset;
+                $assets = $asset;
             }
             foreach ($assets as $leaf) {
                 $this->doDump($leaf, $output);
@@ -254,17 +256,17 @@ class DumpCommand extends ContainerAwareCommand
             ));
             if ($this->verbose) {
                 //since AssetCache has no getAsset(Anyway,I will make a PR later), I can only use this way to get the $asset
-                if($asset instanceof \Assetic\Asset\AssetCache){
+                if($asset instanceof AssetCache){
                     $refObj  = new \ReflectionObject( $asset );
                     $refProp = $refObj->getProperty( 'asset' );
                     $refProp->setAccessible( true );
-                    $temp_asset = $refProp->getValue( $asset );
+                    $tempAsset = $refProp->getValue( $asset );
                 }else{
-                    $temp_asset=$asset;
+                    $tempAsset = $asset;
                 }
 
-                if ($temp_asset instanceof \Traversable) {
-                    foreach ($temp_asset as $leaf) {
+                if ($tempAsset instanceof \Traversable) {
+                    foreach ($tempAsset as $leaf) {
                         $root = $leaf->getSourceRoot();
                         $path = $leaf->getSourcePath();
                         $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
