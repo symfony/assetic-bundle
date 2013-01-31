@@ -24,13 +24,13 @@ class RouterResourcePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        $useController = $container->getParameterBag()->resolveValue($container->getParameter('assetic.use_controller'));
+        $useController  = $container->getParameterBag()->resolveValue($container->getParameter('assetic.use_controller'));
         $routerResource = $container->getParameterBag()->resolveValue($container->getParameter('router.resource'));
 
         if (!$useController || !$routerResource) {
             return;
         }
-        
+
         $file = $container->getParameter('kernel.cache_dir').'/assetic/routing.yml';
 
         if (!is_dir($dir = dirname($file))) {
