@@ -9,7 +9,7 @@
         <parameter key="assetic.filter.yui_css.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.yui_css.jar" />
         <parameter key="assetic.filter.yui_css.charset">%kernel.charset%</parameter>
-        <parameter key="assetic.filter.yui_css.stacksize">512k</parameter>
+        <parameter key="assetic.filter.yui_css.stacksize">null</parameter>
         <parameter key="assetic.filter.yui_css.timeout">null</parameter>
     </parameters>
 
