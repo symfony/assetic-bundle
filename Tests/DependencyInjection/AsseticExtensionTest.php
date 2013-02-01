@@ -162,6 +162,28 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider getCacheBustingWorkerKeys
+     */
+    public function testCacheBustingWorker($enabled)
+    {
+        $extension = new AsseticExtension();
+        $extension->load(array(array('workers' => array('cache_busting' => array('enabled' => $enabled)))), $this->container);
+
+        $def = $this->container->getDefinition('assetic.worker.cache_busting');
+        $this->assertSame($enabled, $def->hasTag('assetic.factory_worker'));
+
+        $this->assertSaneContainer($this->getDumpedContainer());
+    }
+
+    public function getCacheBustingWorkerKeys()
+    {
+        return array(
+            array(true),
+            array(false),
+        );
+    }
+
+    /**
      * @dataProvider getClosureJarAndExpected
      */
     public function testClosureCompilerPass($jar, $expected)
