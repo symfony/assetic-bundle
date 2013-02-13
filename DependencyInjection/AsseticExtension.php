@@ -119,6 +119,18 @@ class AsseticExtension extends Extension
         }
 
         $container->setParameter('assetic.bundles', $config['bundles']);
+
+        $this->addClassesToCompile(array(
+            'Assetic\\Factory\\AssetFactory',
+            'Assetic\\ValueSupplierInterface',
+            'Symfony\\Bundle\\AsseticBundle\\DefaultValueSupplier',
+            'Symfony\\Bundle\\AsseticBundle\\Factory\\AssetFactory',
+            /* This will introduce hard dependency on Twig
+            'Assetic\\Extension\\Twig\\AsseticExtension',
+            'Assetic\\Extension\\Twig\\ValueContainer',
+            'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
+            */
+        ));
     }
 
     /**
