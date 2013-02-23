@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.compass.class">Assetic\Filter\CompassFilter</parameter>
         <parameter key="assetic.filter.compass.bin">/usr/bin/compass</parameter>
-        <parameter key="assetic.filter.compass.timeout">false</parameter>
+        <parameter key="assetic.filter.compass.timeout">null</parameter>
         <parameter key="assetic.filter.compass.debug">false</parameter>
         <parameter key="assetic.filter.compass.no_line_comments">false</parameter>
         <parameter key="assetic.filter.compass.style">null</parameter>
