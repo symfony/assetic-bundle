@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.stylus.class">Assetic\Filter\StylusFilter</parameter>
         <parameter key="assetic.filter.stylus.node">%assetic.node.bin%</parameter>
         <parameter key="assetic.filter.stylus.node_paths">%assetic.node.paths%</parameter>
+        <parameter key="assetic.filter.stylus.timeout">null</parameter>
         <parameter key="assetic.filter.stylus.compress">null</parameter>
     </parameters>
 
@@ -16,6 +17,7 @@
             <tag name="assetic.filter" alias="stylus" />
             <argument>%assetic.filter.stylus.node%</argument>
             <argument>%assetic.filter.stylus.node_paths%</argument>
+            <call method="setTimeout"><argument>%assetic.filter.stylus.timeout%</argument></call>
             <call method="setCompress"><argument>%assetic.filter.stylus.compress%</argument></call>
         </service>
     </services>

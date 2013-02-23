@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.uglifyjs.class">Assetic\Filter\UglifyJsFilter</parameter>
         <parameter key="assetic.filter.uglifyjs.bin">/usr/bin/uglifyjs</parameter>
         <parameter key="assetic.filter.uglifyjs.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.uglifyjs.timeout">null</parameter>
         <parameter key="assetic.filter.uglifyjs.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.uglifyjs.beautify">false</parameter>
         <parameter key="assetic.filter.uglifyjs.no_copyright">false</parameter>
@@ -20,21 +21,12 @@
             <tag name="assetic.filter" alias="uglifyjs" />
             <argument>%assetic.filter.uglifyjs.bin%</argument>
             <argument>%assetic.filter.uglifyjs.node%</argument>
-            <call method="setNodePaths">
-                <argument>%assetic.filter.uglifyjs.node_paths%</argument>
-            </call>
-            <call method="setBeautify">
-                <argument>%assetic.filter.uglifyjs.beautify%</argument>
-            </call>
-            <call method="setNoCopyright">
-                <argument>%assetic.filter.uglifyjs.no_copyright%</argument>
-            </call>
-            <call method="setUnsafe">
-                <argument>%assetic.filter.uglifyjs.unsafe%</argument>
-            </call>
-            <call method="setMangle">
-                <argument>%assetic.filter.uglifyjs.mangle%</argument>
-            </call>
+            <call method="setTimeout"><argument>%assetic.filter.uglifyjs.timeout%</argument></call>
+            <call method="setNodePaths"><argument>%assetic.filter.uglifyjs.node_paths%</argument></call>
+            <call method="setBeautify"><argument>%assetic.filter.uglifyjs.beautify%</argument></call>
+            <call method="setNoCopyright"><argument>%assetic.filter.uglifyjs.no_copyright%</argument></call>
+            <call method="setUnsafe"><argument>%assetic.filter.uglifyjs.unsafe%</argument></call>
+            <call method="setMangle"><argument>%assetic.filter.uglifyjs.mangle%</argument></call>
         </service>
     </services>
 </container>

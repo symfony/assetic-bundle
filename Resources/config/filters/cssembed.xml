@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.cssembed.class">Assetic\Filter\CssEmbedFilter</parameter>
         <parameter key="assetic.filter.cssembed.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.cssembed.jar" />
+        <parameter key="assetic.filter.cssembed.timeout">null</parameter>
         <parameter key="assetic.filter.cssembed.charset">%kernel.charset%</parameter>
         <parameter key="assetic.filter.cssembed.mhtml">false</parameter>
         <parameter key="assetic.filter.cssembed.mhtml_root">null</parameter>
@@ -22,6 +23,7 @@
             <tag name="assetic.filter" alias="cssembed" />
             <argument>%assetic.filter.cssembed.jar%</argument>
             <argument>%assetic.filter.cssembed.java%</argument>
+            <call method="setTimeout"><argument>%assetic.filter.cssembed.timeout%</argument></call>
             <call method="setCharset"><argument>%assetic.filter.cssembed.charset%</argument></call>
             <call method="setMhtml"><argument>%assetic.filter.cssembed.mhtml%</argument></call>
             <call method="setMhtmlRoot"><argument>%assetic.filter.cssembed.mhtml_root%</argument></call>
