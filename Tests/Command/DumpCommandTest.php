@@ -31,6 +31,10 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Assetic is not available.');
         }
 
+        if (!class_exists('Symfony\Component\Console\Application')) {
+            $this->markTestSkipped('Symfony Console is not available.');
+        }
+
         $this->writeTo = sys_get_temp_dir().'/assetic_dump';
 
         $this->application = $this->getMockBuilder('Symfony\\Bundle\\FrameworkBundle\\Console\\Application')
