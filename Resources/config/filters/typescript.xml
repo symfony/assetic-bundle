@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.typescript.class">Assetic\Filter\TypeScriptFilter</parameter>
         <parameter key="assetic.filter.typescript.bin">/usr/bin/tsc</parameter>
         <parameter key="assetic.filter.typescript.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.typescript.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.typescript.timeout">null</parameter>
     </parameters>
 
@@ -17,6 +18,7 @@
             <argument>%assetic.filter.typescript.bin%</argument>
             <argument>%assetic.filter.typescript.node%</argument>
             <call method="setTimeout"><argument>%assetic.filter.typescript.timeout%</argument></call>
+            <call method="setNodePaths"><argument>%assetic.filter.typescript.node_paths%</argument></call>
         </service>
     </services>
 </container>
