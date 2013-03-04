@@ -17,7 +17,6 @@
             <tag name="assetic.filter" alias="less" />
             <argument>%assetic.filter.less.node%</argument>
             <argument>%assetic.filter.less.node_paths%</argument>
-            <call method="setTimeout"><argument>%assetic.filter.less.timeout%</argument></call>
             <call method="setCompress"><argument>%assetic.filter.less.compress%</argument></call>
         </service>
     </services>
