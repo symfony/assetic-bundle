@@ -130,6 +130,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('scssphp', array('compass' => true)),
             array('sprockets', array('include_dirs' => array('foo'))),
             array('stylus'),
+            array('typescript'),
             array('uglifycss'),
             array('uglifyjs'),
             array('uglifyjs2'),
