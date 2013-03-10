@@ -141,7 +141,7 @@ class DumpCommand extends ContainerAwareCommand
         $values = array_intersect_key($values, array_flip($asset->getVars()));
 
         if (empty($values)) {
-            $mtime = $asset->getLastModified();
+            $mtime = $this->am->getLastModified($asset);
         } else {
             $writer = new AssetWriter(sys_get_temp_dir(), $this->getContainer()->getParameter('assetic.variables'));
             $ref = new \ReflectionMethod($writer, 'getCombinations');
@@ -151,7 +151,7 @@ class DumpCommand extends ContainerAwareCommand
             $mtime = 0;
             foreach ($combinations as $combination) {
                 $asset->setValues($combination);
-                $assetMtime = $asset->getLastModified();
+                $assetMtime = $this->am->getLastModified($asset);
                 if ($assetMtime > $mtime) {
                     $mtime = $assetMtime;
                 }

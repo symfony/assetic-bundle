@@ -69,7 +69,7 @@ class AsseticController
         $response->setExpires(new \DateTime());
 
         // last-modified
-        if (null !== $lastModified = $asset->getLastModified()) {
+        if (null !== $lastModified = $this->am->getLastModified($asset)) {
             $date = new \DateTime();
             $date->setTimestamp($lastModified);
             $response->setLastModified($date);
