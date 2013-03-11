@@ -15,9 +15,9 @@ use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
 
 class AssetFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    protected $kernel;
-    protected $factory;
-    protected $container;
+    private $kernel;
+    private $factory;
+    private $container;
 
     protected function setUp()
     {

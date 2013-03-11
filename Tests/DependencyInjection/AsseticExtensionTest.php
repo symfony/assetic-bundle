@@ -12,8 +12,8 @@
 namespace Symfony\Bundle\AsseticBundle\Tests\DependencyInjection;
 
 use Symfony\Bundle\AsseticBundle\DependencyInjection\AsseticExtension;
-use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
+use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

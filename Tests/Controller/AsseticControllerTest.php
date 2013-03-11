@@ -15,12 +15,11 @@ use Symfony\Bundle\AsseticBundle\Controller\AsseticController;
 
 class AsseticControllerTest extends \PHPUnit_Framework_TestCase
 {
-    protected $request;
-    protected $headers;
-    protected $am;
-    protected $cache;
-
-    protected $controller;
+    private $request;
+    private $headers;
+    private $am;
+    private $cache;
+    private $controller;
 
     protected function setUp()
     {
@@ -29,13 +28,16 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request');
-        $this->request->expects($this->any())->method('isMethodSafe')->will($this->returnValue(true));
         $this->headers = $this->getMock('Symfony\\Component\\HttpFoundation\\ParameterBag');
         $this->request->headers = $this->headers;
         $this->am = $this->getMockBuilder('Assetic\\Factory\\LazyAssetManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->cache = $this->getMock('Assetic\\Cache\\CacheInterface');
+
+        $this->request->expects($this->any())
+            ->method('isMethodSafe')
+            ->will($this->returnValue(true));
 
         $this->controller = new AsseticController($this->request, $this->am, $this->cache);
     }

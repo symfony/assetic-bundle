@@ -11,10 +11,9 @@
 
 namespace Symfony\Bundle\AsseticBundle\Command;
 
-use Assetic\Util\PathUtils;
-
-use Assetic\AssetWriter;
 use Assetic\Asset\AssetInterface;
+use Assetic\AssetWriter;
+use Assetic\Util\PathUtils;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,8 +45,6 @@ class DumpCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        parent::initialize($input, $output);
-
         $this->basePath = $input->getArgument('write_to') ?: $this->getContainer()->getParameter('assetic.write_to');
         $this->verbose = $input->getOption('verbose');
         $this->am = $this->getContainer()->get('assetic.asset_manager');
@@ -120,6 +117,7 @@ class DumpCommand extends ContainerAwareCommand
                     $error = $msg;
                 }
             }
+
             sleep($input->getOption('period'));
         }
     }

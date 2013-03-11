@@ -11,8 +11,8 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Tags either the closure JAR or API filter for the filter manager.

@@ -11,9 +11,9 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\DirectoryResourceDefinition;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * This pass adds directory resources to scan for assetic assets.

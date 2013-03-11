@@ -11,12 +11,11 @@
 
 namespace Symfony\Bundle\AsseticBundle\Controller;
 
-use Assetic\ValueSupplierInterface;
-
 use Assetic\Asset\AssetCache;
 use Assetic\Asset\AssetInterface;
-use Assetic\Factory\LazyAssetManager;
 use Assetic\Cache\CacheInterface;
+use Assetic\Factory\LazyAssetManager;
+use Assetic\ValueSupplierInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

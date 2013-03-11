@@ -11,9 +11,9 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection;
 
-use Symfony\Component\Process\ExecutableFinder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Process\ExecutableFinder;
 
 /**
  * This class contains the configuration information for the bundle
