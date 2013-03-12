@@ -40,6 +40,7 @@ class DumpCommand extends ContainerAwareCommand
             ->addArgument('write_to', InputArgument::OPTIONAL, 'Override the configured asset root')
             ->addOption('watch', null, InputOption::VALUE_NONE, 'Check for changes every second, debug mode only')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force an initial generation of all assets (used with --watch)')
+            ->addOption('leafs-only', null, InputOption::VALUE_NONE, 'Dump only leafs (used with --watch)')
             ->addOption('period', null, InputOption::VALUE_REQUIRED, 'Set the polling period in seconds (used with --watch)', 1)
         ;
     }
@@ -71,7 +72,7 @@ class DumpCommand extends ContainerAwareCommand
             throw new \RuntimeException('The --watch option is only available in debug mode.');
         }
 
-        $this->watch($input, $output);
+        $this->watch($input, $output, $input->getOption('leafs-only'));
     }
 
     /**
@@ -82,8 +83,10 @@ class DumpCommand extends ContainerAwareCommand
      *
      * @param InputInterface  $input  The command input
      * @param OutputInterface $output The command output
+     * @param bool $leafsOnly
+     * @return void
      */
-    private function watch(InputInterface $input, OutputInterface $output)
+    private function watch(InputInterface $input, OutputInterface $output, $leafsOnly = false)
     {
         $refl = new \ReflectionClass('Assetic\\AssetManager');
         $prop = $refl->getProperty('assets');
@@ -103,8 +106,18 @@ class DumpCommand extends ContainerAwareCommand
         while (true) {
             try {
                 foreach ($this->am->getNames() as $name) {
-                    if ($this->checkAsset($name, $previously)) {
-                        $this->dumpAsset($name, $output);
+                    if ($leafsOnly) {
+                        $asset = $this->am->get($name);
+                        foreach ($asset as $leaf) {
+                            if ($this->checkAsset($leaf, $previously)) {
+                                $this->doDump($leaf, $output);
+                            }
+                        }
+                    }
+                    else {
+                        if ($this->checkAsset($name, $previously)) {
+                            $this->dumpAsset($name, $output);
+                        }
                     }
                 }
 
@@ -134,8 +147,14 @@ class DumpCommand extends ContainerAwareCommand
      */
     private function checkAsset($name, array &$previously)
     {
-        $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
-        $asset = $this->am->get($name);
+        if (is_object($name) && $name instanceof \Assetic\Asset\BaseAsset) {
+            $asset = $name;
+            $name = $asset->getSourcePath();
+            $formula = null;
+        } else {
+            $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
+            $asset = $this->am->get($name);
+        }
 
         $values = $this->getContainer()->getParameter('assetic.variables');
         $values = array_intersect_key($values, array_flip($asset->getVars()));
