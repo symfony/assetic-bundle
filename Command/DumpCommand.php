@@ -168,7 +168,7 @@ class DumpCommand extends ContainerAwareCommand
     private function checkAsset($name, array &$previously)
     {
         // Leaf assets don't have names. Passing asset itself.
-        if ($name instanceof \Assetic\Asset\BaseAsset) {
+        if ($name instanceof \Assetic\Asset\AssetInterface) {
             $asset = $name;
             // Set name to source path.
             // Since it's used purely for key in $previous,
