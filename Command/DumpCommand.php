@@ -106,7 +106,7 @@ class DumpCommand extends ContainerAwareCommand
         while (true) {
             try {
                 foreach ($this->am->getNames() as $name) {
-                    if ($leafsOnly) {
+                    if ($leafsOnly && $this->shouldHandleLeafsSeparately($name)) {
                         $asset = $this->am->get($name);
                         foreach ($asset as $leaf) {
                             if ($this->checkAsset($leaf, $previously)) {
@@ -137,6 +137,26 @@ class DumpCommand extends ContainerAwareCommand
         }
     }
 
+    private function shouldHandleLeafsSeparately($name)
+    {
+        $asset = $this->am->get($name);
+        // Ignore asset is not a collection
+        if (!($asset instanceof \Assetic\Asset\AssetCollectionInterface)) {
+            return false;
+        }
+        // If asset has no formula, no reason not to handle leafs separately
+        if (!$this->am->hasFormula($name)) {
+            return true;
+        }
+        $formula = $this->am->getFormula($name);
+        // Force single file if combine is true-ish
+        if (!empty($formula[2]['combine'])) {
+            return false;
+        }
+        // Otherwise handle leafs separately
+        return true;
+    }
+
     /**
      * Checks if an asset should be dumped.
      *
@@ -147,9 +167,14 @@ class DumpCommand extends ContainerAwareCommand
      */
     private function checkAsset($name, array &$previously)
     {
-        if (is_object($name) && $name instanceof \Assetic\Asset\BaseAsset) {
+        // Leaf assets don't have names. Passing asset itself.
+        if ($name instanceof \Assetic\Asset\BaseAsset) {
             $asset = $name;
+            // Set name to source path.
+            // Since it's used purely for key in $previous,
+            // this is best option to uniquely identify asset.
             $name = $asset->getSourcePath();
+            // Set formula to null since leafs don't have formula
             $formula = null;
         } else {
             $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
