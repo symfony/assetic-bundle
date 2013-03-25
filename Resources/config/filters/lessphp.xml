@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.lessphp.class">Assetic\Filter\LessphpFilter</parameter>
         <parameter key="assetic.filter.lessphp.presets" type="collection"></parameter>
+        <parameter key="assetic.filter.lessphp.paths" type="collection"></parameter>
         <!--
         "formatter" can be set to one of: "lessjs", "compressed", "classic".
         See http://leafo.net/lessphp/docs/#output_formatting
@@ -19,6 +20,7 @@
         <service id="assetic.filter.lessphp" class="%assetic.filter.lessphp.class%">
             <tag name="assetic.filter" alias="lessphp" />
             <call method="setPresets"><argument>%assetic.filter.lessphp.presets%</argument></call>
+            <call method="setLoadPaths"><argument>%assetic.filter.lessphp.paths%</argument></call>
             <call method="setFormatter"><argument>%assetic.filter.lessphp.formatter%</argument></call>
             <call method="setPreserveComments"><argument>%assetic.filter.lessphp.preserve_comments%</argument></call>
         </service>
