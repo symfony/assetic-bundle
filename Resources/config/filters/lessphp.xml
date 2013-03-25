@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.lessphp.class">Assetic\Filter\LessphpFilter</parameter>
         <parameter key="assetic.filter.lessphp.presets" type="collection"></parameter>
+        <parameter key="assetic.filter.lessphp.paths" type="collection"></parameter>
         <!--
         "formatter" can be set to one of: "lessjs", "compressed", "classic".
         See http://leafo.net/lessphp/docs/#output_formatting
