@@ -57,6 +57,9 @@ class AssetFactory extends BaseAssetFactory
 
         // expand bundle notation
         if ('@' == $input[0] && false !== strpos($input, '/')) {
+            //also search unter app/Resources/FooBundle/public/... for Assets
+            $appResourcesDir = $this->kernel->getRootDir().DIRECTORY_SEPARATOR.'Resources';
+
             // use the bundle path as this asset's root
             $bundle = substr($input, 1);
             if (false !== $pos = strpos($bundle, '/')) {
@@ -68,9 +71,9 @@ class AssetFactory extends BaseAssetFactory
             if (false !== $pos = strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
-                $input = $this->kernel->locateResource($before).'*'.$after;
+                $input = $this->kernel->locateResource($before, $appResourcesDir).'*'.$after;
             } else {
-                $input = $this->kernel->locateResource($input);
+                $input = $this->kernel->locateResource($input, $appResourcesDir);
             }
         }
 
