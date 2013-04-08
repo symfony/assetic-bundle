@@ -30,6 +30,7 @@ class DumpCommand extends ContainerAwareCommand
 {
     private $basePath;
     private $verbose;
+    /** @var \Assetic\AssetManager */
     private $am;
 
     protected function configure()
@@ -200,10 +201,13 @@ class DumpCommand extends ContainerAwareCommand
      * @param AssetInterface  $asset  An asset
      * @param OutputInterface $output The command output
      *
-     * @throws RuntimeException If there is a problem writing the asset
+     * @throws \RuntimeException If there is a problem writing the asset
      */
     private function doDump(AssetInterface $asset, OutputInterface $output)
     {
+        $gzip = $this->getContainer()->getParameter('assetic.gzip.enable');
+        $gzipLevel = $this->getContainer()->getParameter('assetic.gzip.level');
+
         $writer = new AssetWriter(sys_get_temp_dir(), $this->getContainer()->getParameter('assetic.variables'));
         $ref = new \ReflectionMethod($writer, 'getCombinations');
         $ref->setAccessible(true);
@@ -227,8 +231,9 @@ class DumpCommand extends ContainerAwareCommand
             }
 
             $output->writeln(sprintf(
-                '<comment>%s</comment> <info>[file+]</info> %s',
+                '<comment>%s</comment> <info>[file+]%s</info> %s',
                 date('H:i:s'),
+                $gzip ? '[gzip]' : '',
                 $target
             ));
             if ($this->verbose) {
@@ -248,6 +253,18 @@ class DumpCommand extends ContainerAwareCommand
             if (false === @file_put_contents($target, $asset->dump())) {
                 throw new \RuntimeException('Unable to write file '.$target);
             }
+
+            // use gzip
+            if ($gzip) {
+                if (!function_exists('gzcompress')) {
+                    throw new \RuntimeException('Unable to find Zlib library');
+                }
+
+                if (false === @file_put_contents($target . '.gz', gzcompress($asset->dump(), $gzipLevel))) {
+                    throw new \RuntimeException('Unable to write file ' . $target . '.gz');
+                }
+            }
+
         }
     }
 }
