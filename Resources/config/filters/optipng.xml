@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.optipng.class">Assetic\Filter\OptiPngFilter</parameter>
         <parameter key="assetic.filter.optipng.bin">/usr/bin/optipng</parameter>
+        <parameter key="assetic.filter.optipng.timeout">null</parameter>
         <parameter key="assetic.filter.optipng.level">null</parameter>
     </parameters>
 
@@ -14,6 +15,7 @@
         <service id="assetic.filter.optipng" class="%assetic.filter.optipng.class%">
             <tag name="assetic.filter" alias="optipng" />
             <argument>%assetic.filter.optipng.bin%</argument>
+            <call method="setTimeout"><argument>%assetic.filter.optipng.timeout%</argument></call>
             <call method="setLevel"><argument>%assetic.filter.optipng.level%</argument></call>
         </service>
     </services>

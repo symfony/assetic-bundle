@@ -46,6 +46,10 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Assetic is not available.');
         }
 
+        if (!class_exists('Twig_Environment')) {
+            $this->markTestSkipped('Twig is not available.');
+        }
+
         $this->kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
 
         $this->container = new ContainerBuilder();
@@ -108,6 +112,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('cssimport'),
             array('cssmin'),
             array('cssrewrite'),
+            array('dart'),
             array('gss'),
             array('handlebars'),
             array('jpegoptim'),
@@ -125,6 +130,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('scssphp', array('compass' => true)),
             array('sprockets', array('include_dirs' => array('foo'))),
             array('stylus'),
+            array('typescript'),
             array('uglifycss'),
             array('uglifyjs'),
             array('uglifyjs2'),

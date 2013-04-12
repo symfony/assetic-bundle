@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.closure.api.class">Assetic\Filter\GoogleClosure\CompilerApiFilter</parameter>
         <parameter key="assetic.filter.closure.jar.class">Assetic\Filter\GoogleClosure\CompilerJarFilter</parameter>
         <parameter key="assetic.filter.closure.java">%assetic.java.bin%</parameter>
+        <parameter key="assetic.filter.closure.timeout">null</parameter>
         <parameter key="assetic.filter.closure.compilation_level">null</parameter>
     </parameters>
 
@@ -16,16 +17,14 @@
             <tag name="assetic.filter" alias="closure" />
             <argument>%assetic.filter.closure.jar%</argument>
             <argument>%assetic.filter.closure.java%</argument>
-            <call method="setCompilationLevel">
-                <argument>%assetic.filter.closure.compilation_level%</argument>
-            </call>
+            <call method="setTimeout"><argument>%assetic.filter.closure.timeout%</argument></call>
+            <call method="setCompilationLevel"><argument>%assetic.filter.closure.compilation_level%</argument></call>
         </service>
 
         <service id="assetic.filter.closure.api" class="%assetic.filter.closure.api.class%">
             <tag name="assetic.filter" alias="closure" />
-            <call method="setCompilationLevel">
-                <argument>%assetic.filter.closure.compilation_level%</argument>
-            </call>
+            <call method="setTimeout"><argument>%assetic.filter.closure.timeout%</argument></call>
+            <call method="setCompilationLevel"><argument>%assetic.filter.closure.compilation_level%</argument></call>
         </service>
     </services>
 </container>

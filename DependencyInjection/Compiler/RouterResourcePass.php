@@ -24,7 +24,10 @@ class RouterResourcePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->getParameter('assetic.use_controller') || !$container->getParameter('router.resource')) {
+        $useController  = $container->getParameterBag()->resolveValue($container->getParameter('assetic.use_controller'));
+        $routerResource = $container->getParameterBag()->resolveValue($container->getParameter('router.resource'));
+
+        if (!$useController || !$routerResource) {
             return;
         }
 

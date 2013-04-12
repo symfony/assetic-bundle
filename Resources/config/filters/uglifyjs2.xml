@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.uglifyjs2.class">Assetic\Filter\UglifyJs2Filter</parameter>
         <parameter key="assetic.filter.uglifyjs2.bin">/usr/bin/uglifyjs</parameter>
         <parameter key="assetic.filter.uglifyjs2.node">%assetic.node.bin%</parameter>
+        <parameter key="assetic.filter.uglifyjs2.timeout">null</parameter>
         <parameter key="assetic.filter.uglifyjs2.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.uglifyjs2.compress">false</parameter>
         <parameter key="assetic.filter.uglifyjs2.beautify">false</parameter>
@@ -15,22 +16,15 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.uglifyjs" class="%assetic.filter.uglifyjs2.class%">
+        <service id="assetic.filter.uglifyjs2" class="%assetic.filter.uglifyjs2.class%">
             <tag name="assetic.filter" alias="uglifyjs2" />
             <argument>%assetic.filter.uglifyjs2.bin%</argument>
             <argument>%assetic.filter.uglifyjs2.node%</argument>
-            <call method="setNodePaths">
-                <argument>%assetic.filter.uglifyjs2.node_paths%</argument>
-            </call>
-            <call method="setCompress">
-                <argument>%assetic.filter.uglifyjs2.compress%</argument>
-            </call>
-            <call method="setBeautify">
-                <argument>%assetic.filter.uglifyjs2.beautify%</argument>
-            </call>
-            <call method="setMangle">
-                <argument>%assetic.filter.uglifyjs2.mangle%</argument>
-            </call>
+            <call method="setTimeout"><argument>%assetic.filter.uglifyjs2.timeout%</argument></call>
+            <call method="setNodePaths"><argument>%assetic.filter.uglifyjs2.node_paths%</argument></call>
+            <call method="setCompress"><argument>%assetic.filter.uglifyjs2.compress%</argument></call>
+            <call method="setBeautify"><argument>%assetic.filter.uglifyjs2.beautify%</argument></call>
+            <call method="setMangle"><argument>%assetic.filter.uglifyjs2.mangle%</argument></call>
         </service>
     </services>
 </container>

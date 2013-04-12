@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.scss.class">Assetic\Filter\Sass\ScssFilter</parameter>
         <parameter key="assetic.filter.scss.sass">%assetic.sass.bin%</parameter>
+        <parameter key="assetic.filter.scss.timeout">null</parameter>
         <parameter key="assetic.filter.scss.style">null</parameter>
         <parameter key="assetic.filter.scss.compass">null</parameter>
     </parameters>
@@ -16,6 +17,7 @@
             <tag name="assetic.filter" alias="scss" />
             <argument>%assetic.filter.scss.sass%</argument>
             <argument>%assetic.ruby.bin%</argument>
+            <call method="setTimeout"><argument>%assetic.filter.scss.timeout%</argument></call>
             <call method="setStyle"><argument>%assetic.filter.scss.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
         </service>

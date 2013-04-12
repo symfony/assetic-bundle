@@ -8,6 +8,7 @@
         <parameter key="assetic.filter.gss.class">Assetic\Filter\GssFilter</parameter>
         <parameter key="assetic.filter.gss.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.gss.jar" />
+        <parameter key="assetic.filter.gss.timeout">null</parameter>
     </parameters>
 
     <services>
@@ -15,6 +16,7 @@
             <tag name="assetic.filter" alias="gss" />
             <argument>%assetic.filter.gss.jar%</argument>
             <argument>%assetic.filter.gss.java%</argument>
+            <call method="setTimeout"><argument>%assetic.filter.gss.timeout%</argument></call>
         </service>
     </services>
 </container>
