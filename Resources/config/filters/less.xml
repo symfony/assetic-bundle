@@ -10,6 +10,7 @@
         <parameter key="assetic.filter.less.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.less.timeout">null</parameter>
         <parameter key="assetic.filter.less.compress">null</parameter>
+        <parameter key="assetic.filter.less.load_paths" type="collection" />
     </parameters>
 
     <services>
@@ -19,6 +20,7 @@
             <argument>%assetic.filter.less.node_paths%</argument>
             <call method="setTimeout"><argument>%assetic.filter.less.timeout%</argument></call>
             <call method="setCompress"><argument>%assetic.filter.less.compress%</argument></call>
+            <call method="setLoadPaths"><argument>%assetic.filter.less.load_paths%</argument></call>
         </service>
     </services>
 </container>

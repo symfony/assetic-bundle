@@ -10,6 +10,7 @@
         <parameter key="assetic.filter.scss.timeout">null</parameter>
         <parameter key="assetic.filter.scss.style">null</parameter>
         <parameter key="assetic.filter.scss.compass">null</parameter>
+        <parameter key="assetic.filter.scss.load_paths" type="collection" />
     </parameters>
 
     <services>
@@ -20,6 +21,7 @@
             <call method="setTimeout"><argument>%assetic.filter.scss.timeout%</argument></call>
             <call method="setStyle"><argument>%assetic.filter.scss.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
+            <call method="setLoadPaths"><argument>%assetic.filter.scss.load_paths%</argument></call>
         </service>
     </services>
 </container>
