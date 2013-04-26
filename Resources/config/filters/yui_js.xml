@@ -14,6 +14,7 @@
         <parameter key="assetic.filter.yui_js.nomunge">null</parameter>
         <parameter key="assetic.filter.yui_js.preserve_semi">null</parameter>
         <parameter key="assetic.filter.yui_js.disable_optimizations">null</parameter>
+        <parameter key="assetic.filter.yui_js.linebreak">null</parameter>
     </parameters>
 
     <services>
@@ -27,6 +28,7 @@
             <call method="setNomunge"><argument>%assetic.filter.yui_js.nomunge%</argument></call>
             <call method="setPreserveSemi"><argument>%assetic.filter.yui_js.preserve_semi%</argument></call>
             <call method="setDisableOptimizations"><argument>%assetic.filter.yui_js.disable_optimizations%</argument></call>
+            <call method="setLineBreak"><argument>%assetic.filter.yui_js.linebreak%</argument></call>
         </service>
     </services>
 </container>
