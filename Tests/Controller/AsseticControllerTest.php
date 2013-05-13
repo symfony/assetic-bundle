@@ -15,12 +15,11 @@ use Symfony\Bundle\AsseticBundle\Controller\AsseticController;
 
 class AsseticControllerTest extends \PHPUnit_Framework_TestCase
 {
-    protected $request;
-    protected $headers;
-    protected $am;
-    protected $cache;
-
-    protected $controller;
+    private $request;
+    private $headers;
+    private $am;
+    private $cache;
+    private $controller;
 
     protected function setUp()
     {
@@ -29,13 +28,16 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request');
-        $this->request->expects($this->any())->method('isMethodSafe')->will($this->returnValue(true));
         $this->headers = $this->getMock('Symfony\\Component\\HttpFoundation\\ParameterBag');
         $this->request->headers = $this->headers;
         $this->am = $this->getMockBuilder('Assetic\\Factory\\LazyAssetManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->cache = $this->getMock('Assetic\\Cache\\CacheInterface');
+
+        $this->request->expects($this->any())
+            ->method('isMethodSafe')
+            ->will($this->returnValue(true));
 
         $this->controller = new AsseticController($this->request, $this->am, $this->cache);
     }
@@ -62,16 +64,30 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $lastModified = strtotime('2010-10-10 10:10:10');
         $ifModifiedSince = gmdate('D, d M Y H:i:s', $lastModified).' GMT';
 
-        $asset->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
-        $this->am->expects($this->once())->method('has')->with($name)->will($this->returnValue(true));
-        $this->am->expects($this->once())->method('get')->with($name)->will($this->returnValue($asset));
-        $asset->expects($this->once())->method('getLastModified')->will($this->returnValue($lastModified));
-        $this->headers->expects($this->once())->method('get')->with('If-Modified-Since')->will($this->returnValue($ifModifiedSince));
-
+        $asset->expects($this->any())
+            ->method('getFilters')
+            ->will($this->returnValue(array()));
+        $this->am->expects($this->any())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->any())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
+        $this->am->expects($this->any())
+            ->method('getLastModified')
+            ->with($asset)
+            ->will($this->returnValue($lastModified));
+        $this->headers->expects($this->any())
+            ->method('get')
+            ->with('If-Modified-Since')
+            ->will($this->returnValue($ifModifiedSince));
         $asset->expects($this->never())
             ->method('dump');
 
         $response = $this->controller->render($name);
+
         $this->assertEquals(304, $response->getStatusCode(), '->render() sends a Not Modified response when If-Modified-Since is fresh');
     }
 
@@ -84,13 +100,26 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $lastModified = strtotime('2010-10-10 10:10:10');
         $ifModifiedSince = gmdate('D, d M Y H:i:s', $lastModified - 300).' GMT';
 
-        $asset->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
-        $this->am->expects($this->once())->method('has')->with($name)->will($this->returnValue(true));
-        $this->am->expects($this->once())->method('get')->with($name)->will($this->returnValue($asset));
-        $asset->expects($this->exactly(2))->method('getLastModified')->will($this->returnValue($lastModified));
-        $this->headers->expects($this->once())->method('get')->with('If-Modified-Since')->will($this->returnValue($ifModifiedSince));
-
-        $this->cache->expects($this->once())
+        $asset->expects($this->any())
+            ->method('getFilters')
+            ->will($this->returnValue(array()));
+        $this->am->expects($this->any())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->any())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
+        $this->am->expects($this->any())
+            ->method('getLastModified')
+            ->with($asset)
+            ->will($this->returnValue($lastModified));
+        $this->headers->expects($this->any())
+            ->method('get')
+            ->with('If-Modified-Since')
+            ->will($this->returnValue($ifModifiedSince));
+        $this->cache->expects($this->any())
             ->method('has')
             ->with($this->isType('string'))
             ->will($this->returnValue(false));
@@ -99,6 +128,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($content));
 
         $response = $this->controller->render($name);
+
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-Modified-Since is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');
     }
@@ -111,25 +141,33 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $formula = array(array('js/core.js'), array(), array(''));
         $etag = md5(serialize($formula + array('last_modified' => null)));
 
-        $asset->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
-        $this->am->expects($this->once())->method('has')->with($name)->will($this->returnValue(true));
-        $this->am->expects($this->once())->method('get')->with($name)->will($this->returnValue($asset));
-
-        $this->am->expects($this->once())
+        $asset->expects($this->any())
+            ->method('getFilters')
+            ->will($this->returnValue(array()));
+        $this->am->expects($this->any())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->any())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
+        $this->am->expects($this->any())
             ->method('hasFormula')
             ->with($name)
             ->will($this->returnValue(true));
-        $this->am->expects($this->once())
+        $this->am->expects($this->any())
             ->method('getFormula')
             ->with($name)
             ->will($this->returnValue($formula));
-        $this->request->expects($this->once())
+        $this->request->expects($this->any())
             ->method('getETags')
             ->will($this->returnValue(array('"'.$etag.'"')));
         $asset->expects($this->never())
             ->method('dump');
 
         $response = $this->controller->render($name);
+
         $this->assertEquals(304, $response->getStatusCode(), '->render() sends a Not Modified response when If-None-Match is fresh');
     }
 
@@ -142,10 +180,17 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $formula = array(array('js/core.js'), array(), array(''));
         $etag = md5(serialize($formula + array('last_modified' => null)));
 
-        $asset->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
-        $this->am->expects($this->once())->method('has')->with($name)->will($this->returnValue(true));
-        $this->am->expects($this->once())->method('get')->with($name)->will($this->returnValue($asset));
-
+        $asset->expects($this->any())
+            ->method('getFilters')
+            ->will($this->returnValue(array()));
+        $this->am->expects($this->once())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->once())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
         $this->am->expects($this->once())
             ->method('hasFormula')
             ->with($name)
@@ -162,6 +207,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($content));
 
         $response = $this->controller->render($name);
+
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-None-Match is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');
     }

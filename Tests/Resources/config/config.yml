@@ -5,8 +5,6 @@ framework:
     router:        { resource: "%kernel.root_dir%/config/routing.yml" }
     validation:    { enabled: true, enable_annotations: true }
     templating:    { engines: ['twig', 'php'] }
-    session:
-        lifetime:   3600
 
 twig:
     debug:            %kernel.debug%

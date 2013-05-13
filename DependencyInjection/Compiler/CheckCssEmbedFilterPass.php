@@ -11,8 +11,8 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Checks that the location of the CssEmbed JAR has been configured.

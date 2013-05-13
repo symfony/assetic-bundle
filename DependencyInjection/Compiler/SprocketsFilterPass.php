@@ -11,8 +11,8 @@
 
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Finishes configuration of the Sprockets filter.
