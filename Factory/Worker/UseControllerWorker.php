@@ -13,6 +13,7 @@ namespace Symfony\Bundle\AsseticBundle\Factory\Worker;
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\Worker\WorkerInterface;
+use Assetic\Factory\AssetFactory;
 
 /**
  * Prepends a fake front controller so the asset knows where it is-ish.
@@ -21,7 +22,7 @@ use Assetic\Factory\Worker\WorkerInterface;
  */
 class UseControllerWorker implements WorkerInterface
 {
-    public function process(AssetInterface $asset)
+    public function process(AssetInterface $asset, AssetFactory $factory)
     {
         $targetUrl = $asset->getTargetPath();
         if ($targetUrl && '/' != $targetUrl[0] && 0 !== strpos($targetUrl, '_controller/')) {
