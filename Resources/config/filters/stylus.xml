@@ -10,6 +10,7 @@
         <parameter key="assetic.filter.stylus.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.stylus.timeout">null</parameter>
         <parameter key="assetic.filter.stylus.compress">null</parameter>
+        <parameter key="assetic.filter.stylus.nib">null</parameter>
     </parameters>
 
     <services>
@@ -19,6 +20,7 @@
             <argument>%assetic.filter.stylus.node_paths%</argument>
             <call method="setTimeout"><argument>%assetic.filter.stylus.timeout%</argument></call>
             <call method="setCompress"><argument>%assetic.filter.stylus.compress%</argument></call>
+            <call method="setUseNib"><argument>%assetic.filter.stylus.nib%</argument></call>
         </service>
     </services>
 </container>
