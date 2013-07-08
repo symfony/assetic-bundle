@@ -6,7 +6,7 @@ framework:
     validation:    { enabled: true, enable_annotations: true }
     templating:    { engines: ['twig', 'php'] }
     session:
-        lifetime:   3600
+        cookie-lifetime: 3600
 
 twig:
     debug:            %kernel.debug%

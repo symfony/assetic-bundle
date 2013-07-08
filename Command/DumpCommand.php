@@ -11,8 +11,7 @@
 
 namespace Symfony\Bundle\AsseticBundle\Command;
 
-use Assetic\Util\PathUtils;
-
+use Assetic\Util\VarUtils;
 use Assetic\AssetWriter;
 use Assetic\Asset\AssetInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -213,7 +212,7 @@ class DumpCommand extends ContainerAwareCommand
             $asset->setValues($combination);
 
             $target = rtrim($this->basePath, '/').'/'.str_replace('_controller/', '',
-                PathUtils::resolvePath($asset->getTargetPath(), $asset->getVars(),
+                VarUtils::resolve($asset->getTargetPath(), $asset->getVars(),
                     $asset->getValues()));
             if (!is_dir($dir = dirname($target))) {
                 $output->writeln(sprintf(
