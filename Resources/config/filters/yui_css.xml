@@ -11,6 +11,7 @@
         <parameter key="assetic.filter.yui_css.charset">%kernel.charset%</parameter>
         <parameter key="assetic.filter.yui_css.stacksize">null</parameter>
         <parameter key="assetic.filter.yui_css.timeout">null</parameter>
+        <parameter key="assetic.filter.yui_css.linebreak">null</parameter>
     </parameters>
 
     <services>
@@ -21,6 +22,7 @@
             <call method="setCharset"><argument>%assetic.filter.yui_css.charset%</argument></call>
             <call method="setTimeout"><argument>%assetic.filter.yui_css.timeout%</argument></call>
             <call method="setStackSize"><argument>%assetic.filter.yui_css.stacksize%</argument></call>
+            <call method="setLineBreak"><argument>%assetic.filter.yui_css.linebreak%</argument></call>
         </service>
     </services>
 </container>
