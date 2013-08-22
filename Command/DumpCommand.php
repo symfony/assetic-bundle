@@ -187,26 +187,31 @@ class DumpCommand extends ContainerAwareCommand
             $target = str_replace('_controller/', '', $target);
             $target = VarUtils::resolve($target, $asset->getVars(), $asset->getValues());
 
+            $lastMessage = '';
+            
             if (!is_dir($dir = dirname($target))) {
-                $output->writeln(sprintf(
+                $lastMessage = sprintf(
                     '<comment>%s</comment> <info>[dir+]</info> %s',
                     date('H:i:s'),
                     $dir
-                ));
+                );
+                $output->writeln($lastMessage);
 
                 if (false === @mkdir($dir, 0777, true)) {
                     throw new \RuntimeException('Unable to create directory '.$dir);
                 }
             }
 
-            $output->writeln(sprintf(
-                '<comment>%s</comment> <info>[file+]</info> %s',
+            $lastMessage = sprintf(
+                '<comment>%s</comment> <info>[file+]</info> %s   ',
                 date('H:i:s'),
                 $target
-            ));
+            );
+            $output->write($lastMessage);
 
             if ($this->verbose) {
                 if ($asset instanceof AssetCollectionInterface) {
+                    $output->writeln('');
                     foreach ($asset as $leaf) {
                         $root = $leaf->getSourceRoot();
                         $path = $leaf->getSourcePath();
@@ -215,13 +220,19 @@ class DumpCommand extends ContainerAwareCommand
                 } else {
                     $root = $asset->getSourceRoot();
                     $path = $asset->getSourcePath();
+                    $output->writeln('');
                     $output->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                 }
             }
 
+            $output->write('<info>[GENERATING]</info>');
+            
             if (false === @file_put_contents($target, $asset->dump())) {
                 throw new \RuntimeException('Unable to write file '.$target);
             }
+            
+            $output->write("\x0D");
+            $output->writeln($lastMessage.'<info>[DONE]</info>      ');
         }
     }
 
