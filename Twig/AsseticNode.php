@@ -23,20 +23,31 @@ class AsseticNode extends BaseAsseticNode
 {
     protected function compileAssetUrl(\Twig_Compiler $compiler, AssetInterface $asset, $name)
     {
+        $vars = array();
+        foreach ($asset->getVars() as $var) {
+            $vars[] = new \Twig_Node_Expression_Constant($var, $this->getLine());
+            $vars[] = new \Twig_Node_Expression_Raw('$context[\'assetic\'][\'vars\'][\''.$var.'\']', $this->getLine());
+        }
         $compiler
             ->raw('isset($context[\'assetic\'][\'use_controller\']) && $context[\'assetic\'][\'use_controller\'] ? ')
-            ->subcompile($this->getPathFunction($name))
+            ->subcompile($this->getPathFunction($name, $vars))
             ->raw(' : ')
             ->subcompile($this->getAssetFunction(new TargetPathNode($this, $asset, $name)))
         ;
     }
 
-    private function getPathFunction($name)
+    private function getPathFunction($name, array $vars = array())
     {
+        $nodes = array(new \Twig_Node_Expression_Constant('_assetic_'.$name, $this->getLine()));
+
+        if (!empty($vars)) {
+            $nodes[] = new \Twig_Node_Expression_Array($vars, $this->getLine());
+        }
+
         return new \Twig_Node_Expression_Function(
             version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<')
                 ? new \Twig_Node_Expression_Name('path', $this->getLine()) : 'path',
-            new \Twig_Node(array(new \Twig_Node_Expression_Constant('_assetic_'.$name, $this->getLine()))),
+            new \Twig_Node($nodes),
             $this->getLine()
         );
     }
