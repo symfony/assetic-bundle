@@ -26,7 +26,19 @@ class AsseticNode extends BaseAsseticNode
         $vars = array();
         foreach ($asset->getVars() as $var) {
             $vars[] = new \Twig_Node_Expression_Constant($var, $this->getLine());
-            $vars[] = new \Twig_Node_Expression_Raw('$context[\'assetic\'][\'vars\'][\''.$var.'\']', $this->getLine());
+            $vars[] = new \Twig_Node_Expression_GetAttr(
+                new \Twig_Node_Expression_GetAttr(
+                    new \Twig_Node_Expression_Name('assetic', $this->getLine()),
+                    new \Twig_Node_Expression_Constant('vars', $this->getLine()),
+                    new \Twig_Node_Expression_Array(array(), $this->getLine()),
+                    \Twig_TemplateInterface::ARRAY_CALL,
+                    $this->getLine()
+                ),
+                new \Twig_Node_Expression_Constant('locale', $this->getLine()),
+                new \Twig_Node_Expression_Array(array(), $this->getLine()),
+                \Twig_TemplateInterface::ARRAY_CALL,
+                $this->getLine()
+            );
         }
         $compiler
             ->raw('isset($context[\'assetic\'][\'use_controller\']) && $context[\'assetic\'][\'use_controller\'] ? ')
