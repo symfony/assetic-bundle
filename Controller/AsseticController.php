@@ -67,6 +67,8 @@ class AsseticController
         $response = $this->createResponse();
         $response->setExpires(new \DateTime());
 
+        $this->configureAssetValues($asset);
+
         // last-modified
         if (null !== $lastModified = $this->am->getLastModified($asset)) {
             $date = new \DateTime();
@@ -97,6 +99,11 @@ class AsseticController
 
     protected function cachifyAsset(AssetInterface $asset)
     {
+        return new AssetCache($asset, $this->cache);
+    }
+
+    protected function configureAssetValues(AssetInterface $asset)
+    {
         if ($vars = $asset->getVars()) {
             if (null === $this->valueSupplier) {
                 throw new \RuntimeException(sprintf('You must configure a value supplier if you have assets with variables.'));
@@ -105,7 +112,7 @@ class AsseticController
             $asset->setValues(array_intersect_key($this->valueSupplier->getValues(), array_flip($vars)));
         }
 
-        return new AssetCache($asset, $this->cache);
+        return $this;
     }
 
     private function findAssetLeaf(\Traversable $asset, $pos)
