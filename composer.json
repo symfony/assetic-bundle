@@ -28,7 +28,8 @@
         "symfony/css-selector": "~2.1"
     },
     "suggest": {
-        "symfony/twig-bundle": "~2.1"
+        "symfony/twig-bundle": "~2.1",
+        "kriswallsmith/spork": "v0.2"
     },
     "autoload": {
         "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }

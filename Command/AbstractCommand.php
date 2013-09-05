@@ -42,7 +42,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
      * @param string          $name   An asset name
      * @param OutputInterface $stdout The command output
      */
-    protected function dumpAsset($name, OutputInterface $stdout)
+    public function dumpAsset($name, OutputInterface $stdout)
     {
         $asset = $this->am->get($name);
         $formula = $this->am->getFormula($name);
