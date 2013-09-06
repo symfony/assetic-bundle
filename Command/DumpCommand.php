@@ -46,10 +46,12 @@ class DumpCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $stdout)
     {
         if (null !== $input->getOption('forks')) {
+            if (!class_exists('Spork\ProcessManager')) {
+                throw new \RuntimeException('The --forks option requires that package kriswallsmith/spork be installed');
+            }
+
             if (!is_numeric($input->getOption('forks'))) {
                 throw new \InvalidArgumentException('The --forks options must be numeric');
-            } elseif (!class_exists('Spork\ProcessManager')) {
-                throw new \RuntimeException('The --forks option requires that kriswallsmith/spork be installed');
             }
 
             $this->spork = new ProcessManager(
