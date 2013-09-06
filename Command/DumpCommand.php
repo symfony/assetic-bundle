@@ -47,7 +47,7 @@ class DumpCommand extends AbstractCommand
     {
         if (null !== $input->getOption('forks')) {
             if (!class_exists('Spork\ProcessManager')) {
-                throw new \RuntimeException('The --forks option requires that kriswallsmith/spork be installed');
+                throw new \RuntimeException('The --forks option requires that package kriswallsmith/spork be installed');
             }
 
             if (!is_numeric($input->getOption('forks'))) {
