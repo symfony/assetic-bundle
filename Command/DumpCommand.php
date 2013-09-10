@@ -71,7 +71,7 @@ class DumpCommand extends AbstractCommand
             : $stdout;
 
         if ($input->getOption('watch')) {
-            $stderr->output(
+            $stderr->writeln(
                 '<error>The --watch option is deprecated. Please use the '.
                 'assetic:watch command instead.</error>'
             );
