@@ -33,12 +33,12 @@ class AsseticNode extends BaseAsseticNode
                     new \Twig_Node_Expression_Name('assetic', $this->getLine()),
                     new \Twig_Node_Expression_Constant('vars', $this->getLine()),
                     new \Twig_Node_Expression_Array(array(), $this->getLine()),
-                    \Twig_TemplateInterface::ARRAY_CALL,
+                    \Twig_Template::ARRAY_CALL,
                     $this->getLine()
                 ),
                 new \Twig_Node_Expression_Constant($var, $this->getLine()),
                 new \Twig_Node_Expression_Array(array(), $this->getLine()),
-                \Twig_TemplateInterface::ARRAY_CALL,
+                \Twig_Template::ARRAY_CALL,
                 $this->getLine()
             );
         }
