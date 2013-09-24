@@ -247,26 +247,4 @@ class DumpCommand extends ContainerAwareCommand
             $this->getContainer()->getParameter('assetic.variables')
         );
     }
-
-    private function shouldHandleLeavesSeparately($name)
-    {
-        $asset = $this->am->get($name);
-        // Ignore asset is not a collection
-        if (!($asset instanceof \Assetic\Asset\AssetCollectionInterface)) {
-            return false;
-        }
-        // If asset has no formula, no reason not to handle leaves separately
-        if (!$this->am->hasFormula($name)) {
-            return true;
-        }
-        $formula = $this->am->getFormula($name);
-        $debug   = isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug();
-        // Force single file if combine is true-ish
-        if (!$debug) {
-            return false;
-        }
-
-        // Otherwise handle leaves separately
-        return true;
-    }
 }
