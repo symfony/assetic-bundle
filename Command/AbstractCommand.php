@@ -43,7 +43,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
      * @param OutputInterface $stdout The command output
      * @param array           $previously
      */
-    public function dumpAsset($name, OutputInterface $stdout, &$previously)
+    public function dumpAsset($name, OutputInterface $stdout, array &$previously)
     {
         $asset = $this->am->get($name);
         $formula = $this->am->hasFormula($name) ? $this->am->getFormula($name) : array();
@@ -90,7 +90,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
      * @param null|string    $formula
      * @return bool
      */
-    protected function checkAssetChanged(AssetInterface $asset, $name, &$previously, $formula = null)
+    protected function checkAssetChanged(AssetInterface $asset, $name, array &$previously, $formula = null)
     {
         $combinations = VarUtils::getCombinations(
             $asset->getVars(),

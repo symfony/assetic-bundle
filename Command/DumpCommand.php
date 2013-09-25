@@ -111,7 +111,7 @@ class DumpCommand extends AbstractCommand
             );
 
             $self = $this;
-            $batch->execute(function($name) use($self, $stdout, $previous) {
+            $batch->execute(function($name) use($self, $stdout, &$previous) {
                 $self->dumpAsset($name, $stdout, $previous);
             });
         } else {
