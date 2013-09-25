@@ -41,8 +41,9 @@ abstract class AbstractCommand extends ContainerAwareCommand
      *
      * @param string          $name   An asset name
      * @param OutputInterface $stdout The command output
+     * @param array           $previously
      */
-    public function dumpAsset($name, OutputInterface $stdout)
+    public function dumpAsset($name, OutputInterface $stdout, &$previously)
     {
         $asset = $this->am->get($name);
         $formula = $this->am->hasFormula($name) ? $this->am->getFormula($name) : array();
@@ -56,9 +57,65 @@ abstract class AbstractCommand extends ContainerAwareCommand
         // dump each leaf if no combine
         if (!$combine) {
             foreach ($asset as $leaf) {
-                $this->doDump($leaf, $stdout);
+                if ($this->checkAssetChanged($asset, $previously)) {
+                    $this->doDump($leaf, $stdout);
+                }
             }
         }
+    }
+
+    /**
+     * Checks if an asset should be dumped.
+     *
+     * @param string $name        The asset name
+     * @param array  &$previously An array of previous visits
+     *
+     * @return Boolean Whether the asset should be dumped
+     */
+    protected function checkAsset($name, array &$previously)
+    {
+        $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
+        $asset = $this->am->get($name);
+
+        return $this->checkAssetChanged($asset, $previously, $formula, $name);
+    }
+
+    /**
+     * Checks if given asset has changed
+     *
+     * @param AssetInterface $asset
+     * @param array          $previously
+     * @param null|string    $formula
+     * @param null|string    $name
+     * @return bool
+     */
+    protected function checkAssetChanged(AssetInterface $asset, &$previously, $formula = null, $name = null)
+    {
+        // If no name is provided, let's use source path as unique id
+        if (null === $name) {
+            $name = $asset->getSourcePath();
+        }
+
+        $combinations = VarUtils::getCombinations(
+            $asset->getVars(),
+            $this->getContainer()->getParameter('assetic.variables')
+        );
+
+        $mtime = 0;
+        foreach ($combinations as $combination) {
+            $asset->setValues($combination);
+            $mtime = max($mtime, $this->am->getLastModified($asset));
+        }
+
+        if (isset($previously[$name])) {
+            $changed = $previously[$name]['mtime'] != $mtime || $previously[$name]['formula'] != $formula;
+        } else {
+            $changed = true;
+        }
+
+        $previously[$name] = array('mtime' => $mtime, 'formula' => $formula);
+
+        return $changed;
     }
 
     /**

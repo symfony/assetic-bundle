@@ -64,7 +64,7 @@ class WatchCommand extends AbstractCommand
             try {
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
-                        $this->dumpAsset($name, $stdout);
+                        $this->dumpAsset($name, $stdout, $previously);
                     }
                 }
 
@@ -84,40 +84,5 @@ class WatchCommand extends AbstractCommand
             clearstatcache ();
             sleep($input->getOption('period'));
         }
-    }
-
-    /**
-     * Checks if an asset should be dumped.
-     *
-     * @param string $name        The asset name
-     * @param array  &$previously An array of previous visits
-     *
-     * @return Boolean Whether the asset should be dumped
-     */
-    private function checkAsset($name, array &$previously)
-    {
-        $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
-        $asset = $this->am->get($name);
-
-        $combinations = VarUtils::getCombinations(
-            $asset->getVars(),
-            $this->getContainer()->getParameter('assetic.variables')
-        );
-
-        $mtime = 0;
-        foreach ($combinations as $combination) {
-            $asset->setValues($combination);
-            $mtime = max($mtime, $this->am->getLastModified($asset));
-        }
-
-        if (isset($previously[$name])) {
-            $changed = $previously[$name]['mtime'] != $mtime || $previously[$name]['formula'] != $formula;
-        } else {
-            $changed = true;
-        }
-
-        $previously[$name] = array('mtime' => $mtime, 'formula' => $formula);
-
-        return $changed;
     }
 }
