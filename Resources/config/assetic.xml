@@ -65,9 +65,7 @@
             <argument /> <!-- filter -->
         </service>
 
-        <service id="assetic.worker.cache_busting" class="%assetic.worker.cache_busting.class%" public="false">
-            <argument>%assetic.worker.cache_busting.strategy%</argument>
-        </service>
+        <service id="assetic.worker.cache_busting" class="%assetic.worker.cache_busting.class%" public="false" />
 
         <service id="assetic.parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ParameterBag" factory-service="service_container" factory-method="getParameterBag" public="false"/>
 
