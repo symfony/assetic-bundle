@@ -94,7 +94,16 @@ class AsseticController
 
     protected function createResponse()
     {
-        return new Response();
+        $response = new Response();
+        if($this->request)
+        {
+            $format = $this->request->get('_format');
+            if (null !== $format && $mimeType = $this->request->getMimeType($format)) 
+            {
+                $response->headers->set('Content-Type', $mimeType);
+            }
+        }
+        return $response;
     }
 
     protected function cachifyAsset(AssetInterface $asset)
