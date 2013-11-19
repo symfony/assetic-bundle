@@ -129,6 +129,10 @@ class AsseticExtension extends Extension
             'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
             */
         ));
+
+        if ($config['workers']['cache_busting']['enabled']) {
+            $container->getDefinition('assetic.worker.cache_busting')->addTag('assetic.factory_worker');
+        }
     }
 
     /**
