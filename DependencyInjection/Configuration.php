@@ -12,6 +12,7 @@
 namespace Symfony\Bundle\AsseticBundle\DependencyInjection;
 
 use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -47,8 +48,9 @@ class Configuration implements ConfigurationInterface
     {
         $builder = new TreeBuilder();
         $finder = new ExecutableFinder();
+        $rootNode = $builder->root('assetic');
 
-        $builder->root('assetic')
+        $rootNode
             ->children()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('use_controller')
@@ -70,8 +72,21 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
                 ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
             ->end()
+        ;
 
-            // variables
+        $this->addVariablesSection($rootNode);
+        $this->addBundlesSection($rootNode);
+        $this->addAssetsSection($rootNode);
+        $this->addFiltersSection($rootNode, $finder);
+        $this->addWorkersSection($rootNode);
+        $this->addTwigSection($rootNode);
+
+        return $builder;
+    }
+
+    private function addVariablesSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
             ->fixXmlConfig('variable')
             ->children()
                 ->arrayNode('variables')
@@ -81,8 +96,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+    }
 
-            // bundles
+    private function addBundlesSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
             ->fixXmlConfig('bundle')
             ->children()
                 ->arrayNode('bundles')
@@ -95,8 +114,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+    }
 
-            // assets
+    private function addAssetsSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
             ->fixXmlConfig('asset')
             ->children()
                 ->arrayNode('assets')
@@ -149,8 +172,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+    }
 
-            // filters
+    private function addFiltersSection(ArrayNodeDefinition $rootNode, ExecutableFinder $finder)
+    {
+        $rootNode
             ->fixXmlConfig('filter')
             ->children()
                 ->arrayNode('filters')
@@ -174,8 +201,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+    }
 
-            // workers
+    private function addWorkersSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
             ->children()
                 ->arrayNode('workers')
                     ->addDefaultsIfNotSet()
@@ -192,8 +223,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+    }
 
-            // twig
+    private function addTwigSection(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
             ->children()
                 ->arrayNode('twig')
                     ->addDefaultsIfNotSet()
@@ -214,7 +249,5 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
-
-        return $builder;
     }
 }
