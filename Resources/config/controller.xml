@@ -23,10 +23,6 @@
             <argument type="service" id="assetic.cache" />
             <argument>%assetic.enable_profiler%</argument>
             <argument type="service" id="profiler" on-invalid="null" />
-
-            <call method="setValueSupplier">
-                <argument type="service" id="assetic.value_supplier" on-invalid="ignore" />
-            </call>
         </service>
         <service id="assetic.cache" class="%assetic.cache.class%" public="false">
             <argument>%assetic.cache_dir%/assets</argument>

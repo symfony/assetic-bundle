@@ -178,7 +178,6 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $name = 'foo';
         $content = '==ASSET_CONTENT==';
         $formula = array(array('js/core.js'), array(), array(''));
-        $etag = md5(serialize($formula + array('last_modified' => null)));
 
         $asset->expects($this->any())
             ->method('getFilters')
