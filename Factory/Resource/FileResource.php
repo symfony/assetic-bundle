@@ -75,7 +75,7 @@ class FileResource implements ResourceInterface
         return $this->template;
     }
 
-    static private function createTemplateReference($bundle, $file)
+    private static function createTemplateReference($bundle, $file)
     {
         $parts = explode('/', strtr($file, '\\', '/'));
         $elements = explode('.', array_pop($parts));

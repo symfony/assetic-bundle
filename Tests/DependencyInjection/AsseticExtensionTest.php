@@ -26,7 +26,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
     private $kernel;
     private $container;
 
-    static public function assertSaneContainer(Container $container, $message = '')
+    public static function assertSaneContainer(Container $container, $message = '')
     {
         $errors = array();
         foreach ($container->getServiceIds() as $id) {

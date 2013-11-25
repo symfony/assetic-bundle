@@ -11,9 +11,7 @@
 
 namespace Symfony\Bundle\AsseticBundle\Tests\Templating;
 
-use Assetic\Asset\AssetCollection;
 use Assetic\Asset\AssetInterface;
-use Assetic\Asset\StringAsset;
 use Assetic\Factory\AssetFactory;
 use Symfony\Bundle\AsseticBundle\Templating\AsseticHelper;
 

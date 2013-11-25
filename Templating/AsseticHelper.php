@@ -93,8 +93,7 @@ abstract class AsseticHelper extends Helper
      */
     private function getAssetUrls($inputs = array(), $filters = array(), array $options = array())
     {
-        $explode = function($value)
-        {
+        $explode = function ($value) {
             return array_map('trim', explode(',', $value));
         };
 

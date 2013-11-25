@@ -76,10 +76,10 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
         $writeTo = $this->writeTo;
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->will($this->returnCallback(function($p) use($writeTo) {
+            ->will($this->returnCallback(function ($p) use ($writeTo) {
                 if ('assetic.write_to' === $p) {
                     return $writeTo;
-                } else if ('assetic.variables' === $p) {
+                } elseif ('assetic.variables' === $p) {
                     return array();
                 }
 

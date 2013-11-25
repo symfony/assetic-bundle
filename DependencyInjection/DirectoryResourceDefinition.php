@@ -44,6 +44,7 @@ class DirectoryResourceDefinition extends Definition
         if (1 == count($dirs)) {
             // no need to coalesce
             self::configureDefinition($this, $bundle, $engine, reset($dirs));
+
             return;
         }
 
@@ -61,7 +62,7 @@ class DirectoryResourceDefinition extends Definition
         ;
     }
 
-    static private function configureDefinition(Definition $definition, $bundle, $engine, $dir)
+    private static function configureDefinition(Definition $definition, $bundle, $engine, $dir)
     {
         $definition
             ->setClass('%assetic.directory_resource.class%')

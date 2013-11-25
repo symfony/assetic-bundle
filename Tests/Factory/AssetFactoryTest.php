@@ -38,7 +38,7 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->parameterBag->expects($this->once())
             ->method('resolveValue')
-            ->will($this->returnCallback(function($v) { return $v; }));
+            ->will($this->returnCallback(function ($v) { return $v; }));
         $this->kernel->expects($this->once())
             ->method('getBundle')
             ->with('MyBundle')
@@ -67,7 +67,7 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->parameterBag->expects($this->once())
             ->method('resolveValue')
-            ->will($this->returnCallback(function($v) { return $v; }));
+            ->will($this->returnCallback(function ($v) { return $v; }));
         $this->kernel->expects($this->once())
             ->method('getBundle')
             ->with('MyBundle')

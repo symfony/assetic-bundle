@@ -26,7 +26,7 @@ class AsseticNode extends BaseAsseticNode
         $vars = array();
         foreach ($asset->getVars() as $var) {
             $vars[] = new \Twig_Node_Expression_Constant($var, $this->getLine());
-            
+
             // Retrieves values of assetic vars from the context, $context['assetic']['vars'][$var].
             $vars[] = new \Twig_Node_Expression_GetAttr(
                 new \Twig_Node_Expression_GetAttr(

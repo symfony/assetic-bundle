@@ -64,13 +64,13 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
-                ->scalarNode('java')->defaultValue(function() use($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
-                ->scalarNode('node')->defaultValue(function() use($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
+                ->scalarNode('java')->defaultValue(function () use ($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
+                ->scalarNode('node')->defaultValue(function () use ($finder) { return $finder->find('node', '/usr/bin/node'); })->end()
                 ->arrayNode('node_paths')
                     ->prototype('scalar')->end()
                 ->end()
-                ->scalarNode('ruby')->defaultValue(function() use($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
-                ->scalarNode('sass')->defaultValue(function() use($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
+                ->scalarNode('ruby')->defaultValue(function () use ($finder) { return $finder->find('ruby', '/usr/bin/ruby'); })->end()
+                ->scalarNode('sass')->defaultValue(function () use ($finder) { return $finder->find('sass', '/usr/bin/sass'); })->end()
             ->end()
         ;
 
@@ -128,13 +128,12 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->beforeNormalization()
                             // a scalar is a simple formula of one input file
-                            ->ifTrue(function($v) { return !is_array($v); })
-                            ->then(function($v) { return array('inputs' => array($v)); })
+                            ->ifTrue(function ($v) { return !is_array($v); })
+                            ->then(function ($v) { return array('inputs' => array($v)); })
                         ->end()
                         ->beforeNormalization()
                             ->always()
-                            ->then(function($v)
-                            {
+                            ->then(function ($v) {
                                 // cast scalars as array
                                 foreach (array('input', 'inputs', 'filter', 'filters') as $key) {
                                     if (isset($v[$key]) && !is_array($v[$key])) {
@@ -186,12 +185,12 @@ class Configuration implements ConfigurationInterface
                     ->prototype('variable')
                         ->treatNullLike(array())
                         ->validate()
-                            ->ifTrue(function($v) { return !is_array($v); })
+                            ->ifTrue(function ($v) { return !is_array($v); })
                             ->thenInvalid('The assetic.filters config %s must be either null or an array.')
                         ->end()
                     ->end()
                     ->validate()
-                        ->always(function($v) use ($finder) {
+                        ->always(function ($v) use ($finder) {
                             if (isset($v['compass']) && !isset($v['compass']['bin'])) {
                                 $v['compass']['bin'] = $finder->find('compass', '/usr/bin/compass');
                             }
@@ -240,7 +239,7 @@ class Configuration implements ConfigurationInterface
                             ->prototype('variable')
                                 ->treatNullLike(array())
                                 ->validate()
-                                    ->ifTrue(function($v) { return !is_array($v); })
+                                    ->ifTrue(function ($v) { return !is_array($v); })
                                     ->thenInvalid('The assetic.twig.functions config %s must be either null or an array.')
                                 ->end()
                             ->end()
