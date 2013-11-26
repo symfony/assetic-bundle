@@ -86,6 +86,16 @@ class AsseticController
         if ($response->isNotModified($this->request)) {
             return $response;
         }
+        
+
+        switch (pathinfo($asset->getTargetPath(), PATHINFO_EXTENSION)) {
+            case "css":
+                $response->headers->set("Content-Type", "text/css");
+                break;
+            case "js":
+                $response->headers->set("Content-Type", "application/javascript");
+                break;
+        }
 
         $response->setContent($this->cachifyAsset($asset)->dump());
 
