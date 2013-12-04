@@ -16,6 +16,7 @@
         <service id="assetic.routing_loader" class="%assetic.routing_loader.class%" public="false">
             <tag name="routing.loader" />
             <argument type="service" id="assetic.asset_manager" />
+            <argument>%assetic.variables%</argument>
         </service>
         <service id="assetic.controller" class="%assetic.controller.class%" scope="prototype">
             <argument type="service" id="request" />
