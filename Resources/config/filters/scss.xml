@@ -20,6 +20,7 @@
             <call method="setTimeout"><argument>%assetic.filter.scss.timeout%</argument></call>
             <call method="setStyle"><argument>%assetic.filter.scss.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
+            <call method="setLoadPaths"><argument>%assetic.filter.scss.load_paths%</argument></call>
         </service>
     </services>
 </container>
