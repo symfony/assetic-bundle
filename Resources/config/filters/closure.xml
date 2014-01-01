@@ -10,6 +10,9 @@
         <parameter key="assetic.filter.closure.java">%assetic.java.bin%</parameter>
         <parameter key="assetic.filter.closure.timeout">null</parameter>
         <parameter key="assetic.filter.closure.compilation_level">null</parameter>
+        <parameter key="assetic.filter.closure.language">null</parameter>
+        <parameter key="assetic.filter.closure.formatting">null</parameter>
+        <parameter key="assetic.filter.closure.warning_level">null</parameter>
     </parameters>
 
     <services>
@@ -19,12 +22,18 @@
             <argument>%assetic.filter.closure.java%</argument>
             <call method="setTimeout"><argument>%assetic.filter.closure.timeout%</argument></call>
             <call method="setCompilationLevel"><argument>%assetic.filter.closure.compilation_level%</argument></call>
+            <call method="setLanguage"><argument>%assetic.filter.closure.language%</argument></call>
+            <call method="setFormatting"><argument>%assetic.filter.closure.formatting%</argument></call>
+            <call method="setWarningLevel"><argument>%assetic.filter.closure.warning_level%</argument></call>
         </service>
 
         <service id="assetic.filter.closure.api" class="%assetic.filter.closure.api.class%">
             <tag name="assetic.filter" alias="closure" />
             <call method="setTimeout"><argument>%assetic.filter.closure.timeout%</argument></call>
             <call method="setCompilationLevel"><argument>%assetic.filter.closure.compilation_level%</argument></call>
+            <call method="setLanguage"><argument>%assetic.filter.closure.language%</argument></call>
+            <call method="setFormatting"><argument>%assetic.filter.closure.formatting%</argument></call>
+            <call method="setWarningLevel"><argument>%assetic.filter.closure.warning_level%</argument></call>
         </service>
     </services>
 </container>
