@@ -28,9 +28,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ListCommand extends ContainerAwareCommand
 {
     private $am;
-    
+
     private $paths;
     private $md5;
+
+    private $print0;
 
     protected function configure()
     {
@@ -38,6 +40,7 @@ class ListCommand extends ContainerAwareCommand
             ->setName('assetic:list')
             ->setDescription('Outputs a list of all asset files.')
             ->addOption('paths', null, InputOption::VALUE_NONE, 'Output full file paths.')
+            ->addOption('print0', null, InputOption::VALUE_NONE, 'Use NULL character instead of new line (for use with xargs or similar)')
             ->addOption('md5', null, InputOption::VALUE_REQUIRED, 'Prepends each file with an MD5 hash of the file content. Supported values: dump, file')
         ;
     }
@@ -46,6 +49,7 @@ class ListCommand extends ContainerAwareCommand
     {
         $this->paths = $input->getOption('paths');
         $this->md5 = $input->getOption('md5');
+        $this->print0 = $input->getOption('print0');
 
         if ($this->md5 && false === in_array($this->md5, array('dump','file'))) {
             throw new \InvalidArgumentException('Option --md5 contains invalid value "' . $this->md5 . '". Accepted values: dump, file.');
@@ -76,6 +80,20 @@ class ListCommand extends ContainerAwareCommand
             $this->doPrint($leaf, $output);
         }
     }
+    
+    /**
+     * Prints out a line, with writeln or write followed with chr(0)
+     *
+     * @param OutputInterface $output  The command output
+     * @param string          $message A "line" to output
+     */
+    private function doOutput(OutputInterface $output, $message) {
+        if ($this->print0) {
+            $output->write($message . chr(0));
+        } else {
+            $output->writeln($message);
+        }
+    }
 
     /**
      * Prints out the actual asset information: md5 sum (optionally) and (full) path
@@ -99,9 +117,9 @@ class ListCommand extends ContainerAwareCommand
                 } elseif ($this->md5 === 'file') {
                     $md5 = md5_file($asset->getSourceRoot() . '/' . $source);
                 }
-                $output->writeln($md5 . ' ' . $path);
+                $this->doOutput($output, $md5 . ' ' . $path);
             } else {
-                $output->writeln($path);
+                $this->doOutput($output, $path);
             }
         }
     }

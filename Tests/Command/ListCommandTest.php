@@ -145,6 +145,37 @@ class ListCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("test_asset.css" . PHP_EOL . "test_asset.js" . PHP_EOL, $output);
     }
     
+    public function testListMultipleAssetsWithPrint0()
+    {
+        $asset = $this->getMock('Assetic\\Asset\\AssetCollection');
+        $leaf1 = $this->getMock('Assetic\\Asset\\AssetInterface');
+        $leaf2 = $this->getMock('Assetic\\Asset\\AssetInterface');
+
+        $this->am->expects($this->once())
+            ->method('getNames')
+            ->will($this->returnValue(array('test_asset')));
+        $this->am->expects($this->once())
+            ->method('get')
+            ->with('test_asset')
+            ->will($this->returnValue($asset));
+        $asset->expects($this->once())
+            ->method('getIterator')
+            ->will($this->returnValue(new \ArrayIterator(array($leaf1, $leaf2))));
+        $asset->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue(null));
+        $leaf1->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue('test_asset.css'));
+        $leaf2->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue('test_asset.js'));
+
+        $output = $this->runCommandGetOutput(array('--print0' => true));
+
+        $this->assertEquals("test_asset.css" . chr(0) . "test_asset.js" . chr(0), $output);
+    }
+    
     public function testListMultiLevelAssets()
     {
         $asset = $this->getMock('Assetic\\Asset\\AssetCollection');
