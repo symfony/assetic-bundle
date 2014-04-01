@@ -13,6 +13,7 @@
         <parameter key="assetic.filter.uglifyjs2.compress">false</parameter>
         <parameter key="assetic.filter.uglifyjs2.beautify">false</parameter>
         <parameter key="assetic.filter.uglifyjs2.mangle">false</parameter>
+        <parameter key="assetic.filter.uglifyjs2.defines" type="collection"></parameter>
     </parameters>
 
     <services>
@@ -25,6 +26,7 @@
             <call method="setCompress"><argument>%assetic.filter.uglifyjs2.compress%</argument></call>
             <call method="setBeautify"><argument>%assetic.filter.uglifyjs2.beautify%</argument></call>
             <call method="setMangle"><argument>%assetic.filter.uglifyjs2.mangle%</argument></call>
+            <call method="setDefines"><argument>%assetic.filter.uglifyjs2.defines%</argument></call>
         </service>
     </services>
 </container>
