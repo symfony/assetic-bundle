@@ -13,6 +13,7 @@
         <parameter key="assetic.filter.compass.style">null</parameter>
         <parameter key="assetic.filter.compass.images_dir">null</parameter>
         <parameter key="assetic.filter.compass.fonts_dir">null</parameter>
+        <parameter key="assetic.filter.compass.relative_assets">false</parameter>
         <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>
         <parameter key="assetic.filter.compass.http_path">null</parameter>
         <parameter key="assetic.filter.compass.http_images_path">null</parameter>
@@ -36,6 +37,7 @@
             <call method="setStyle"><argument>%assetic.filter.compass.style%</argument></call>
             <call method="setImagesDir"><argument>%assetic.filter.compass.images_dir%</argument></call>
             <call method="setFontsDir"><argument>%assetic.filter.compass.fonts_dir%</argument></call>
+            <call method="setRelativeAssets"><argument>%assetic.filter.compass.relative_assets%</argument></call>
             <call method="setJavascriptsDir"><argument>%assetic.filter.compass.javascripts_dir%</argument></call>
             <call method="setHttpPath"><argument>%assetic.filter.compass.http_path%</argument></call>
             <call method="setHttpImagesPath"><argument>%assetic.filter.compass.http_images_path%</argument></call>
