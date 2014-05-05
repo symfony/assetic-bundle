@@ -29,7 +29,9 @@
         </service>
         <service id="assetic.twig_formula_loader.real" class="%assetic.twig_formula_loader.class%" public="false">
             <tag name="assetic.templating.twig" />
+            <tag name="monolog.logger" channel="assetic" />
             <argument type="service" id="twig" />
+            <argument type="service" id="logger" on-invalid="ignore" />
         </service>
     </services>
 </container>
