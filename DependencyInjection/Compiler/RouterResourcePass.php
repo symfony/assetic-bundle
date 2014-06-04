@@ -37,11 +37,23 @@ class RouterResourcePass implements CompilerPassInterface
             mkdir($dir, 0777, true);
         }
 
-        file_put_contents($file, Yaml::dump(array(
+        $contents = array(
             '_assetic' => array('resource' => '.', 'type' => 'assetic'),
             '_app'     => array('resource' => $container->getParameter('router.resource')),
-        )));
+        );
 
+        $router = $container->findDefinition('router.default');
+        $routerConfigs = $router->getArgument(2);
+
+        if (isset($routerConfigs['resource_type'])) {
+            $contents['_app']['type'] = $routerConfigs['resource_type'];
+        }
+
+        $routerConfigs['resource_type'] = 'yaml';
+
+        $router->replaceArgument(2, $routerConfigs);
         $container->setParameter('router.resource', $file);
+
+        file_put_contents($file, Yaml::dump($contents));
     }
 }
