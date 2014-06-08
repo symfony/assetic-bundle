@@ -73,12 +73,12 @@ class DumpCommand extends ContainerAwareCommand
     }
 
     /**
-     * Wraper for saving assets
+     * Wrapper for saving assets data to file
      *
      * @param String $filePath      The path to file
      * @param String $information   The information for saving to file
      */
-    protected function saveInformationToFile($filePath, $information)
+    protected function saveDataToFile($filePath, $information)
     {
         if (false === @file_put_contents($filePath, $information)) {
             throw new \RuntimeException('Unable to write file '.$filePath);
@@ -216,6 +216,6 @@ class DumpCommand extends ContainerAwareCommand
             }
         }
 
-        $this->saveInformationToFile($target, $asset->dump());
+        $this->saveDataToFile($target, $asset->dump());
     }
 }
