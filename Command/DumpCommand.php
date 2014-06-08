@@ -73,6 +73,19 @@ class DumpCommand extends ContainerAwareCommand
     }
 
     /**
+     * Wrapper for saving assets data to file
+     *
+     * @param String $filePath      The path to file
+     * @param String $information   The information for saving to file
+     */
+    protected function saveDataToFile($filePath, $information)
+    {
+        if (false === @file_put_contents($filePath, $information)) {
+            throw new \RuntimeException('Unable to write file '.$filePath);
+        }
+    }
+
+    /**
      * Watches a asset manager for changes.
      *
      * This method includes an infinite loop the continuously polls the asset
@@ -203,8 +216,6 @@ class DumpCommand extends ContainerAwareCommand
             }
         }
 
-        if (false === @file_put_contents($target, $asset->dump())) {
-            throw new \RuntimeException('Unable to write file '.$target);
-        }
+        $this->saveDataToFile($target, $asset->dump());
     }
 }
