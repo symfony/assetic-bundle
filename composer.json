@@ -32,9 +32,8 @@
         "kriswallsmith/spork": "v0.2"
     },
     "autoload": {
-        "psr-0": { "Symfony\\Bundle\\AsseticBundle": "" }
+        "psr-4": { "Symfony\\Bundle\\AsseticBundle\\": "" }
     },
-    "target-dir": "Symfony/Bundle/AsseticBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "2.4-dev"
