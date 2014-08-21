@@ -80,6 +80,7 @@ class WatchCommand extends AbstractCommand
                     $error = $msg;
                 }
             }
+
             clearstatcache ();
             sleep($input->getOption('period'));
         }
