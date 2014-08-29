@@ -78,7 +78,6 @@ abstract class AbstractCommand extends ContainerAwareCommand
 
             // resolve the target path
             $target = rtrim($this->basePath, '/').'/'.$asset->getTargetPath();
-            $target = str_replace('_controller/', '', $target);
             $target = VarUtils::resolve($target, $asset->getVars(), $asset->getValues());
 
             if (!is_dir($dir = dirname($target))) {
