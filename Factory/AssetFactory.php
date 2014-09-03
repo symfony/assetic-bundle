@@ -43,6 +43,14 @@ class AssetFactory extends BaseAssetFactory
         $this->parameterBag = $parameterBag;
 
         parent::__construct($baseDir, $debug);
+
+        // Enable cachebusting worker
+        if ($container->getParameter('assetic.cachebuster')) {
+            $lazymanagerclass = $container->getParameter('assetic.asset_manager.class');
+            $lazymanager = new $lazymanagerclass($this);
+            $className = $container->getParameter('assetic.worker.cachebusting.class');
+            $this->addWorker(new $className($lazymanager));
+        }
     }
 
     /**
