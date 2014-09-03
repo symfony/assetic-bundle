@@ -49,6 +49,7 @@ class AsseticExtension extends Extension
         $container->setParameter('assetic.read_from', $config['read_from']);
         $container->setParameter('assetic.write_to', $config['write_to']);
         $container->setParameter('assetic.variables', $config['variables']);
+        $container->setParameter('assetic.cachebuster', $config['cachebuster']);
 
         $container->setParameter('assetic.java.bin', $config['java']);
         $container->setParameter('assetic.node.bin', $config['node']);
