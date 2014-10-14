@@ -1,0 +1,39 @@
+---------------------------------------------------------------------------
+
+by pawelbaranski at 2014-02-25T08:22:21Z
+
++1 for the PR, but I believe it should be configured like this:
+
+```
+assetic:
+    filters:
+        compass:
+            sass_options:
+                cache_location:  "%some_dir%"
+```
+
+to make it reflect the structure of compass config more precisely (https://github.com/kriswallsmith/assetic/blob/master/src/Assetic/Filter/CompassFilter.php#L191)
+
+---------------------------------------------------------------------------
+
+by hilobok at 2014-04-17T14:19:15Z
+
+:+1:
+
+---------------------------------------------------------------------------
+
+by benglass at 2014-06-30T21:02:35Z
+
++1
+
+---------------------------------------------------------------------------
+
+by thomascrepain at 2014-08-14T08:57:50Z
+
++1
+
+---------------------------------------------------------------------------
+
+by benglass at 2014-09-24T15:20:39Z
+
+@stof any news on merging this?
