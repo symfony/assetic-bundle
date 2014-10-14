@@ -1,0 +1,34 @@
+---------------------------------------------------------------------------
+
+by mbence at 2013-02-15T17:27:20Z
+
+I'm sure you all are very well aware of all this below, I only write this down to make it clear for myself. :)
+
+To my understanding, the `combine` switch is only used to instruct Assetic to ignore the debug mode.
+In debug mode (and in the dev environment) the leaf assets will be generated, and linked to. In prod and non-debug, only the combined main asset is generated and used.
+If you want no debug (no leaf assets) in dev env you need to set `combine=true` or `debug=false` (<- surprise, an undocumented feature, but it's working as expected!)
+
+The only problem is, that the `--watch` works only in debug mode, with `--no-debug` you get an error. So your only option is to add the `combine=true` if you want to speed up asset generation during development, and that was exactly my aim with this patch.
+
+Using `combine=false` with `--no-debug` would be a completely new scenario, which makes little sense for me. If you want to debug (ie. have leaf assets generated), you would use the debug switch, wouldn't you? :)
+
+---------------------------------------------------------------------------
+
+by stof at 2013-02-15T17:37:24Z
+
+@mbence The debug switch and the combine switch have different meaning. The goal of the debug mode is mainly to control if the cache should check for changes in the source or use the available cached file as soon as it exists to improve performance (which explains why ``--watch`` cannot work in non-debug mode). The debug flag also allows to skip some filters (for instance the minification of the JS file by using ``?uglifyjs2`` to apply the filter).
+Combining assets together controlled by the combine flag. The only relation between the asset debug flag (defaulting to the Assetic debug mode which itself defaults to the symfony debug mode) and the asset combine flag is the *default value* of the combine flag.
+
+---------------------------------------------------------------------------
+
+by mbence at 2013-02-15T18:04:24Z
+
+@stof Ok I understand now. I changed the line as you suggested.
+
+---------------------------------------------------------------------------
+
+by mbence at 2013-02-15T18:17:29Z
+
+The original functionality is a little expensive, but pretty much fool proof. It will generate everything no matter what you set in your templates. Even if you change your templates your assets would still load, without a new dump. With this change you would have to run the dump again, after you changed the templates. But you will save a lot of time (or electricity, rain forests, or whatever, :))) - by not generating unnecessary files.
+
+I think it's worth it.
