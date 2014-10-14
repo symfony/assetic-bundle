@@ -62,6 +62,10 @@ class AsseticLoader extends Loader
 
         // routes
         foreach ($this->am->getNames() as $name) {
+            if (!$this->am->hasFormula($name)) {
+                continue;
+            }
+
             $asset = $this->am->get($name);
             $formula = $this->am->getFormula($name);
 
