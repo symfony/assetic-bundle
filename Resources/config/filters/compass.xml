@@ -24,6 +24,7 @@
         <parameter key="assetic.filter.compass.plugins" type="collection" />
         <parameter key="assetic.filter.compass.load_paths" type="collection" />
         <parameter key="assetic.filter.compass.home_env">true</parameter>
+        <parameter key="assetic.filter.compass.cache_location">%kernel.cache_dir%</parameter>
     </parameters>
 
     <services>
@@ -48,6 +49,7 @@
             <call method="setPlugins"><argument>%assetic.filter.compass.plugins%</argument></call>
             <call method="setLoadPaths"><argument>%assetic.filter.compass.load_paths%</argument></call>
             <call method="setHomeEnv"><argument>%assetic.filter.compass.home_env%</argument></call>
+            <call method="setCacheLocation"><argument>%assetic.filter.compass.cache_location%</argument></call>
         </service>
     </services>
 </container>
