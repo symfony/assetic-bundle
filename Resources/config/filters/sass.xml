@@ -11,6 +11,7 @@
         <parameter key="assetic.filter.sass.style">null</parameter>
         <parameter key="assetic.filter.sass.compass">null</parameter>
         <parameter key="assetic.filter.sass.load_paths" type="collection" />
+        <parameter key="assetic.filter.sass.cache_location">%kernel.cache_dir%</parameter>
     </parameters>
 
     <services>
@@ -22,6 +23,7 @@
             <call method="setStyle"><argument>%assetic.filter.sass.style%</argument></call>
             <call method="setCompass"><argument>%assetic.filter.sass.compass%</argument></call>
             <call method="setLoadPaths"><argument>%assetic.filter.sass.load_paths%</argument></call>
+            <call method="setCacheLocation"><argument>%assetic.filter.sass.cache_location%</argument></call>
         </service>
     </services>
 </container>
