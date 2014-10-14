@@ -10,7 +10,9 @@
         <parameter key="assetic.filter.scss.timeout">null</parameter>
         <parameter key="assetic.filter.scss.style">null</parameter>
         <parameter key="assetic.filter.scss.compass">null</parameter>
-        <parameter key="assetic.filter.scss.load_paths" type="collection" />
+        <parameter key="assetic.filter.scss.load_paths" type="collection">
+            <parameter>%kernel.root_dir%/../web</parameter>
+        </parameter>
     </parameters>
 
     <services>
