@@ -18,6 +18,8 @@
         "kriswallsmith/assetic": "~1.2"
     },
     "require-dev": {
+        "patchwork/jsqueeze": "~1.0",
+        "kriswallsmith/spork": "~0.2",
         "symfony/twig-bundle": "~2.1",
         "symfony/console": "~2.1",
         "symfony/class-loader": "~2.1",
