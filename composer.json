@@ -5,7 +5,6 @@
     "homepage": "https://github.com/symfony/AsseticBundle",
     "type": "symfony-bundle",
     "license": "MIT",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Kris Wallsmith",
