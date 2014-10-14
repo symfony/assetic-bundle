@@ -12,7 +12,7 @@ use Assetic\Filter\CssRewriteFilter;
  */
 class SymfonyCssRewriteFilter extends CssRewriteFilter
 {
-    protected function pathRewriter(AssetInterface $asset, $host, $path)
+    protected function pathRewrite(AssetInterface $asset, $host, $path)
     {
         if ($pos = strpos($path, 'Resources/public'))
         {
