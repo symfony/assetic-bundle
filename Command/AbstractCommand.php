@@ -50,8 +50,11 @@ abstract class AbstractCommand extends ContainerAwareCommand
         // start by dumping the main asset
         $this->doDump($asset, $stdout);
 
-        // dump each leaf if debug
-        if (isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug()) {
+        $debug = isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug();
+        $combine = isset($formula[2]['combine']) ? $formula[2]['combine'] : !$debug;
+
+        // dump each leaf if no combine
+        if (!$combine) {
             foreach ($asset as $leaf) {
                 $this->doDump($leaf, $stdout);
             }
