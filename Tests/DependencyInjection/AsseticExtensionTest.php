@@ -128,6 +128,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('minifycsscompressor'),
             array('optipng'),
             array('packager'),
+            array('packer'),
             array('phpcssembed'),
             array('pngout'),
             array('sass'),

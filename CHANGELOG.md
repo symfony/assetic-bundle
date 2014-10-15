@@ -15,6 +15,7 @@
 * Added the configuration for the csscachebusting filter
 * Added missing options for the gss filter
 * Added the configuration for the minifycsscompressor filter
+* Added the configuration for the packer filter
 
 ### Bug fixes
 
