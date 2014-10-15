@@ -1,0 +1,39 @@
+2.5.0 / 2014-10-XX
+==================
+
+### New features
+
+* Added missing filter options for closure filters.
+* Added missing filter options for uglifyjs2
+* Added `relative_assets` filter option for compass filter
+* Added ability to set cache_location for compass via configuration
+* Added the config for the JSqueeze filter
+* Added support of the boring option of the compass filter
+
+### Bug fixes
+
+* Added "web" folder as a default load path for the scss filter
+* Skip assets created by the assetic.asset DI tag in the routing
+* Dumping leaf assets only if combine=true is not set
+
+2.4.0 / 2014-09-04
+==================
+
+* Update to Assetic 1.2
+
+### New features
+
+* Added the configuration to use nib in the Stylus filter
+* Added the configuration for line breaks in YUI filters
+* Added `assetic:watch` to watch assets and deprecate `assetic:dump --watch`
+* Added a `--forks` option to distribute dumps between processes in `assetic:dump`, using Spork
+* Added the configuration for the CacheBustingWorker
+* Added ability to set load paths for less, sass and scss filters through configuration
+* Added defines parameter to uglifyjs & ugligyjs2 filters
+* Added support for logging twig templates with an error
+* Added the configuration for the emberprecompile filter
+
+### Bug fixes
+
+* Fixed the controller and routing to support asset variables
+* Fixed the handling of the router resource type
