@@ -16,6 +16,7 @@
 * Added missing options for the gss filter
 * Added the configuration for the minifycsscompressor filter
 * Added the configuration for the packer filter
+* Added the configuration for the roole filter
 
 ### Bug fixes
 
