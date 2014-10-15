@@ -9,6 +9,8 @@
 * Added ability to set cache_location for compass via configuration
 * Added the config for the JSqueeze filter
 * Added support of the boring option of the compass filter
+* Added the configuration for the autoprefixer filter
+* Added the config for the `no_header` option of the coffee filter
 
 ### Bug fixes
 
