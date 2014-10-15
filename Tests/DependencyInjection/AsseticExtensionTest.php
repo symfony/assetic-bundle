@@ -105,6 +105,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
     public function getFilterNames()
     {
         return array(
+            array('autoprefixer'),
             array('closure', array('jar' => '/path/to/closure.jar')),
             array('coffee'),
             array('compass'),
