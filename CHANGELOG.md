@@ -12,6 +12,7 @@
 * Added the configuration for the autoprefixer filter
 * Added the config for the `no_header` option of the coffee filter
 * Added missing filter options for compass
+* Added the configuration for the csscachebusting filter
 
 ### Bug fixes
 
