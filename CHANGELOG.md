@@ -17,6 +17,7 @@
 * Added the configuration for the minifycsscompressor filter
 * Added the configuration for the packer filter
 * Added the configuration for the roole filter
+* Added missing options for the scssphp filter
 
 ### Bug fixes
 

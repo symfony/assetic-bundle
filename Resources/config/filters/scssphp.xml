@@ -8,6 +8,8 @@
         <parameter key="assetic.filter.scssphp.class">Assetic\Filter\ScssphpFilter</parameter>
         <parameter key="assetic.filter.scssphp.import_paths" type="collection" />
         <parameter key="assetic.filter.scssphp.compass">false</parameter>
+        <parameter key="assetic.filter.scssphp.variables" type="collection" />
+        <parameter key="assetic.filter.scssphp.formatter">null</parameter>
     </parameters>
 
     <services>
@@ -18,6 +20,8 @@
             <call method="setImportPaths">
                 <argument>%assetic.filter.scssphp.import_paths%</argument>
             </call>
+            <call method="setVariables"><argument>%assetic.filter.scssphp.variables%</argument></call>
+            <call method="setFormatter"><argument>%assetic.filter.scssphp.formatter%</argument></call>
             <tag name="assetic.filter" alias="scssphp" />
         </service>
     </services>
