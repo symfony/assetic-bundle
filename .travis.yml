@@ -11,8 +11,7 @@ matrix:
   allow_failures:
     - php: hhvm
 
-before_script:
-    - composer self-update
+install:
     - composer install
 
 script: phpunit -v
