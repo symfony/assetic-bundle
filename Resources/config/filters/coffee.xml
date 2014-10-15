@@ -11,6 +11,7 @@
         <parameter key="assetic.filter.coffee.timeout">null</parameter>
         <parameter key="assetic.filter.coffee.node_paths">%assetic.node.paths%</parameter>
         <parameter key="assetic.filter.coffee.bare">null</parameter>
+        <parameter key="assetic.filter.coffee.no_header">null</parameter>
     </parameters>
 
     <services>
@@ -21,6 +22,7 @@
             <call method="setTimeout"><argument>%assetic.filter.coffee.timeout%</argument></call>
             <call method="setNodePaths"><argument>%assetic.filter.coffee.node_paths%</argument></call>
             <call method="setBare"><argument>%assetic.filter.coffee.bare%</argument></call>
+            <call method="setNoHeader"><argument>%assetic.filter.coffee.no_header%</argument></call>
         </service>
     </services>
 </container>
