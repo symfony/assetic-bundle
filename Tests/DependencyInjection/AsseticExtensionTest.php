@@ -125,6 +125,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             array('jsqueeze'),
             array('less'),
             array('lessphp'),
+            array('minifycsscompressor'),
             array('optipng'),
             array('packager'),
             array('phpcssembed'),
