@@ -74,6 +74,10 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($bundle));
         $this->kernel->expects($this->once())
             ->method('locateResource')
+            ->with('@MyBundle/Resources/css/', $this->anything(), false)
+            ->will($this->returnValue(array('/path/to/MyBundle/Resources/css/')));
+        $this->kernel->expects($this->once())
+            ->method('locateResource')
             ->with('@MyBundle/Resources/css/')
             ->will($this->returnValue('/path/to/MyBundle/Resources/css/'));
         $bundle->expects($this->once())
