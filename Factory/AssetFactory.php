@@ -66,7 +66,7 @@ class AssetFactory extends BaseAssetFactory
             $options['root'] = array($this->kernel->getBundle($bundle)->getPath());
 
             // canonicalize the input
-            if (false !== $pos = strpos($input, '*')) {
+            if (false !== strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
                 // support globs like /path/to/bootstrap/js/bootstrap-*.js
@@ -79,7 +79,7 @@ class AssetFactory extends BaseAssetFactory
                 }
                 // retrieve all related folders for current bundle notation
                 $globAssetFolders = $this->kernel->locateResource($before, $this->container->getParameter('kernel.root_dir').'/Resources', false);
-                if(count($globAssetFolders) == 1) {
+                if (count($globAssetFolders) == 1) {
                     $input = $globAssetFolders[0].$after;
                 } else {
                     $collection = new AssetCollection();
