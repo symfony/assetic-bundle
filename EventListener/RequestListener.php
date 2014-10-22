@@ -27,5 +27,6 @@ class RequestListener
         $request->setFormat('png', 'image/png');
         $request->setFormat('jpg', 'image/jpeg');
         $request->setFormat('gif', 'image/gif');
+        $request->setFormat('svg', 'image/svg+xml');
     }
 }
