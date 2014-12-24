@@ -45,7 +45,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
     public function dumpAsset($name, OutputInterface $stdout)
     {
         $asset = $this->am->get($name);
-        $formula = $this->am->getFormula($name);
+        $formula = $this->am->hasFormula($name) ? $this->am->getFormula($name) : array();
 
         // start by dumping the main asset
         $this->doDump($asset, $stdout);
