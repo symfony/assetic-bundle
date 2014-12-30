@@ -69,6 +69,7 @@ class AssetFactory extends BaseAssetFactory
             if (false !== $pos = strpos($input, '*')) {
                 // locateResource() does not support globs so we provide a naive implementation here
                 list($before, $after) = explode('*', $input, 2);
+                
                 // support globs like /path/to/bootstrap/js/bootstrap-*.js
                 if (false !== $pos = strrpos($before, '/')) {
                     $pos++;
