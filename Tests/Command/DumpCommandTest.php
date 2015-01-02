@@ -124,6 +124,10 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
             ->with('test_asset')
             ->will($this->returnValue($asset));
         $this->am->expects($this->once())
+            ->method('hasFormula')
+            ->with('test_asset')
+            ->will($this->returnValue(true));
+        $this->am->expects($this->once())
             ->method('getFormula')
             ->with('test_asset')
             ->will($this->returnValue(array()));
@@ -161,6 +165,10 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('test_asset')
             ->will($this->returnValue($asset));
+        $this->am->expects($this->once())
+            ->method('hasFormula')
+            ->with('test_asset')
+            ->will($this->returnValue(true));
         $this->am->expects($this->once())
             ->method('getFormula')
             ->with('test_asset')
