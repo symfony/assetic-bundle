@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="assetic.filter.jsqueeze.single_line">true</parameter>
         <parameter key="assetic.filter.jsqueeze.keep_important_comments">true</parameter>
-        <parameter key="assetic.filter.jsqueeze.special_var_rx" type="constant">JSqueeze::SPECIAL_VAR_RX</parameter>
+        <parameter key="assetic.filter.jsqueeze.special_var_rx">false</parameter>
     </parameters>
 
     <services>
