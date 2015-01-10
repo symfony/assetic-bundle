@@ -86,7 +86,9 @@ class AsseticController
             return $response;
         }
 
-        $response->setContent($this->cachifyAsset($asset)->dump());
+        $etagCacheKeyFilter = new AssetCacheKeyFilter($response->getEtag());
+
+        $response->setContent($this->cachifyAsset($asset)->dump($etagCacheKeyFilter));
 
         return $response;
     }
