@@ -54,7 +54,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->container = new ContainerBuilder();
         $this->container->addScope(new Scope('request'));
-        $this->container->register('request', 'Symfony\\Component\\HttpFoundation\\Request')->setScope('request');
+        $this->container->register('request_stack', 'Symfony\\Component\\HttpFoundation\\RequestStack');
         $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Routing\\RouterInterface')));
@@ -252,7 +252,6 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 
         $container = new $class();
         $container->enterScope('request');
-        $container->set('request', Request::create('/'));
         $container->set('kernel', $this->kernel);
 
         return $container;
