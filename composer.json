@@ -35,6 +35,7 @@
     "autoload": {
         "psr-4": { "Symfony\\Bundle\\AsseticBundle\\": "" }
     },
+    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
             "dev-master": "2.5-dev"
