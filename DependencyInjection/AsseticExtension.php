@@ -41,7 +41,7 @@ class AsseticExtension extends Extension
 
         $def = $container->getDefinition('assetic.parameter_bag');
         if (method_exists($def, 'setFactory')) {
-            // to be inlined in dbal.xml when dependency on Symfony DependencyInjection is bumped to 2.6
+            // to be inlined in assetic.xml when dependency on Symfony DependencyInjection is bumped to 2.6
             $def->setFactory(array(new Reference('service_container'), 'getParameterBag'));
         } else {
             // to be removed when dependency on Symfony DependencyInjection is bumped to 2.6
