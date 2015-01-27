@@ -1,3 +1,10 @@
+2.6.1 / 2015-01-27
+==================
+
+### Bug fixes
+
+* Removed usage of the deprecated Symfony APIs for Symfony 2.6+
+
 2.6.0 / 2015-01-26
 ==================
 
