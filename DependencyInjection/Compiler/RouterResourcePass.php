@@ -31,7 +31,8 @@ class RouterResourcePass implements CompilerPassInterface
             return;
         }
 
-        $file = $container->getParameter('kernel.cache_dir').'/assetic/routing.yml';
+        $cacheDir = $container->getParameterBag()->resolveValue($container->getParameter('kernel.cache_dir'));
+        $file = $cacheDir.'/assetic/routing.yml';
 
         if (!is_dir($dir = dirname($file))) {
             mkdir($dir, 0777, true);
