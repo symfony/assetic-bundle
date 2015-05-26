@@ -28,6 +28,9 @@
         "symfony/dom-crawler": "~2.3",
         "symfony/css-selector": "~2.3"
     },
+    "conflict": {
+        "kriswallsmith/spork": "<=0.2"
+    },
     "suggest": {
         "symfony/twig-bundle": "to use the Twig integration",
         "kriswallsmith/spork": "to be able to dump assets in parallel"
