@@ -1,3 +1,25 @@
+2.6.1 / 2015-01-27
+==================
+
+### Bug fixes
+
+* Removed usage of the deprecated Symfony APIs for Symfony 2.6+
+
+2.6.0 / 2015-01-26
+==================
+
+### New features
+
+* Allow configuration of sass/scss filter cache location folders.
+
+### Bug fixes
+
+* Updated RequestListener to set additional format for SVG files
+* Clear PHP file stat cache on each watch iteration
+* Add a safeguard for template references without a bundle to be compatible with latest Symfony changes
+* Fix asset dumping with assets added by the DI tag
+* Change the Jsqueeze var renaming to a safer default (disabled by default)
+
 2.5.0 / 2014-10-15
 ==================
 

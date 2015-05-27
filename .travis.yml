@@ -8,10 +8,21 @@ php:
     - hhvm
 
 matrix:
-  allow_failures:
-    - php: hhvm
+    include:
+        - php: 5.3
+          env: deps=low
+    allow_failures:
+        - php: hhvm
+
+env:
+    global:
+        - deps=no
+
+before_install:
+    - composer self-update
 
 install:
-    - composer install
+    - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
+    - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
 
 script: phpunit -v

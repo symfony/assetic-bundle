@@ -81,6 +81,7 @@ class WatchCommand extends AbstractCommand
                 }
             }
 
+            clearstatcache ();
             sleep($input->getOption('period'));
         }
     }

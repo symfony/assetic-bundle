@@ -14,6 +14,7 @@ namespace Symfony\Bundle\AsseticBundle\Twig;
 use Assetic\Asset\AssetInterface;
 use Assetic\Extension\Twig\AsseticTokenParser as BaseAsseticTokenParser;
 use Symfony\Bundle\AsseticBundle\Exception\InvalidBundleException;
+use Symfony\Bundle\FrameworkBundle\Templating\TemplateReference;
 use Symfony\Component\Templating\TemplateNameParserInterface;
 
 /**
@@ -23,6 +24,9 @@ use Symfony\Component\Templating\TemplateNameParserInterface;
  */
 class AsseticTokenParser extends BaseAsseticTokenParser
 {
+    /**
+     * @var TemplateNameParserInterface|null
+     */
     private $templateNameParser;
     private $enabledBundles;
 
@@ -50,7 +54,7 @@ class AsseticTokenParser extends BaseAsseticTokenParser
                 // this happens when the filename isn't a Bundle:* url
                 // but an absolute path instead
             }
-            $bundle = $templateRef ? $templateRef->get('bundle') : null;
+            $bundle = $templateRef instanceof TemplateReference ? $templateRef->get('bundle') : null;
             if ($bundle && !in_array($bundle, $this->enabledBundles)) {
                 throw new InvalidBundleException($bundle, "the {% {$this->getTag()} %} tag", $templateRef->getLogicalName(), $this->enabledBundles);
             }

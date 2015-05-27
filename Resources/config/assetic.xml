@@ -67,7 +67,7 @@
 
         <service id="assetic.worker.cache_busting" class="%assetic.worker.cache_busting.class%" public="false" />
 
-        <service id="assetic.parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ParameterBag" factory-service="service_container" factory-method="getParameterBag" public="false"/>
+        <service id="assetic.parameter_bag" class="Symfony\Component\DependencyInjection\ParameterBag\ParameterBag" public="false"/>
 
         <service id="assetic.value_supplier.default" class="%assetic.value_supplier.class%" public="false">
             <argument type="service" id="service_container" />

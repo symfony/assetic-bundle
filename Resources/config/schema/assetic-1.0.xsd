@@ -23,6 +23,7 @@
         <xsd:attribute name="java" type="xsd:string" />
         <xsd:attribute name="node" type="xsd:string" />
         <xsd:attribute name="sass" type="xsd:string" />
+        <xsd:attribute name="reactjsx" type="xsd:string" />
     </xsd:complexType>
 
     <xsd:complexType name="bundle">
