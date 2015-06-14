@@ -16,7 +16,7 @@ use Assetic\Asset\AssetInterface;
 use Assetic\Cache\CacheInterface;
 use Assetic\Factory\LazyAssetManager;
 use Assetic\ValueSupplierInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
@@ -28,15 +28,15 @@ use Symfony\Component\HttpKernel\Profiler\Profiler;
  */
 class AsseticController
 {
-    protected $request;
+    protected $requestStack;
     protected $am;
     protected $cache;
     protected $enableProfiler;
     protected $profiler;
 
-    public function __construct(Request $request, LazyAssetManager $am, CacheInterface $cache, $enableProfiler = false, Profiler $profiler = null)
+    public function __construct(RequestStack $requestStack, LazyAssetManager $am, CacheInterface $cache, $enableProfiler = false, Profiler $profiler = null)
     {
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->am = $am;
         $this->cache = $cache;
         $this->enableProfiler = (boolean) $enableProfiler;
@@ -82,7 +82,7 @@ class AsseticController
             $response->setETag(md5(serialize($formula)));
         }
 
-        if ($response->isNotModified($this->request)) {
+        if ($response->isNotModified($this->requestStack->getMasterRequest())) {
             return $response;
         }
 
@@ -104,7 +104,7 @@ class AsseticController
     protected function configureAssetValues(AssetInterface $asset)
     {
         if ($vars = $asset->getVars()) {
-            $asset->setValues(array_intersect_key($this->request->attributes->all(), array_flip($vars)));
+            $asset->setValues(array_intersect_key($this->requestStack->getMasterRequest()->attributes->all(), array_flip($vars)));
         }
 
         return $this;
