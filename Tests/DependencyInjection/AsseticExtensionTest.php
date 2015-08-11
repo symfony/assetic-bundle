@@ -55,7 +55,13 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container = new ContainerBuilder();
         $this->container->addScope(new Scope('request'));
         $this->container->register('request', 'Symfony\\Component\\HttpFoundation\\Request')->setScope('request');
-        $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
+        // Symfony <2.7 BC
+        if (class_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper')) {
+            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper'))
+                ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Asset\\Packages')));
+        } else {
+            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
+        }
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Routing\\RouterInterface')));
         $this->container->register('twig', 'Twig_Environment');
