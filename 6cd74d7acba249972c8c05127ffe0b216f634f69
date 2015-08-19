@@ -1,0 +1,105 @@
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-11T11:31:57Z
+
+Ping @stof: Deprecated errors fixed. Time to review. ;-)
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-11T15:37:19Z
+
+I think all is good.
+
+Could you please bump a new patch version after merge this PR?
+
+---------------------------------------------------------------------------
+
+by stof at 2015-08-12T13:41:31Z
+
+@Soullivaneuh can you also handle the deprecation reported in #372 ? Our own helper should be request-scoped only when its dependency is
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-12T13:47:04Z
+
+@stof I don't know yet how to handle this deprecation, I'll try,
+
+---------------------------------------------------------------------------
+
+by stof at 2015-08-12T14:12:39Z
+
+@Soullivaneuh just make sure that the helper is not scoped when it is not necessary (in 2.7+, there is no reason to make it scoped, and maybe even in some other version)
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-12T16:03:08Z
+
+@stof I fix on of them but I got some difficulties for other.
+
+Replacing:
+
+```xml
+<service id="assetic.controller" class="%assetic.controller.class%" scope="prototype">
+```
+
+By:
+
+```xml
+<service id="assetic.controller" class="%assetic.controller.class%" shared="false">
+```
+
+With upgrade lines following, throws scope widening exceptions.
+
+Any clues will be appreciated. :-)
+
+---------------------------------------------------------------------------
+
+by stof at 2015-08-12T16:08:56Z
+
+@Soullivaneuh there is no reason for the controller to be scoped actually
+
+---------------------------------------------------------------------------
+
+by stof at 2015-08-12T16:10:10Z
+
+ah, the reason is that we inject the request in the constructor instead of getting it from the action...
+
+But ``shared=false`` works only in 2.8+, not in older version
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-13T08:02:55Z
+
+> But `shared=false` works only in 2.8+, not in older version
+
+Yes I know but I got those errors especially on 2.8 version.
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-13T10:44:49Z
+
+@stof Deprecation for 2.8 fixed, ready to merge.
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-13T11:59:15Z
+
+@stof review fixed.
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-13T13:45:41Z
+
+I updated the compiler pass according to scope checking.
+
+---------------------------------------------------------------------------
+
+by Soullivaneuh at 2015-08-13T14:16:15Z
+
+@stof review fixed.
+
+---------------------------------------------------------------------------
+
+by TomasVotruba at 2015-08-19T10:11:47Z
+
+@Soullivaneuh Very nice PR. Do you need help with something?
