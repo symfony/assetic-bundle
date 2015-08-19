@@ -8,21 +8,25 @@ php:
     - hhvm
 
 matrix:
+    fast_finish: true
     include:
         - php: 5.3
-          env: deps=low
+          env: COMPOSER_FLAGS="--prefer-lowest"
+        - php: 5.6
+          env: SYMFONY_VERSION=2.3.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.7.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.8.*@dev
+        - php: 5.6
+          env: SYMFONY_VERSION="3.0.x-dev as 2.8"
     allow_failures:
         - php: hhvm
-
-env:
-    global:
-        - deps=no
-
-before_install:
-    - composer self-update
+        - env: SYMFONY_VERSION=2.8.*@dev
+        - env: SYMFONY_VERSION="3.0.x-dev as 2.8"
 
 install:
-    - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
-    - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
+    - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+    - composer update --prefer-source $COMPOSER_FLAGS
 
 script: phpunit -v
