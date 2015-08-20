@@ -59,8 +59,7 @@ class AsseticNode extends BaseAsseticNode
         }
 
         return new \Twig_Node_Expression_Function(
-            version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<')
-                ? new \Twig_Node_Expression_Name('path', $this->getLine()) : 'path',
+            'path',
             new \Twig_Node($nodes),
             $this->getLine()
         );
@@ -75,8 +74,7 @@ class AsseticNode extends BaseAsseticNode
         }
 
         return new \Twig_Node_Expression_Function(
-            version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<')
-                ? new \Twig_Node_Expression_Name('asset', $this->getLine()) : 'asset',
+            'asset',
             new \Twig_Node($arguments),
             $this->getLine()
         );
