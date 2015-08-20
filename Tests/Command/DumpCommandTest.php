@@ -24,6 +24,12 @@ class DumpCommandTest extends \PHPUnit_Framework_TestCase
     private $kernel;
     private $container;
     private $am;
+    private $helperSet;
+
+    /**
+     * @var DumpCommand
+     */
+    private $command;
 
     protected function setUp()
     {

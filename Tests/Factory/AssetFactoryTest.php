@@ -17,6 +17,7 @@ class AssetFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $kernel;
     private $factory;
+    private $parameterBag;
     private $container;
 
     protected function setUp()

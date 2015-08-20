@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\AsseticBundle\Tests\DependencyInjection;
 
 use Symfony\Bundle\AsseticBundle\DependencyInjection\AsseticExtension;
-use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\AsseticControllerPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
 use Symfony\Component\DependencyInjection\Container;
@@ -25,6 +24,10 @@ use Symfony\Component\HttpFoundation\Request;
 class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $kernel;
+
+    /**
+     * @var ContainerBuilder
+     */
     private $container;
 
     public static function assertSaneContainer(Container $container, $message = '')
@@ -250,6 +253,9 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->getDumpedContainer();
     }
 
+    /**
+     * @return Container
+     */
     private function getDumpedContainer()
     {
         static $i = 0;
