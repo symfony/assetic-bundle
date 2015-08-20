@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "patchwork/jsqueeze": "~1.0",
-        "kriswallsmith/spork": "~0.2",
+        "kriswallsmith/spork": "~0.3",
         "symfony/twig-bundle": "~2.3",
         "symfony/class-loader": "~2.3",
         "symfony/dom-crawler": "~2.3",
