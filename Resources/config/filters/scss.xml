@@ -14,6 +14,7 @@
             <parameter>%kernel.root_dir%/../web</parameter>
         </parameter>
         <parameter key="assetic.filter.scss.cache_location">%kernel.cache_dir%</parameter>
+        <parameter key="assetic.filter.scss.enable_sourcemaps">null</parameter>
     </parameters>
 
     <services>
@@ -26,6 +27,7 @@
             <call method="setCompass"><argument>%assetic.filter.scss.compass%</argument></call>
             <call method="setLoadPaths"><argument>%assetic.filter.scss.load_paths%</argument></call>
             <call method="setCacheLocation"><argument>%assetic.filter.scss.cache_location%</argument></call>
+            <call method="setSourceMap"><argument>%assetic.filter.scss.enable_sourcemaps%</argument></call>
         </service>
     </services>
 </container>
