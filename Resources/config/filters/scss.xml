@@ -10,6 +10,7 @@
         <parameter key="assetic.filter.scss.timeout">null</parameter>
         <parameter key="assetic.filter.scss.style">null</parameter>
         <parameter key="assetic.filter.scss.compass">null</parameter>
+        <parameter key="assetic.filter.scss.precision">null</parameter>
         <parameter key="assetic.filter.scss.load_paths" type="collection">
             <parameter>%kernel.root_dir%/../web</parameter>
         </parameter>
@@ -28,6 +29,7 @@
             <call method="setLoadPaths"><argument>%assetic.filter.scss.load_paths%</argument></call>
             <call method="setCacheLocation"><argument>%assetic.filter.scss.cache_location%</argument></call>
             <call method="setSourceMap"><argument>%assetic.filter.scss.enable_sourcemaps%</argument></call>
+            <call method="setPrecision"><argument>%assetic.filter.scss.precision%</argument></call>
         </service>
     </services>
 </container>
