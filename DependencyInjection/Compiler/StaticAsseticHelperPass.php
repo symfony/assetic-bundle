@@ -19,10 +19,16 @@ class StaticAsseticHelperPass implements CompilerPassInterface
             return;
         }
 
+        if (!$container->hasDefinition('templating.helper.assets')) {
+            // The AssetsHelper is gone in Symfony 3.0
+            $container->removeDefinition('assetic.helper.static');
+
+            return;
+        }
+
         $definition = $container->getDefinition('assetic.helper.static');
 
         if (!method_exists($definition, 'setShared')
-            && $container->hasDefinition('templating.helper.assets')
             && 'request' === $container->getDefinition('templating.helper.assets')->getScope()) {
             $definition->setScope('request');
         }

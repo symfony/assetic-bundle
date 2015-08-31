@@ -14,6 +14,7 @@ namespace Symfony\Bundle\AsseticBundle\Tests\DependencyInjection;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\AsseticExtension;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
+use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\StaticAsseticHelperPass;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -41,7 +42,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        self::assertEquals(array(), $errors, $message);
+        self::assertSame(array(), $errors, $message);
     }
 
     protected function setUp()
@@ -66,7 +67,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         if (class_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper')) {
             $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper'))
                 ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Asset\\Packages')));
-        } else {
+        } elseif (class_exists('Symfony\\Component\\Templating\\Helper\\AssetsHelper')) {
             $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
         }
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
@@ -79,6 +80,8 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->container->setParameter('kernel.root_dir', __DIR__);
         $this->container->setParameter('kernel.charset', 'UTF-8');
         $this->container->set('kernel', $this->kernel);
+
+        $this->container->addCompilerPass(new StaticAsseticHelperPass());
     }
 
     /**
