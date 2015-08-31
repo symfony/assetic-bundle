@@ -1,0 +1,6 @@
+---------------------------------------------------------------------------
+
+by Kerumen at 2015-07-23T10:09:30Z
+
+Any update on this ? It's highly needed for Boostrap.
+To get the Travis build passing you have to change the `composer.json` and require the `dev-master` version of kriswallsmith/assetic.
