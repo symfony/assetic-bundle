@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -65,10 +66,12 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         }
         // Symfony <2.7 BC
         if (class_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper')) {
+            $this->container->register('assets.packages', $this->getMockClass('Symfony\\Component\\Asset\\Packages'));
             $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper'))
-                ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Asset\\Packages')));
-        } elseif (class_exists('Symfony\\Component\\Templating\\Helper\\AssetsHelper')) {
-            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
+                ->addArgument(new Reference('assets.packages'));
+        } elseif (class_exists('Symfony\\Component\\Templating\\Helper\\CoreAssetsHelper')) {
+            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\CoreAssetsHelper'))
+                ->addArgument(new Definition($this->getMockClass('Symfony\Component\Templating\Asset\PackageInterface')));
         }
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Routing\\RouterInterface')));
