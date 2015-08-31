@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Bundle\AsseticBundle\Assetic\Filter\HashableFilter;
 
 /**
  * Serves assets.
@@ -85,7 +86,7 @@ class AsseticController
             return $response;
         }
 
-        $response->setContent($this->cachifyAsset($asset)->dump());
+        $response->setContent($this->cachifyAsset($asset)->dump($this->createDumpFilter($asset, $lastModified)));
 
         return $response;
     }
@@ -107,6 +108,11 @@ class AsseticController
         }
 
         return $this;
+    }
+
+    protected function createDumpFilter(AssetInterface $asset, $calculatedLastModified = null)
+    {
+        return new HashableFilter($calculatedLastModified);
     }
 
     private function findAssetLeaf(\Traversable $asset, $pos)

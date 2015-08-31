@@ -11,6 +11,7 @@
 
 namespace Symfony\Bundle\AsseticBundle\Tests\Controller;
 
+use Assetic\Asset\StringAsset;
 use Symfony\Bundle\AsseticBundle\Controller\AsseticController;
 
 class AsseticControllerTest extends \PHPUnit_Framework_TestCase
@@ -131,6 +132,66 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-Modified-Since is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');
+    }
+
+    public function testRenderLastModifiedWithDependenciesStale()
+    {
+        $cacheKeyUsageHistory = array();
+
+        $name = 'foo';
+        $lastModified = strtotime('2010-10-10 10:10:10');
+        $calculatedLastModified = null;
+
+        $ifModifiedSince = gmdate('D, d M Y H:i:s', $lastModified - 300).' GMT';
+        $asset = new StringAsset('==ASSET_CONTENT==');
+        $asset->setLastModified($lastModified);
+
+        $this->am->expects($this->any())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->any())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
+        $this->am->expects($this->any())
+            ->method('getLastModified')
+            ->with($asset)
+            ->will($this->returnCallback(function () use (&$calculatedLastModified) {
+                return $calculatedLastModified;
+            }));
+
+        $this->headers->expects($this->any())
+            ->method('get')
+            ->with('If-Modified-Since')
+            ->will($this->returnValue($ifModifiedSince));
+        $this->cache->expects($this->any())
+            ->method('has')
+            ->with($this->isType('string'))
+            ->will($this->returnCallback(function ($key) use (&$cacheKeyUsageHistory) {
+
+                if (!in_array($key, $cacheKeyUsageHistory)) {
+                    $cacheKeyUsageHistory[] = $key;
+                }
+
+                return false;
+            }));
+
+        $calculatedLastModified = $lastModified;
+        $this->controller->render($name);
+        $this->assertCount(1, $cacheKeyUsageHistory);
+
+        $calculatedLastModified = strtotime('2010-10-10 10:50:50');
+        $this->controller->render($name);
+        $this->assertCount(2, $cacheKeyUsageHistory);
+
+        $calculatedLastModified = $lastModified;
+        $this->controller->render($name);
+        $this->assertCount(2, $cacheKeyUsageHistory);
+
+        $calculatedLastModified = null;
+        $this->controller->render($name);
+        $this->assertCount(3, $cacheKeyUsageHistory);
     }
 
     public function testRenderETagFresh()
