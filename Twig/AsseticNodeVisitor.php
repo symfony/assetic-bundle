@@ -21,26 +21,23 @@ use Symfony\Component\Templating\TemplateNameParserInterface;
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
+class AsseticNodeVisitor extends \Twig_BaseNodeVisitor
 {
     private $templateNameParser;
     private $enabledBundles;
-    private $useNodeName;
 
     public function __construct(TemplateNameParserInterface $templateNameParser, array $enabledBundles)
     {
         $this->templateNameParser = $templateNameParser;
         $this->enabledBundles = $enabledBundles;
-
-        $this->useNodeName = version_compare(\Twig_Environment::VERSION, '1.2.0-DEV', '<');
     }
 
-    public function enterNode(\Twig_NodeInterface $node, \Twig_Environment $env)
+    protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
         return $node;
     }
 
-    public function leaveNode(\Twig_NodeInterface $node, \Twig_Environment $env)
+    protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
         if (!$formula = $this->checkNode($node, $env, $name)) {
             return $node;
@@ -62,18 +59,18 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
                 new \Twig_Node_Expression_Name('assetic', $line),
                 new \Twig_Node_Expression_Constant('use_controller', $line),
                 new \Twig_Node_Expression_Array(array(), 0),
-                \Twig_TemplateInterface::ARRAY_CALL,
+                \Twig_Template::ARRAY_CALL,
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                $this->useNodeName ? new \Twig_Node_Expression_Name('path', $line) : 'path',
+                'path',
                 new \Twig_Node(array(
                     new \Twig_Node_Expression_Constant('_assetic_'.$options['name'], $line),
                 )),
                 $line
             ),
             new \Twig_Node_Expression_Function(
-                $this->useNodeName ? new \Twig_Node_Expression_Name('asset', $line) : 'asset',
+                'asset',
                 new \Twig_Node(array($node, new \Twig_Node_Expression_Constant(isset($options['package']) ? $options['package'] : null, $line))),
                 $line
             ),
@@ -86,12 +83,10 @@ class AsseticNodeVisitor implements \Twig_NodeVisitorInterface
      *
      * @return array|null The formula
      */
-    private function checkNode(\Twig_NodeInterface $node, \Twig_Environment $env, & $name = null)
+    private function checkNode(\Twig_Node $node, \Twig_Environment $env, &$name = null)
     {
         if ($node instanceof \Twig_Node_Expression_Function) {
-            $name = $this->useNodeName
-                ? $node->getNode('name')->getAttribute('name')
-                : $node->getAttribute('name');
+            $name = $node->getAttribute('name');
             if ($env->getFunction($name) instanceof AsseticFilterFunction) {
                 $arguments = array();
                 foreach ($node->getNode('arguments') as $argument) {
