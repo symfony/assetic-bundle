@@ -71,7 +71,8 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         }
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Routing\\RouterInterface')));
-        $this->container->register('twig', 'Twig_Environment');
+        $this->container->register('twig', 'Twig_Environment')
+            ->addArgument(new Definition($this->getMockClass('Twig_LoaderInterface')));
         $this->container->setParameter('kernel.bundles', array());
         $this->container->setParameter('kernel.cache_dir', __DIR__);
         $this->container->setParameter('kernel.debug', false);
