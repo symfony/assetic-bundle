@@ -11,9 +11,6 @@
 
 namespace Symfony\Bundle\AsseticBundle\Command;
 
-use Spork\Batch\Strategy\ChunkStrategy;
-use Spork\EventDispatcher\WrappedEventDispatcher;
-use Spork\ProcessManager;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,8 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpCommand extends AbstractCommand
 {
-    private $spork;
-
     protected function configure()
     {
         $this
@@ -41,27 +36,6 @@ class DumpCommand extends AbstractCommand
             ->addOption('force', null, InputOption::VALUE_NONE, 'DEPRECATED: use assetic:watch instead')
             ->addOption('period', null, InputOption::VALUE_REQUIRED, 'DEPRECATED: use assetic:watch instead', 1)
         ;
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $stdout)
-    {
-        if (null !== $input->getOption('forks')) {
-            if (!class_exists('Spork\ProcessManager')) {
-                throw new \RuntimeException('The --forks option requires that package kriswallsmith/spork be installed');
-            }
-
-            if (!is_numeric($input->getOption('forks'))) {
-                throw new \InvalidArgumentException('The --forks options must be numeric');
-            }
-
-            $this->spork = new ProcessManager(
-                new WrappedEventDispatcher($this->getContainer()->get('event_dispatcher')),
-                null,
-                $this->getContainer()->getParameter('kernel.debug')
-            );
-        }
-
-        parent::initialize($input, $stdout);
     }
 
     protected function execute(InputInterface $input, OutputInterface $stdout)
@@ -103,20 +77,6 @@ class DumpCommand extends AbstractCommand
         $stdout->writeln(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
         $stdout->writeln('');
 
-        if ($this->spork) {
-            $batch = $this->spork->createBatchJob(
-                $this->am->getNames(),
-                new ChunkStrategy($input->getOption('forks'))
-            );
-
-            $self = $this;
-            $batch->execute(function ($name) use ($self, $stdout) {
-                $self->dumpAsset($name, $stdout);
-            });
-        } else {
-            foreach ($this->am->getNames() as $name) {
-                $this->dumpAsset($name, $stdout);
-            }
-        }
+        $this->dumpAssets($this->am->getNames(), $stdout, $input->getOption('forks'));
     }
 }

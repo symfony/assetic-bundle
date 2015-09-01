@@ -31,6 +31,7 @@ class WatchCommand extends AbstractCommand
             ->setName('assetic:watch')
             ->setDescription('Dumps assets to the filesystem as their source files are modified')
             ->addArgument('write_to', InputArgument::OPTIONAL, 'Override the configured asset root')
+            ->addOption('forks', null, InputOption::VALUE_REQUIRED, 'Fork work across many processes (requires kriswallsmith/spork)')
             ->addOption('force', null, InputOption::VALUE_NONE, 'Force an initial generation of all assets')
             ->addOption('period', null, InputOption::VALUE_REQUIRED, 'Set the polling period in seconds', 1)
         ;
@@ -60,12 +61,18 @@ class WatchCommand extends AbstractCommand
         }
 
         $error = '';
+        $showWait = true;
         while (true) {
             try {
+                $names = array();
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
-                        $this->dumpAsset($name, $stdout);
+                        $names[] = $name;
+                        $showWait = true;
                     }
+                }
+                if ($names) {
+                    $this->dumpAssets($names, $stdout, $input->getOption('forks'));
                 }
 
                 // reset the asset manager
@@ -83,6 +90,11 @@ class WatchCommand extends AbstractCommand
 
             clearstatcache ();
             sleep($input->getOption('period'));
+
+            if ($showWait) {
+                $stdout->writeln('<info>Waiting for changes...</info>');
+            }
+            $showWait = false;
         }
     }
 
