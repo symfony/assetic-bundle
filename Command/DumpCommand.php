@@ -110,9 +110,16 @@ class DumpCommand extends AbstractCommand
             );
 
             $self = $this;
-            $batch->execute(function ($name) use ($self, $stdout) {
+            $promise = $batch->execute(function ($name) use ($self, $stdout) {
                 $self->dumpAsset($name, $stdout);
             });
+
+            $promise->wait();
+
+            $promise->fail(function () {
+                throw new \RuntimeException('Dump failed!');
+            });
+
         } else {
             foreach ($this->am->getNames() as $name) {
                 $this->dumpAsset($name, $stdout);
