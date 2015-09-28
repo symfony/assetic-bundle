@@ -85,7 +85,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
             $target = VarUtils::resolve($target, $asset->getVars(), $asset->getValues());
 
             if (!is_dir($dir = dirname($target))) {
-                $stdout->writeln(sprintf(
+                $stdout->text(sprintf(
                     '<comment>%s</comment> <info>[dir+]</info> %s',
                     date('H:i:s'),
                     $dir
@@ -96,7 +96,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
                 }
             }
 
-            $stdout->writeln(sprintf(
+            $stdout->text(sprintf(
                 '<comment>%s</comment> <info>[file+]</info> %s',
                 date('H:i:s'),
                 $target
@@ -107,12 +107,12 @@ abstract class AbstractCommand extends ContainerAwareCommand
                     foreach ($asset as $leaf) {
                         $root = $leaf->getSourceRoot();
                         $path = $leaf->getSourcePath();
-                        $stdout->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                        $stdout->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                     }
                 } else {
                     $root = $asset->getSourceRoot();
                     $path = $asset->getSourcePath();
-                    $stdout->writeln(sprintf('        <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                    $stdout->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                 }
             }
 

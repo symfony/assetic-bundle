@@ -20,6 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Dumps assets to the filesystem.
@@ -61,21 +62,17 @@ class DumpCommand extends AbstractCommand
             );
         }
 
+        $stdout = new SymfonyStyle($input, $stdout);
+
         parent::initialize($input, $stdout);
     }
 
     protected function execute(InputInterface $input, OutputInterface $stdout)
     {
-        // capture error output
-        $stderr = $stdout instanceof ConsoleOutputInterface
-            ? $stdout->getErrorOutput()
-            : $stdout;
+        $stdout = new SymfonyStyle($input, $stdout);
 
         if ($input->getOption('watch')) {
-            $stderr->writeln(
-                '<error>The --watch option is deprecated. Please use the '.
-                'assetic:watch command instead.</error>'
-            );
+            $stdout->caution('The --watch option is deprecated. Please use the assetic:watch command instead.');
 
             // build assetic:watch arguments
             $arguments = array(
@@ -99,9 +96,9 @@ class DumpCommand extends AbstractCommand
         }
 
         // print the header
-        $stdout->writeln(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
-        $stdout->writeln(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
-        $stdout->writeln('');
+        $stdout->comment(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
+        $stdout->comment(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
+        $stdout->newLine();
 
         if ($this->spork) {
             $batch = $this->spork->createBatchJob(

@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Dumps assets as their source files are modified.
@@ -38,15 +39,12 @@ class WatchCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $stdout)
     {
-        // capture error output
-        $stderr = $stdout instanceof ConsoleOutputInterface
-            ? $stdout->getErrorOutput()
-            : $stdout;
+        $stdout = new SymfonyStyle($input, $stdout);
 
         // print the header
-        $stdout->writeln(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
-        $stdout->writeln(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
-        $stdout->writeln('');
+        $stdout->comment(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
+        $stdout->comment(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
+        $stdout->newLine();
 
         // establish a temporary status file
         $cache = sys_get_temp_dir().'/assetic_watch_'.substr(sha1($this->basePath), 0, 7);
@@ -76,7 +74,7 @@ class WatchCommand extends AbstractCommand
                 $error = '';
             } catch (\Exception $e) {
                 if ($error != $msg = $e->getMessage()) {
-                    $stderr->writeln('<error>[error]</error> '.$msg);
+                    $stdout->error($msg);
                     $error = $msg;
                 }
             }
