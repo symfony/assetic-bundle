@@ -14,6 +14,7 @@
         -->
         <parameter key="assetic.filter.lessphp.formatter">null</parameter>
         <parameter key="assetic.filter.lessphp.preserve_comments">null</parameter>
+        <parameter key="assetic.filter.lessphp.options" type="collection"></parameter>
     </parameters>
 
     <services>
@@ -23,6 +24,7 @@
             <call method="setLoadPaths"><argument>%assetic.filter.lessphp.paths%</argument></call>
             <call method="setFormatter"><argument>%assetic.filter.lessphp.formatter%</argument></call>
             <call method="setPreserveComments"><argument>%assetic.filter.lessphp.preserve_comments%</argument></call>
+            <call method="setOptions"><argument>%assetic.filter.lessphp.options%</argument></call>
         </service>
     </services>
 </container>
