@@ -28,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DumpCommand extends AbstractCommand
 {
-    private $spork;
+    protected $spork;
 
     protected function configure()
     {
