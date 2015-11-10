@@ -10,8 +10,12 @@
         <parameter key="assetic.filter.sass.timeout">null</parameter>
         <parameter key="assetic.filter.sass.style">null</parameter>
         <parameter key="assetic.filter.sass.compass">null</parameter>
-        <parameter key="assetic.filter.sass.load_paths" type="collection" />
+        <parameter key="assetic.filter.sass.precision">null</parameter>
+        <parameter key="assetic.filter.sass.load_paths" type="collection">
+            <parameter>%kernel.root_dir%/../web</parameter>
+        </parameter>
         <parameter key="assetic.filter.sass.cache_location">%kernel.cache_dir%</parameter>
+        <parameter key="assetic.filter.sass.enable_sourcemaps">null</parameter>
     </parameters>
 
     <services>
@@ -24,6 +28,8 @@
             <call method="setCompass"><argument>%assetic.filter.sass.compass%</argument></call>
             <call method="setLoadPaths"><argument>%assetic.filter.sass.load_paths%</argument></call>
             <call method="setCacheLocation"><argument>%assetic.filter.sass.cache_location%</argument></call>
+            <call method="setSourceMap"><argument>%assetic.filter.sass.enable_sourcemaps%</argument></call>
+            <call method="setPrecision"><argument>%assetic.filter.sass.precision%</argument></call>
         </service>
     </services>
 </container>

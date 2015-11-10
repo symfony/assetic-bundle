@@ -17,9 +17,9 @@
             <argument type="service" id="assetic.asset_factory" />
         </service>
 
-        <service id="assetic.helper.static" class="%assetic.helper.static.class%" scope="request">
+        <service id="assetic.helper.static" class="%assetic.helper.static.class%">
             <tag name="assetic.templating.php" />
-            <argument type="service" id="templating.helper.assets" />
+            <argument type="service" id="assets.packages" />
             <argument type="service" id="assetic.asset_factory" />
         </service>
 

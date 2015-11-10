@@ -39,7 +39,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->method('isMethodSafe')
             ->will($this->returnValue(true));
 
-        $this->controller = new AsseticController($this->request, $this->am, $this->cache);
+        $this->controller = new AsseticController($this->am, $this->cache);
     }
 
     public function testRenderNotFound()
@@ -53,7 +53,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->with($name)
             ->will($this->returnValue(false));
 
-        $this->controller->render($name);
+        $this->controller->render($this->request, $name);
     }
 
     public function testRenderLastModifiedFresh()
@@ -86,7 +86,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $asset->expects($this->never())
             ->method('dump');
 
-        $response = $this->controller->render($name);
+        $response = $this->controller->render($this->request, $name);
 
         $this->assertEquals(304, $response->getStatusCode(), '->render() sends a Not Modified response when If-Modified-Since is fresh');
     }
@@ -127,7 +127,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->method('dump')
             ->will($this->returnValue($content));
 
-        $response = $this->controller->render($name);
+        $response = $this->controller->render($this->request, $name);
 
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-Modified-Since is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');
@@ -166,7 +166,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
         $asset->expects($this->never())
             ->method('dump');
 
-        $response = $this->controller->render($name);
+        $response = $this->controller->render($this->request, $name);
 
         $this->assertEquals(304, $response->getStatusCode(), '->render() sends a Not Modified response when If-None-Match is fresh');
     }
@@ -205,7 +205,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             ->method('dump')
             ->will($this->returnValue($content));
 
-        $response = $this->controller->render($name);
+        $response = $this->controller->render($this->request, $name);
 
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-None-Match is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');

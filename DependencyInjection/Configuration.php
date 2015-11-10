@@ -107,6 +107,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('bundles')
                     ->defaultValue($this->bundles)
+                    ->treatNullLike($this->bundles)
                     ->prototype('scalar')
                         ->validate()
                             ->ifNotInArray($this->bundles)

@@ -1,28 +1,44 @@
 language: php
 
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache/files
+
 php:
     - 5.3
     - 5.4
     - 5.5
     - 5.6
+    - 7.0
     - hhvm
 
 matrix:
+    fast_finish: true
     include:
         - php: 5.3
-          env: deps=low
+          env: COMPOSER_FLAGS="--prefer-lowest"
+        # Test against Symfpny LTS versions
+        - php: 5.6
+          env: SYMFONY_VERSION=2.3.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.7.*
+        # Test against dev versions
+        - php: 5.6
+          env: DEPENDENCIES=dev
+        - php: 5.6
+          env: SYMFONY_VERSION="3.0.x-dev as 2.9" DEPENDENCIES=dev # ensure the version is higher than 2.8 to be installed
     allow_failures:
         - php: hhvm
-
-env:
-    global:
-        - deps=no
-
-before_install:
-    - composer self-update
+        - env: DEPENDENCIES=dev
+        - env: SYMFONY_VERSION="3.0.x-dev as 2.9" DEPENDENCIES=dev
 
 install:
-    - if [ "$deps" = "no" ]; then composer --prefer-source install; fi;
-    - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; fi;
+    - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
+    - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+    # Spork 0.3 is not compatible with HHVM
+    - if [ "$TRAVIS_PHP_VERSION" = "hhvm" ]; then composer remove --dev --no-update kriswallsmith/spork; fi;
+    - composer update $COMPOSER_FLAGS
 
 script: phpunit -v

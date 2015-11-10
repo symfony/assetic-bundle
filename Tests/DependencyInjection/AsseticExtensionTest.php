@@ -14,16 +14,22 @@ namespace Symfony\Bundle\AsseticBundle\Tests\DependencyInjection;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\AsseticExtension;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckClosureFilterPass;
 use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\CheckYuiFilterPass;
+use Symfony\Bundle\AsseticBundle\DependencyInjection\Compiler\StaticAsseticHelperPass;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\HttpFoundation\Request;
 
 class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $kernel;
+
+    /**
+     * @var ContainerBuilder
+     */
     private $container;
 
     public static function assertSaneContainer(Container $container, $message = '')
@@ -37,7 +43,7 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        self::assertEquals(array(), $errors, $message);
+        self::assertSame(array(), $errors, $message);
     }
 
     protected function setUp()
@@ -53,18 +59,32 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->kernel = $this->getMock('Symfony\\Component\\HttpKernel\\KernelInterface');
 
         $this->container = new ContainerBuilder();
-        $this->container->addScope(new Scope('request'));
-        $this->container->register('request', 'Symfony\\Component\\HttpFoundation\\Request')->setScope('request');
-        $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\AssetsHelper'));
+        // Symfony 2.3 BC
+        if (!method_exists('Symfony\Component\DependencyInjection\Definition', 'setShared')) {
+            $this->container->addScope(new Scope('request'));
+            $this->container->register('request', 'Symfony\\Component\\HttpFoundation\\Request')->setScope('request');
+        }
+        // Symfony <2.7 BC
+        if (class_exists('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper')) {
+            $this->container->register('assets.packages', $this->getMockClass('Symfony\\Component\\Asset\\Packages'));
+            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\AssetsHelper'))
+                ->addArgument(new Reference('assets.packages'));
+        } elseif (class_exists('Symfony\\Component\\Templating\\Helper\\CoreAssetsHelper')) {
+            $this->container->register('templating.helper.assets', $this->getMockClass('Symfony\\Component\\Templating\\Helper\\CoreAssetsHelper'))
+                ->addArgument(new Definition($this->getMockClass('Symfony\Component\Templating\Asset\PackageInterface')));
+        }
         $this->container->register('templating.helper.router', $this->getMockClass('Symfony\\Bundle\\FrameworkBundle\\Templating\\Helper\\RouterHelper'))
             ->addArgument(new Definition($this->getMockClass('Symfony\\Component\\Routing\\RouterInterface')));
-        $this->container->register('twig', 'Twig_Environment');
+        $this->container->register('twig', 'Twig_Environment')
+            ->addArgument(new Definition($this->getMockClass('Twig_LoaderInterface')));
         $this->container->setParameter('kernel.bundles', array());
         $this->container->setParameter('kernel.cache_dir', __DIR__);
         $this->container->setParameter('kernel.debug', false);
         $this->container->setParameter('kernel.root_dir', __DIR__);
         $this->container->setParameter('kernel.charset', 'UTF-8');
         $this->container->set('kernel', $this->kernel);
+
+        $this->container->addCompilerPass(new StaticAsseticHelperPass());
     }
 
     /**
@@ -240,6 +260,9 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         $this->getDumpedContainer();
     }
 
+    /**
+     * @return Container
+     */
     private function getDumpedContainer()
     {
         static $i = 0;
@@ -251,8 +274,11 @@ class AsseticExtensionTest extends \PHPUnit_Framework_TestCase
         eval('?>'.$dumper->dump(array('class' => $class)));
 
         $container = new $class();
-        $container->enterScope('request');
-        $container->set('request', Request::create('/'));
+        // Symfony 2.3 BC
+        if (!method_exists('Symfony\Component\DependencyInjection\Definition', 'setShared')) {
+            $container->enterScope('request');
+            $container->set('request', Request::create('/'));
+        }
         $container->set('kernel', $this->kernel);
 
         return $container;
