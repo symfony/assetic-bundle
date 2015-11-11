@@ -18,7 +18,7 @@ matrix:
     fast_finish: true
     include:
         - php: 5.3
-          env: COMPOSER_FLAGS="--prefer-lowest"
+          env: COMPOSER_FLAGS="--prefer-lowest" SYMFONY_DEPRECATIONS_HELPER=weak
         # Test against Symfpny LTS versions
         - php: 5.6
           env: SYMFONY_VERSION=2.3.*
@@ -27,12 +27,9 @@ matrix:
         # Test against dev versions
         - php: 5.6
           env: DEPENDENCIES=dev
-        - php: 5.6
-          env: SYMFONY_VERSION="3.0.x-dev as 2.9" DEPENDENCIES=dev # ensure the version is higher than 2.8 to be installed
     allow_failures:
         - php: hhvm
         - env: DEPENDENCIES=dev
-        - env: SYMFONY_VERSION="3.0.x-dev as 2.9" DEPENDENCIES=dev
 
 install:
     - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
