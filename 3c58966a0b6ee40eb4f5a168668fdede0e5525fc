@@ -1,0 +1,91 @@
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-11T14:48:37Z
+
+The build failure is unrelated to this PR.
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-15T10:13:18Z
+
+Do you want to wait until https://github.com/kriswallsmith/assetic is released?
+
+---------------------------------------------------------------------------
+
+by mmoreram at 2015-11-16T19:30:18Z
+
+This PR doesn't assure the compatibility with Symfony3 until you add the dependency with `kriswallsmith/assetic` to `^1.3.2` (not released yet)
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-16T19:35:40Z
+
+There is no need to use this constraint as composer will manage this automatically.
+
+---------------------------------------------------------------------------
+
+by mmoreram at 2015-11-16T19:37:46Z
+
+Your composer file must manage its own dependencies. If you install this component using `prefer-lowest`, then version old assetic version will be installed, so it will not cover this feature.
+
+ping @stof
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-16T19:45:45Z
+
+If an user wants to use symfony 3.0, composer will only install the versions of the dependencies that are compatibles. If you use ``prefer-lowest``, composer will install ``kriswallsmith/assetic`` 1.3.2 because this is the oldest version compatible.
+If the user wants to use symfony 3.0 with ``kriswallsmith/assetic`` ``<1.3.2`` composer will return an error.
+
+---------------------------------------------------------------------------
+
+by mmoreram at 2015-11-16T19:56:38Z
+
+Not agree.
+This bundle cannot have external visibility of it's dependencies dependencies.
+Accepting this PR you are saying (imagine that this PR is merged before 2.7.1)
+
+* Hey guys! If you install Symfony `3.0.0`, you can use our version AsseticBundle `2.7.1`.
+* Your bundle **MUST** ensure that this is right, no matter what happens outside.
+* This bundle allows `kriswallsmith/assetic` to be in version `^1.3.1`, which has a deprecation element (Globals without interface)... and this will be not valid anymore in Symfony `3.0.0`.
+
+So, what you have to do here is increment your dependency with assetic library, and if other users need Symfony `2.x.x` then composer will install maximum AsseticBundle `2.7.0`
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-16T20:23:07Z
+
+``kriswallsmith/assetic`` wasn't compatible with sf3.0 before https://github.com/kriswallsmith/assetic/pull/772 which resolves all the deprecations.
+
+An example:
+```json
+{
+    "require": {
+        "php":                            ">=5.3.9",
+        "symfony/symfony":                "^3.0@dev",
+        "symfony/assetic-bundle":         "^2.0",
+        "kriswallsmith/assetic":          "^1.3"
+    }
+}
+
+```
+
+With this ``composer.json``, if you run ``composer update --prefer-lowest``, composer will install:
+- ``symfony/symfony 3.0.x-dev``
+- ``symfony/assetic-bundle 2.7.1`` (I suppose that this PR will be merged before 2.7.1)
+- ``kriswallsmith/assetic 1.3.2``
+
+Because if for example composer installs ``symfony/assetic-bundle 2.7.0``, there would be a conflict between the composer.json of ``symfony/assetic-bundle`` and the version of ``symfony/symfony``.
+If composer installs ``kriswallsmith/assetic 1.3.1``, there would be the same issue: a conflict between the composer.json of ``kriswallsmith/assetic`` and the version of ``symfony/symfony``.
+
+---------------------------------------------------------------------------
+
+by stof at 2015-11-17T08:33:35Z
+
+@mmoreram don't confuse Twig 2.x and Symfony 3. Symfony 3 still allows Twig 2
+
+---------------------------------------------------------------------------
+
+by stof at 2015-11-17T09:43:04Z
+
+The remaining test failure on PHP 7 is because of https://github.com/sebastianbergmann/phpunit-mock-objects/issues/267
