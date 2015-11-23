@@ -14,6 +14,7 @@ namespace Symfony\Bundle\AsseticBundle\Routing;
 use Assetic\Asset\AssetInterface;
 use Assetic\Factory\LazyAssetManager;
 use Symfony\Bundle\AsseticBundle\Config\AsseticResource;
+use Symfony\Bundle\AsseticBundle\Config\SelfCheckingAsseticResource;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
@@ -56,7 +57,12 @@ class AsseticLoader extends Loader
                 $resources = array($resources);
             }
             foreach ($resources as $resource) {
-                $routes->addResource(new AsseticResource($resource));
+                if (interface_exists('Symfony\Component\Config\Resource\SelfCheckingResourceInterface')) {
+                    $routes->addResource(new SelfCheckingAsseticResource($resource));
+                } else {
+                    // for BC with symfony/config 2.7 and lower
+                    $routes->addResource(new AsseticResource($resource));
+                }
             }
         }
 
