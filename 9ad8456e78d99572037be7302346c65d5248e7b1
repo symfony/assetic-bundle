@@ -1,0 +1,75 @@
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-11-23T22:58:56Z
+
+Ping @Ener-Getick - I've seen you add some very nice 3.0 compat in other places - I wonder if you've seen any other places where there is an example of how to correctly handle this situation. Thanks :)
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-24T07:37:19Z
+
+I don't remember any example but you can create a new ``@internal`` class (containing the ``AsseticRessource`` functions)  which will be extended by ``AsseticRessource`` with the right interface (you have to place the class definition in a condition that checks the existence of ``SelfCheckingResourceInterface``).
+
+---------------------------------------------------------------------------
+
+by stof at 2015-11-24T08:56:11Z
+
+Dropping support for LTS versions is not an option.
+
+A better solution would be to register a checker able to handle AsseticResource (I'm planning to refactor these resources to avoid serializing twig in them anyway)
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-11-24T15:47:25Z
+
+Thanks for the advice! This PR is updated and should be ready to be merged. I used @Ener-Getick's advice to create a sub-class that implements the interface and use that when the interface is available. This can be a short-term solution before properly refactoring the resource checking.
+
+I also tested this locally on a 2.8 project and the deprecation warnings indeed went away.
+
+---------------------------------------------------------------------------
+
+by Ener-Getick at 2015-11-24T16:21:56Z
+
+I was actually more thinking to something like:
+```php
+<?php
+
+namespace Foo;
+
+/**
+ * @internal
+ */
+class InternalFoo {
+    function foo() {
+        // ...
+    }
+
+    // other functions
+}
+
+if(interface_exists('Bar\BarInterface')) {
+    class Foo extends InternalFoo implements \Bar\BarInterface { }
+} else {
+    class Foo extends InternalFoo { }
+}
+```
+
+But I don't know if this solution is acceptable... What do you think @stof ?
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-11-24T16:44:06Z
+
+@stof fixed
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-11-30T20:06:12Z
+
+This is ready to be merged. Failure is on php7 and is unrelated.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-12-01T11:54:02Z
+
+:+1:
