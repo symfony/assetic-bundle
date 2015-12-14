@@ -24,7 +24,7 @@ class DefaultValueSupplier implements ValueSupplierInterface
 {
     protected $container;
 
-    protected $requestStack;
+    private $requestStack;
 
     public function __construct(ContainerInterface $container, RequestStack $requestStack)
     {
