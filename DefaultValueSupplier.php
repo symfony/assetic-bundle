@@ -13,6 +13,7 @@ namespace Symfony\Bundle\AsseticBundle;
 
 use Assetic\ValueSupplierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Default Value Supplier.
@@ -23,18 +24,21 @@ class DefaultValueSupplier implements ValueSupplierInterface
 {
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    protected $requestStack;
+
+    public function __construct(ContainerInterface $container, RequestStack $requestStack)
     {
         $this->container = $container;
+        $this->requestStack = $requestStack;
     }
 
     public function getValues()
     {
-        if (!$this->container->isScopeActive('request')) {
+        if (!$this->requestStack->getCurrentRequest()) {
             return array();
         }
 
-        $request = $this->container->get('request');
+        $request = $this->requestStack->getCurrentRequest();
 
         return array(
             'locale' => $request->getLocale(),
