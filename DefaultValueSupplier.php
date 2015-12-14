@@ -30,15 +30,32 @@ class DefaultValueSupplier implements ValueSupplierInterface
 
     public function getValues()
     {
-        if (!$this->container->isScopeActive('request')) {
+        $request = $this->getCurrentRequest();
+
+        if (!$request) {
             return array();
         }
-
-        $request = $this->container->get('request');
 
         return array(
             'locale' => $request->getLocale(),
             'env'    => $this->container->getParameter('kernel.environment'),
         );
+    }
+
+    /**
+     * @return null|\Symfony\Component\HttpFoundation\Request
+     */
+    private function getCurrentRequest()
+    {
+        $request = null;
+        $requestStack = $this->container->get('request_stack', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+
+        if ($requestStack) {
+            $request = $requestStack->getCurrentRequest();
+        } elseif ($this->container->isScopeActive('request')) {
+            $request = $this->container->get('request');
+        }
+
+        return $request;
     }
 }
