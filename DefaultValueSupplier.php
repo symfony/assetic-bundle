@@ -26,7 +26,7 @@ class DefaultValueSupplier implements ValueSupplierInterface
 
     private $requestStack;
 
-    public function __construct(ContainerInterface $container, RequestStack $requestStack)
+    public function __construct(ContainerInterface $container, RequestStack $requestStack = null)
     {
         $this->container = $container;
         $this->requestStack = $requestStack;
@@ -34,15 +34,31 @@ class DefaultValueSupplier implements ValueSupplierInterface
 
     public function getValues()
     {
-        if (!$this->requestStack->getCurrentRequest()) {
+        $request = $this->getCurrentRequest();
+
+        if (!$request) {
             return array();
         }
-
-        $request = $this->requestStack->getCurrentRequest();
 
         return array(
             'locale' => $request->getLocale(),
             'env'    => $this->container->getParameter('kernel.environment'),
         );
+    }
+
+    /**
+     * @return null|\Symfony\Component\HttpFoundation\Request
+     */
+    private function getCurrentRequest()
+    {
+        $request = null;
+
+        if ($this->requestStack) {
+            $request = $this->requestStack->getCurrentRequest();
+        } elseif ($this->container->isScopeActive('request')) {
+            $request = $this->container->get('request');
+        }
+
+        return $request;
     }
 }
