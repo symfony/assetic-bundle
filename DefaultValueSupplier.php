@@ -30,11 +30,17 @@ class DefaultValueSupplier implements ValueSupplierInterface
 
     public function getValues()
     {
-        if (!$this->container->isScopeActive('request')) {
-            return array();
+        if ($this->container->has('request_stack')) {
+            $request = $this->container->get('request_stack')->getCurrentRequest();
+            if (null === $request) {
+                return array();
+            }
+        } else {
+            if (!$this->container->isScopeActive('request')) {
+                return array();
+            }
+            $request = $this->container->get('request');
         }
-
-        $request = $this->container->get('request');
 
         return array(
             'locale' => $request->getLocale(),
