@@ -34,5 +34,6 @@ class AsseticBundle extends Bundle
         $container->addCompilerPass(new Compiler\AssetManagerPass());
         $container->addCompilerPass(new Compiler\FilterManagerPass());
         $container->addCompilerPass(new Compiler\RouterResourcePass());
+        $container->addCompilerPass(new Compiler\StaticAsseticHelperPass());
     }
 }
