@@ -1,0 +1,31 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-12-14T21:51:11Z
+
+You could default the request stack to `null` and fall back to the old logic when it is not set.
+
+---------------------------------------------------------------------------
+
+by albert-gonzalez at 2015-12-15T08:08:03Z
+
+Thanks @xabbuh, I did that and now it works ok on all versions
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-12-15T08:14:00Z
+
+Actually, I am not sure if the request stack should get injected through the constructor. I mean that's a good idea in general, but here the container is injected anyway.
+
+---------------------------------------------------------------------------
+
+by albert-gonzalez at 2015-12-15T09:43:52Z
+
+You are right, I'm used to inject all the services and I didn't think about getting the request stack directly from the container. I changed it and now the container gets the request stack service.
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-12-17T20:13:25Z
+
+@stof this looks like another Symfony 3 incompatible spot. I'm :+1: on this basic implementation (I might have structure some if logic different, but that's it).
+
+And of course, 2.7.2 would be awesome after this. Thx!
