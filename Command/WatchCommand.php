@@ -68,9 +68,7 @@ class WatchCommand extends AbstractCommand
                     }
                 }
 
-                // reset the asset manager
-                $this->am->clear();
-                $this->am->load();
+                $this->resetAssetManager();
 
                 file_put_contents($cache, serialize($previously));
                 $error = '';
@@ -119,5 +117,27 @@ class WatchCommand extends AbstractCommand
         $previously[$name] = array('mtime' => $mtime, 'formula' => $formula);
 
         return $changed;
+    }
+
+    /**
+     * Rest asset manager
+     */
+    private function resetAssetManager()
+    {
+        // keep assets which can not be loaded by formulae
+        $assets = array();
+        foreach ($this->am->getNames() as $name) {
+            if (!$this->am->hasFormula($name)) {
+                $assets[$name] = $this->am->get($name);
+            }
+        }
+
+        // reset the asset manager
+        $this->am->clear();
+        $this->am->load();
+
+        foreach ($assets as $name => $asset) {
+            $this->am->set($name, $asset);
+        }
     }
 }
