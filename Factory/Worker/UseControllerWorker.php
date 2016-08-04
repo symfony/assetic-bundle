@@ -20,6 +20,7 @@ use Assetic\Factory\AssetFactory;
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
+
 class UseControllerWorker implements WorkerInterface
 {
     public function process(AssetInterface $asset, AssetFactory $factory)
