@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="assetic.controller.class">Symfony\Bundle\AsseticBundle\Controller\AsseticController</parameter>
         <parameter key="assetic.routing_loader.class">Symfony\Bundle\AsseticBundle\Routing\AsseticLoader</parameter>
-        <parameter key="assetic.cache.class">Assetic\Cache\FilesystemCache</parameter>
+        <parameter key="assetic.cache.class">%assetic.controller_cache.class%</parameter>
         <parameter key="assetic.use_controller_worker.class">Symfony\Bundle\AsseticBundle\Factory\Worker\UseControllerWorker</parameter>
         <parameter key="assetic.request_listener.class">Symfony\Bundle\AsseticBundle\EventListener\RequestListener</parameter>
     </parameters>

@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('profiler')->defaultFalse()->end()
                     ->end()
                 ->end()
+                ->scalarNode('controller_cache_class')->defaultValue('Assetic\Cache\FilesystemCache')->end()
                 ->scalarNode('read_from')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('write_to')->defaultValue('%assetic.read_from%')->end()
                 ->scalarNode('java')->defaultValue(function () use ($finder) { return $finder->find('java', '/usr/bin/java'); })->end()
