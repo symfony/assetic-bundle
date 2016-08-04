@@ -27,7 +27,7 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Assetic is not available.');
         }
 
-        $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request');
+        $this->request = $this->getMock('Symfony\\Component\\HttpFoundation\\Request', array('isMethodSafe', 'getETags'));
         $this->headers = $this->getMock('Symfony\\Component\\HttpFoundation\\ParameterBag');
         $this->request->headers = $this->headers;
         $this->am = $this->getMockBuilder('Assetic\\Factory\\LazyAssetManager')
@@ -209,5 +209,55 @@ class AsseticControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(200, $response->getStatusCode(), '->render() sends an OK response when If-None-Match is stale');
         $this->assertEquals($content, $response->getContent(), '->render() sends the dumped asset as the response content');
+    }
+
+    /**
+     * @dataProvider contentTypeProvider
+     */
+    public function testRenderContentType($pathToAsset, $mimeType)
+    {
+        $asset = $this->getMock('Assetic\\Asset\\AssetInterface');
+
+        $name = 'foo';
+        $lastModified = strtotime('2010-10-10 10:10:10');
+        $ifModifiedSince = gmdate('D, d M Y H:i:s', $lastModified - 300).' GMT';
+
+        $asset->expects($this->any())
+            ->method('getTargetPath')
+            ->will($this->returnValue($pathToAsset));
+        $asset->expects($this->any())
+            ->method('getFilters')
+            ->will($this->returnValue(array()));
+        $this->am->expects($this->any())
+            ->method('has')
+            ->with($name)
+            ->will($this->returnValue(true));
+        $this->am->expects($this->any())
+            ->method('get')
+            ->with($name)
+            ->will($this->returnValue($asset));
+        $this->am->expects($this->any())
+            ->method('getLastModified')
+            ->with($asset)
+            ->will($this->returnValue($lastModified));
+        $this->headers->expects($this->any())
+            ->method('get')
+            ->with('If-Modified-Since')
+            ->will($this->returnValue($ifModifiedSince));
+        $asset->expects($this->once())
+            ->method('dump')
+            ->will($this->returnValue(''));
+
+        $response = $this->controller->render($name);
+
+        $this->assertEquals($mimeType, $response->headers->get('Content-Type'), '->render() sends the good Content-Type header');
+    }
+
+    public function contentTypeProvider()
+    {
+        return array(
+            array('/path/to/asset.css', 'text/css'),
+            array('/path/to/asset.js', 'application/javascript'),
+        );
     }
 }
