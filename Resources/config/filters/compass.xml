@@ -16,6 +16,7 @@
         <parameter key="assetic.filter.compass.fonts_dir">null</parameter>
         <parameter key="assetic.filter.compass.relative_assets">false</parameter>
         <parameter key="assetic.filter.compass.javascripts_dir">null</parameter>
+        <parameter key="assetic.filter.compass.fonts_dir">null</parameter>
         <parameter key="assetic.filter.compass.http_path">null</parameter>
         <parameter key="assetic.filter.compass.http_images_path">null</parameter>
         <parameter key="assetic.filter.compass.http_fonts_path">null</parameter>
@@ -52,6 +53,7 @@
             <call method="setFontsDir"><argument>%assetic.filter.compass.fonts_dir%</argument></call>
             <call method="setRelativeAssets"><argument>%assetic.filter.compass.relative_assets%</argument></call>
             <call method="setJavascriptsDir"><argument>%assetic.filter.compass.javascripts_dir%</argument></call>
+            <call method="setFontsDir"><argument>%assetic.filter.compass.fonts_dir%</argument></call>
             <call method="setHttpPath"><argument>%assetic.filter.compass.http_path%</argument></call>
             <call method="setHttpImagesPath"><argument>%assetic.filter.compass.http_images_path%</argument></call>
             <call method="setHttpFontsPath"><argument>%assetic.filter.compass.http_fonts_path%</argument></call>
