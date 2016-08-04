@@ -57,8 +57,9 @@ class DumpCommand extends ContainerAwareCommand
         $output->writeln('');
 
         if (!$input->getOption('watch')) {
+            $previously = array();
             foreach ($this->am->getNames() as $name) {
-                $this->dumpAsset($name, $output);
+                $this->dumpAsset($name, $output, $previously);
             }
         } elseif (!$this->am->isDebug()) {
             throw new \RuntimeException('The --watch option is only available in debug mode.');
@@ -93,7 +94,7 @@ class DumpCommand extends ContainerAwareCommand
             try {
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
-                        $this->dumpAsset($name, $output);
+                        $this->dumpAsset($name, $output, $previously);
                     }
                 }
 
@@ -124,8 +125,19 @@ class DumpCommand extends ContainerAwareCommand
      */
     private function checkAsset($name, array &$previously)
     {
-        $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
-        $asset = $this->am->get($name);
+        // Leaf assets don't have names. Passing asset itself.
+        if ($name instanceof \Assetic\Asset\AssetInterface) {
+            $asset = $name;
+            // Set name to source path.
+            // Since it's used purely for key in $previous,
+            // this is best option to uniquely identify asset.
+            $name = $asset->getSourcePath();
+            // Set formula to null since leaves don't have formula
+            $formula = null;
+        } else {
+            $formula = $this->am->hasFormula($name) ? serialize($this->am->getFormula($name)) : null;
+            $asset   = $this->am->get($name);
+        }
 
         $mtime = 0;
         foreach ($this->getAssetVarCombinations($asset) as $combination) {
@@ -152,8 +164,9 @@ class DumpCommand extends ContainerAwareCommand
      *
      * @param string          $name   An asset name
      * @param OutputInterface $output The command output
+     * @param array           &$previously An array of previous visits
      */
-    private function dumpAsset($name, OutputInterface $output)
+    private function dumpAsset($name, OutputInterface $output, &$previously)
     {
         $asset = $this->am->get($name);
         $formula = $this->am->getFormula($name);
@@ -164,7 +177,9 @@ class DumpCommand extends ContainerAwareCommand
         // dump each leaf if debug
         if (isset($formula[2]['debug']) ? $formula[2]['debug'] : $this->am->isDebug()) {
             foreach ($asset as $leaf) {
-                $this->doDump($leaf, $output);
+                if ($this->checkAsset($leaf, $previously)) {
+                    $this->doDump($leaf, $output);
+                }
             }
         }
     }
