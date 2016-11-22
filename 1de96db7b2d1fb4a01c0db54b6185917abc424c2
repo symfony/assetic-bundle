@@ -1,0 +1,64 @@
+---------------------------------------------------------------------------
+
+by Koc at 2016-11-02T10:27:40Z
+
+You need increase minimal supporting twig version inside composer for this changes
+
+---------------------------------------------------------------------------
+
+by kubawerlos at 2016-11-02T12:57:04Z
+
+@Koc thanks for the notice.
+
+---------------------------------------------------------------------------
+
+by stof at 2016-11-02T13:16:14Z
+
+We still have a few failures there:
+
+- some unexpected calls to mocks, which should be debugged
+- some remaining Twig deprecations, which means your commit is incomplete
+
+---------------------------------------------------------------------------
+
+by hvt at 2016-11-02T15:15:53Z
+
+That second deprecation notice (`Passing a string as the $source argument of Twig_Environment::tokenize() is deprecated since version 1.27. Pass a Twig_Source instance instead.`) must be fixed in Assetic itself. There is already a PR for that one: https://github.com/kriswallsmith/assetic/pull/819
+
+---------------------------------------------------------------------------
+
+by kubawerlos at 2016-11-02T20:53:52Z
+
+@stof all what was possible fixed, but [this one](https://github.com/kriswallsmith/assetic/pull/820) must go first.
+
+---------------------------------------------------------------------------
+
+by kubawerlos at 2016-11-07T20:42:23Z
+
+I have used dev-master for assetic to see the tests, after it is tagged I think this will be ready to merge.
+
+---------------------------------------------------------------------------
+
+by hvt at 2016-11-08T10:42:59Z
+
+@stof would be great if you could tag new versions of both assetic and assetic-bundle, when this one is merged.
+
+---------------------------------------------------------------------------
+
+by kubawerlos at 2016-11-08T11:16:51Z
+
+@hvt you mean tag assetic, then merge this one with a version >=1.3.3 and tag this, right?
+
+@stof I have prepared release notes you can use: https://github.com/kubawerlos/assetic/releases/tag/v1.3.3
+
+---------------------------------------------------------------------------
+
+by hvt at 2016-11-08T11:27:19Z
+
+@kubawerlos that's what I mean yes :+1:
+
+---------------------------------------------------------------------------
+
+by craue at 2016-11-22T10:48:33Z
+
+I also just stumbled upon the `Twig_Node::getLine` and `Twig_TokenStream::getFilename` deprecations. Will this PR be merged soon?
