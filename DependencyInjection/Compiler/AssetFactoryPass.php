@@ -29,7 +29,17 @@ class AssetFactoryPass implements CompilerPassInterface
         }
 
         $factory = $container->getDefinition('assetic.asset_factory');
-        foreach ($container->findTaggedServiceIds('assetic.factory_worker') as $id => $attr) {
+        $services = $container->findTaggedServiceIds('assetic.factory_worker');
+
+        // Ascending sort by priority, default is 0
+        uasort($services, function($a, $b) {
+            $p1 = isset($a[0]['priority']) ? $a[0]['priority'] : 0;
+            $p2 = isset($b[0]['priority']) ? $b[0]['priority'] : 0;
+
+            return $p1 - $p2;
+        });
+
+        foreach ($services as $id => $attr) {
             $factory->addMethodCall('addWorker', array(new Reference($id)));
         }
     }
