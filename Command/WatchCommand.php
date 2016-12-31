@@ -37,14 +37,12 @@ class WatchCommand extends AbstractCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $stdout)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $stdout = new SymfonyStyle($input, $stdout);
-
         // print the header
-        $stdout->comment(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
-        $stdout->comment(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
-        $stdout->newLine();
+        $this->io->comment(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
+        $this->io->comment(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
+        $this->io->newLine();
 
         // establish a temporary status file
         $cache = sys_get_temp_dir().'/assetic_watch_'.substr(sha1($this->basePath), 0, 7);
@@ -62,7 +60,7 @@ class WatchCommand extends AbstractCommand
             try {
                 foreach ($this->am->getNames() as $name) {
                     if ($this->checkAsset($name, $previously)) {
-                        $this->dumpAsset($name, $stdout);
+                        $this->dumpAsset($name, $output);
                     }
                 }
 
@@ -74,7 +72,7 @@ class WatchCommand extends AbstractCommand
                 $error = '';
             } catch (\Exception $e) {
                 if ($error != $msg = $e->getMessage()) {
-                    $stdout->error($msg);
+                    $output->error($msg);
                     $error = $msg;
                 }
             }

@@ -17,15 +17,18 @@ use Assetic\Util\VarUtils;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class AbstractCommand extends ContainerAwareCommand
 {
     protected $am;
     protected $basePath;
+    protected $io;
 
-    protected function initialize(InputInterface $input, OutputInterface $stdout)
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->am = $this->getContainer()->get('assetic.asset_manager');
+        $this->io = new SymfonyStyle($input, $output);
 
         $this->basePath = $this->getContainer()->getParameter('assetic.write_to');
         if ($input->hasArgument('write_to') && $basePath = $input->getArgument('write_to')) {
@@ -69,7 +72,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
      *
      * @throws RuntimeException If there is a problem writing the asset
      */
-    private function doDump(AssetInterface $asset, OutputInterface $stdout)
+    private function doDump(AssetInterface $asset, OutputInterface $output)
     {
         $combinations = VarUtils::getCombinations(
             $asset->getVars(),
@@ -85,7 +88,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
             $target = VarUtils::resolve($target, $asset->getVars(), $asset->getValues());
 
             if (!is_dir($dir = dirname($target))) {
-                $stdout->text(sprintf(
+                $this->io->text(sprintf(
                     '<comment>%s</comment> <info>[dir+]</info> %s',
                     date('H:i:s'),
                     $dir
@@ -96,23 +99,23 @@ abstract class AbstractCommand extends ContainerAwareCommand
                 }
             }
 
-            $stdout->text(sprintf(
+            $this->io->text(sprintf(
                 '<comment>%s</comment> <info>[file+]</info> %s',
                 date('H:i:s'),
                 $target
             ));
 
-            if (OutputInterface::VERBOSITY_VERBOSE <= $stdout->getVerbosity()) {
+            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                 if ($asset instanceof AssetCollectionInterface) {
                     foreach ($asset as $leaf) {
                         $root = $leaf->getSourceRoot();
                         $path = $leaf->getSourcePath();
-                        $stdout->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                        $this->io->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                     }
                 } else {
                     $root = $asset->getSourceRoot();
                     $path = $asset->getSourcePath();
-                    $stdout->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
+                    $this->io->comment(sprintf('  <comment>%s/%s</comment>', $root ?: '[unknown root]', $path ?: '[unknown path]'));
                 }
             }
 
