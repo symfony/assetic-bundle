@@ -84,6 +84,16 @@ class AsseticController
         if ($response->isNotModified($request)) {
             return $response;
         }
+        
+
+        switch (pathinfo($asset->getTargetPath(), PATHINFO_EXTENSION)) {
+            case "css":
+                $response->headers->set("Content-Type", "text/css");
+                break;
+            case "js":
+                $response->headers->set("Content-Type", "application/javascript");
+                break;
+        }
 
         $etagCacheKeyFilter = new AssetCacheKeyFilter($response->getEtag());
 
