@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="assetic.filter.assetdirectory.class">Assetic\Filter\AssetDirectoryFilter</parameter>
+        <parameter key="assetic.filter.assetdirectory.directory.class">Assetic\Util\AssetDirectory</parameter>
+        <parameter key="assetic.filter.assetdirectory.cache.class">Assetic\Cache\FilesystemCache</parameter>
+        <parameter key="assetic.filter.assetdirectory.path">%kernel.root_dir%/../web/assets</parameter>
+        <parameter key="assetic.filter.assetdirectory.target">assets</parameter>
+        <parameter key="assetic.filter.assetdirectory.cache.path">%kernel.cache_dir%/assetic_assets</parameter>
+    </parameters>
+
+    <services>
+        <service id="assetic.filter.assetdirectory" class="%assetic.filter.assetdirectory.class%">
+            <argument type="service" id="assetic.filter.assetdirectory.directory" />
+            <tag name="assetic.filter" alias="assetdirectory" />
+        </service>
+
+        <service id="assetic.filter.assetdirectory.directory" class="%assetic.filter.assetdirectory.directory.class%" public="false">
+            <argument>%assetic.filter.assetdirectory.path%</argument>
+            <argument>%assetic.filter.assetdirectory.target%</argument>
+            <argument type="service" id="assetic.filter.assetdirectory.cache" />
+        </service>
+
+        <service id="assetic.filter.assetdirectory.cache" class="%assetic.filter.assetdirectory.cache.class%" public="false">
+            <argument>%assetic.filter.assetdirectory.cache.path%</argument>
+        </service>
+    </services>
+</container>
