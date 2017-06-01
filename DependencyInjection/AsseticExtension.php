@@ -131,18 +131,6 @@ class AsseticExtension extends Extension
 
         $container->setParameter('assetic.bundles', $config['bundles']);
 
-        if (PHP_VERSION_ID < 70000) {
-            $this->addClassesToCompile(array(
-                'Symfony\\Bundle\\AsseticBundle\\DefaultValueSupplier',
-                'Symfony\\Bundle\\AsseticBundle\\Factory\\AssetFactory',
-                /* This will introduce hard dependency on Twig
-                'Assetic\\Extension\\Twig\\AsseticExtension',
-                'Assetic\\Extension\\Twig\\ValueContainer',
-                'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
-                */
-            ));
-        }
-
         if ($config['workers']['cache_busting']['enabled']) {
             $container->getDefinition('assetic.worker.cache_busting')->addTag('assetic.factory_worker');
         }
