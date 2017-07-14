@@ -1,0 +1,97 @@
+---------------------------------------------------------------------------
+
+by hjanuschka at 2017-05-31T07:02:19Z
+
+any chances this is going to be merged?
+
+---------------------------------------------------------------------------
+
+by stof at 2017-05-31T09:58:29Z
+
+I would remove the call entirely instead.
+
+---------------------------------------------------------------------------
+
+by acrobat at 2017-05-31T10:01:57Z
+
+Ok for me! I just did it the same way as it was done on the other bundles (framework, monolog, etc)
+
+---------------------------------------------------------------------------
+
+by acrobat at 2017-06-01T06:11:01Z
+
+@stof as you asked I've removed the usage of the method completely!
+
+---------------------------------------------------------------------------
+
+by nisanov at 2017-06-01T23:21:06Z
+
+Backwards compatibility?
+```php
+if (PHP_VERSION_ID < 70000) {
+        $this->addClassesToCompile(array(
+            'Symfony\\Bundle\\AsseticBundle\\DefaultValueSupplier',
+            'Symfony\\Bundle\\AsseticBundle\\Factory\\AssetFactory',
+            /* This will introduce hard dependency on Twig
+            'Assetic\\Extension\\Twig\\AsseticExtension',
+            'Assetic\\Extension\\Twig\\ValueContainer',
+            'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
+            */
+        ));
+}
+```
+
+---------------------------------------------------------------------------
+
+by acrobat at 2017-06-02T06:04:02Z
+
+@nisanov that was what I had in mind (see first commit). @stof what is the reason to remove this whole block? And is it indeed not a bc break?
+
+---------------------------------------------------------------------------
+
+by curry684 at 2017-06-06T12:55:06Z
+
+@acrobat BC is not an issue as it was always only a performance improvement. Removing the entire block may degrade performance on old PHP versions, but not change any behavior. And seriously, for 2 classes it's likely only occasionally measurable on PHP5 versions before OpCache became standard in PHP 5.5.
+
+---------------------------------------------------------------------------
+
+by acrobat at 2017-06-06T12:56:49Z
+
+Alright! The PR is ready for merge!
+
+---------------------------------------------------------------------------
+
+by XWB at 2017-06-07T11:55:07Z
+
+:+1:
+
+---------------------------------------------------------------------------
+
+by sjadema at 2017-06-15T12:39:47Z
+
+Is there any progress on this issue?
+
+---------------------------------------------------------------------------
+
+by XWB at 2017-06-22T10:19:39Z
+
+Ping @stof ? :)
+
+---------------------------------------------------------------------------
+
+by XWB at 2017-06-30T10:56:59Z
+
+Ping @fabpot perhaps? :)
+
+---------------------------------------------------------------------------
+
+by netsuo at 2017-06-30T11:28:39Z
+
+Sorry adding to this @fabpot & @stof , but it would be great if assetic at least fix deprecations because some of my projects are 99% ready to upgrade to symfony 4, 1% remaining being Assetic.
+I would like to stop using assetic but the projects are to big to do it and I will probably use webpack for new projects.
+
+---------------------------------------------------------------------------
+
+by deguif at 2017-07-06T15:32:26Z
+
+Any chance to get this merged ?
