@@ -43,7 +43,7 @@ class DumpCommand extends AbstractCommand
         ;
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $stdout)
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
         if (null !== $input->getOption('forks')) {
             if (!class_exists('Spork\ProcessManager')) {
@@ -61,21 +61,13 @@ class DumpCommand extends AbstractCommand
             );
         }
 
-        parent::initialize($input, $stdout);
+        parent::initialize($input, $output);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $stdout)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // capture error output
-        $stderr = $stdout instanceof ConsoleOutputInterface
-            ? $stdout->getErrorOutput()
-            : $stdout;
-
         if ($input->getOption('watch')) {
-            $stderr->writeln(
-                '<error>The --watch option is deprecated. Please use the '.
-                'assetic:watch command instead.</error>'
-            );
+            $this->io->caution('The --watch option is deprecated. Please use the assetic:watch command instead.');
 
             // build assetic:watch arguments
             $arguments = array(
@@ -99,9 +91,9 @@ class DumpCommand extends AbstractCommand
         }
 
         // print the header
-        $stdout->writeln(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
-        $stdout->writeln(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
-        $stdout->writeln('');
+        $this->io->comment(sprintf('Dumping all <comment>%s</comment> assets.', $input->getOption('env')));
+        $this->io->comment(sprintf('Debug mode is <comment>%s</comment>.', $this->am->isDebug() ? 'on' : 'off'));
+        $this->io->newLine();
 
         if ($this->spork) {
             $batch = $this->spork->createBatchJob(
@@ -110,12 +102,12 @@ class DumpCommand extends AbstractCommand
             );
 
             $self = $this;
-            $batch->execute(function ($name) use ($self, $stdout) {
+            $batch->execute(function ($name) use ($self, $output) {
                 $self->dumpAsset($name, $stdout);
             });
         } else {
             foreach ($this->am->getNames() as $name) {
-                $this->dumpAsset($name, $stdout);
+                $this->dumpAsset($name, $output);
             }
         }
     }
