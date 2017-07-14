@@ -1,4 +1,4 @@
-2.8.2
+2.8.2 / 2017-07-14
 ==================
 
 * Fixed deprecation notices when using Symfony 3.3+ and PHP7+
