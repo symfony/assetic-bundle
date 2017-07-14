@@ -19,7 +19,7 @@ use Symfony\Component\Config\Resource\ResourceInterface as SymfonyResourceInterf
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class AsseticResource implements SymfonyResourceInterface
+class AsseticResource implements SymfonyResourceInterface, \Serializable
 {
     private $resource;
 
