@@ -10,6 +10,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.packager" class="%assetic.filter.packager.class%">
             <tag name="assetic.filter" alias="packager" />
             <argument>%assetic.filter.packager.packages%</argument>
