@@ -11,6 +11,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.helper.dynamic" class="%assetic.helper.dynamic.class%">
             <tag name="assetic.templating.php" />
             <argument type="service" id="templating.helper.router" />
