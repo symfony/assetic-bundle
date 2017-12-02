@@ -13,6 +13,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.scssphp" class="%assetic.filter.scssphp.class%">
             <call method="enableCompass">
                 <argument>%assetic.filter.scssphp.compass%</argument>
