@@ -15,6 +15,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.yui_css" class="%assetic.filter.yui_css.class%">
             <tag name="assetic.filter" alias="yui_css" />
             <argument>%assetic.filter.yui_css.jar%</argument>
