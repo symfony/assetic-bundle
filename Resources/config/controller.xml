@@ -13,6 +13,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.routing_loader" class="%assetic.routing_loader.class%" public="false">
             <tag name="routing.loader" />
             <argument type="service" id="assetic.asset_manager" />
