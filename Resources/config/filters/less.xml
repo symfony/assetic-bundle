@@ -14,6 +14,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.less" class="%assetic.filter.less.class%">
             <tag name="assetic.filter" alias="less" />
             <argument>%assetic.filter.less.node%</argument>
