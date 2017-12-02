@@ -16,6 +16,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.uglifycss" class="%assetic.filter.uglifycss.class%">
             <tag name="assetic.filter" alias="uglifycss" />
             <argument>%assetic.filter.uglifycss.bin%</argument>
