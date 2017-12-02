@@ -15,6 +15,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.handlebars" class="%assetic.filter.handlebars.class%">
             <tag name="assetic.filter" alias="handlebars" />
             <argument>%assetic.filter.handlebars.bin%</argument>
