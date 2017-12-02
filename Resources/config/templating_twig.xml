@@ -10,6 +10,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.twig_extension" class="%assetic.twig_extension.class%" public="false">
             <tag name="twig.extension" />
             <tag name="assetic.templating.twig" />
