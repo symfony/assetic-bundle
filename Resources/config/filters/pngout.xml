@@ -15,6 +15,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.pngout" class="%assetic.filter.pngout.class%">
             <tag name="assetic.filter" alias="pngout" />
             <argument>%assetic.filter.pngout.bin%</argument>
