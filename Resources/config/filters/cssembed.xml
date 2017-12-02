@@ -19,6 +19,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.cssembed" class="%assetic.filter.cssembed.class%">
             <tag name="assetic.filter" alias="cssembed" />
             <argument>%assetic.filter.cssembed.jar%</argument>
