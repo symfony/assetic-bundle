@@ -20,6 +20,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.gss" class="%assetic.filter.gss.class%">
             <tag name="assetic.filter" alias="gss" />
             <argument>%assetic.filter.gss.jar%</argument>
