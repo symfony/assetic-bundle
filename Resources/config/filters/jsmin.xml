@@ -9,6 +9,9 @@
     </parameters>
 
     <services>
+        
+        <defaults public="true" />
+        
         <service id="assetic.filter.jsmin" class="%assetic.filter.jsmin.class%">
             <tag name="assetic.filter" alias="jsmin" />
         </service>
