@@ -32,7 +32,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.cleancss" class="%assetic.filter.cleancss.class%">
+        <service id="assetic.filter.cleancss" class="%assetic.filter.cleancss.class%" public="true">
             <tag name="assetic.filter" alias="cleancss" />
             <argument>%assetic.filter.cleancss.bin%</argument>
             <argument>%assetic.filter.cleancss.node%</argument>

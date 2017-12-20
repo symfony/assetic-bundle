@@ -14,7 +14,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.sprockets" class="%assetic.filter.sprockets.class%">
+        <service id="assetic.filter.sprockets" class="%assetic.filter.sprockets.class%" public="true">
             <tag name="assetic.filter" alias="sprockets" />
             <argument>%assetic.filter.sprockets.lib%</argument>
             <argument>%assetic.filter.sprockets.ruby%</argument>

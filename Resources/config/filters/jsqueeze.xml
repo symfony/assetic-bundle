@@ -11,7 +11,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.jsqueeze" class="Assetic\Filter\JSqueezeFilter">
+        <service id="assetic.filter.jsqueeze" class="Assetic\Filter\JSqueezeFilter" public="true">
             <tag name="assetic.filter" alias="jsqueeze" />
             <call method="setSingleLine"><argument>%assetic.filter.jsqueeze.single_line%</argument></call>
             <call method="keepImportantComments"><argument>%assetic.filter.jsqueeze.keep_important_comments%</argument></call>
