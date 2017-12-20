@@ -11,7 +11,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.packer" class="Assetic\Filter\PackerFilter">
+        <service id="assetic.filter.packer" class="Assetic\Filter\PackerFilter" public="true">
             <tag name="assetic.filter" alias="packer" />
             <call method="setFastDecode"><argument>%assetic.filter.packer.fast_decode%</argument></call>
             <call method="setSpecialChars"><argument>%assetic.filter.packer.special_chars%</argument></call>
