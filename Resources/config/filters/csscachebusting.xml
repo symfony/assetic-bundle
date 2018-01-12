@@ -10,7 +10,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.csscachebusting" class="Assetic\Filter\CssCacheBustingFilter">
+        <service id="assetic.filter.csscachebusting" class="Assetic\Filter\CssCacheBustingFilter" public="true">
             <tag name="assetic.filter" alias="csscachebusting" />
             <call method="setVersion"><argument>%assetic.filter.csscachebusting.version%</argument></call>
             <call method="setFormat"><argument>%assetic.filter.csscachebusting.format%</argument></call>
