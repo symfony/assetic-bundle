@@ -30,7 +30,7 @@
             <argument type="service" id="service_container" />
             <argument type="collection"></argument>
         </service>
-        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%">
+        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%" public="true">
             <argument type="service" id="assetic.asset_factory" />
             <argument type="collection"></argument>
         </service>
@@ -74,5 +74,8 @@
         </service>
 
         <service id="assetic.value_supplier" alias="assetic.value_supplier.default" public="false" />
+        
+        <!-- Commands -->
+        <prototype namespace="Symfony\Bundle\AsseticBundle\Command\" resource="../../Command/*" autowire="true" autoconfigure="true" public="false" />
     </services>
 </container>
