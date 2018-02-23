@@ -6,9 +6,7 @@
 
     <services>
         
-        <defaults public="true" />
-        
-        <service id="assetic.filter.minifycsscompressor" class="Assetic\Filter\MinifyCssCompressorFilter">
+        <service id="assetic.filter.minifycsscompressor" class="Assetic\Filter\MinifyCssCompressorFilter" public="true">
             <tag name="assetic.filter" alias="minifycsscompressor" />
         </service>
     </services>
