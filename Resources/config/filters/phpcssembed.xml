@@ -10,9 +10,7 @@
 
     <services>
         
-        <defaults public="true" />
-        
-        <service id="assetic.filter.phpcssembed" class="%assetic.filter.phpcssembed.class%">
+        <service id="assetic.filter.phpcssembed" class="%assetic.filter.phpcssembed.class%" public="true">
             <tag name="assetic.filter" alias="phpcssembed" />
         </service>
     </services>
