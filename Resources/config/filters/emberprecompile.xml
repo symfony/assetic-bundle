@@ -14,9 +14,7 @@
 
     <services>
 
-        <defaults public="true" />
-
-        <service id="assetic.filter.emberprecompile" class="%assetic.filter.emberprecompile.class%">
+        <service id="assetic.filter.emberprecompile" class="%assetic.filter.emberprecompile.class%" public="true">
             <tag name="assetic.filter" alias="emberprecompile" />
             <argument>%assetic.filter.emberprecompile.bin%</argument>
             <argument>%assetic.filter.emberprecompile.node%</argument>
