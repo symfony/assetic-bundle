@@ -38,6 +38,7 @@ class AsseticExtension extends Extension
         $loader->load('assetic.xml');
         $loader->load('templating_twig.xml');
         $loader->load('templating_php.xml');
+        $loader->load('command.xml');
 
         $def = $container->getDefinition('assetic.parameter_bag');
         if (method_exists($def, 'setFactory')) {
