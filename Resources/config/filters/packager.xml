@@ -11,9 +11,7 @@
 
     <services>
         
-        <defaults public="true" />
-        
-        <service id="assetic.filter.packager" class="%assetic.filter.packager.class%">
+        <service id="assetic.filter.packager" class="%assetic.filter.packager.class%" public="true">
             <tag name="assetic.filter" alias="packager" />
             <argument>%assetic.filter.packager.packages%</argument>
         </service>
