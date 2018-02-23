@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+ <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -6,11 +6,11 @@
 
     <services>
 
-        <service id="Symfony\Bundle\AsseticBundle\Command\DumpCommand">
+        <service id="Symfony\Bundle\AsseticBundle\Command\DumpCommand" class="Symfony\Bundle\AsseticBundle\Command\DumpCommand">
             <tag name="console.command" command="assetic:dump" />
         </service>
         
-        <service id="Symfony\Bundle\AsseticBundle\Command\WatchCommand">
+        <service id="Symfony\Bundle\AsseticBundle\Command\WatchCommand" class="Symfony\Bundle\AsseticBundle\Command\WatchCommand">
             <tag name="console.command" command="assetic:watch" />
         </service>
         
