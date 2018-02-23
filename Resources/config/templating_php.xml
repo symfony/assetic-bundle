@@ -12,15 +12,13 @@
 
     <services>
         
-        <defaults public="true" />
-        
-        <service id="assetic.helper.dynamic" class="%assetic.helper.dynamic.class%">
+        <service id="assetic.helper.dynamic" class="%assetic.helper.dynamic.class%" public="true">
             <tag name="assetic.templating.php" />
             <argument type="service" id="templating.helper.router" />
             <argument type="service" id="assetic.asset_factory" />
         </service>
 
-        <service id="assetic.helper.static" class="%assetic.helper.static.class%">
+        <service id="assetic.helper.static" class="%assetic.helper.static.class%" public="true">
             <tag name="assetic.templating.php" />
             <argument type="service" id="assets.packages" />
             <argument type="service" id="assetic.asset_factory" />
