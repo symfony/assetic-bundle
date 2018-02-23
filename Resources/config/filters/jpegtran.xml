@@ -16,9 +16,7 @@
 
     <services>
         
-        <defaults public="true" />
-        
-        <service id="assetic.filter.jpegtran" class="%assetic.filter.jpegtran.class%">
+        <service id="assetic.filter.jpegtran" class="%assetic.filter.jpegtran.class%" public="true">
             <tag name="assetic.filter" alias="jpegtran" />
             <argument>%assetic.filter.jpegtran.bin%</argument>
             <call method="setTimeout"><argument>%assetic.filter.jpegtran.timeout%</argument></call>
