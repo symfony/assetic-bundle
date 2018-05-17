@@ -1,6 +1,9 @@
 AsseticBundle
 =============
 
+**CAUTION**: AsseticBundle is not maintained any more and will receive no further updates. It is
+recommended to use [Webpack Encore](https://symfony.com/doc/current/frontend.html) instead.
+
 The `AsseticBundle` provides integration of the [Assetic](https://github.com/kriswallsmith/assetic)
 library into the Symfony2 framework.
 
