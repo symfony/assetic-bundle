@@ -9,7 +9,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.cssrewrite" class="%assetic.filter.cssrewrite.class%">
+        <service id="assetic.filter.cssrewrite" class="%assetic.filter.cssrewrite.class%" public="true">
             <tag name="assetic.filter" alias="cssrewrite" />
         </service>
     </services>

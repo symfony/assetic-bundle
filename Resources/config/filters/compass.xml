@@ -34,7 +34,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.compass" class="%assetic.filter.compass.class%">
+        <service id="assetic.filter.compass" class="%assetic.filter.compass.class%" public="true">
             <tag name="assetic.filter" alias="compass" />
             <argument>%assetic.filter.compass.bin%</argument>
             <argument>%assetic.ruby.bin%</argument>

@@ -14,7 +14,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.stylus" class="%assetic.filter.stylus.class%">
+        <service id="assetic.filter.stylus" class="%assetic.filter.stylus.class%" public="true">
             <tag name="assetic.filter" alias="stylus" />
             <argument>%assetic.filter.stylus.node%</argument>
             <argument>%assetic.filter.stylus.node_paths%</argument>

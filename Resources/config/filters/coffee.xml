@@ -15,7 +15,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.coffee" class="%assetic.filter.coffee.class%">
+        <service id="assetic.filter.coffee" class="%assetic.filter.coffee.class%" public="true">
             <tag name="assetic.filter" alias="coffee" />
             <argument>%assetic.filter.coffee.bin%</argument>
             <argument>%assetic.filter.coffee.node%</argument>

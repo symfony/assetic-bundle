@@ -12,7 +12,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.roole" class="Assetic\Filter\RooleFilter">
+        <service id="assetic.filter.roole" class="Assetic\Filter\RooleFilter" public="true">
             <tag name="assetic.filter" alias="coffee" />
             <argument>%assetic.filter.roole.bin%</argument>
             <argument>%assetic.filter.roole.node%</argument>

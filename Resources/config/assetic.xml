@@ -26,11 +26,11 @@
 
     <services>
         <!-- managers -->
-        <service id="assetic.filter_manager" class="%assetic.filter_manager.class%">
+        <service id="assetic.filter_manager" class="%assetic.filter_manager.class%" public="true">
             <argument type="service" id="service_container" />
             <argument type="collection"></argument>
         </service>
-        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%">
+        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%" public="true">
             <argument type="service" id="assetic.asset_factory" />
             <argument type="collection"></argument>
         </service>

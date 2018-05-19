@@ -10,7 +10,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.reactjsx" class="%assetic.filter.reactjsx.class%">
+        <service id="assetic.filter.reactjsx" class="%assetic.filter.reactjsx.class%" public="true">
             <tag name="assetic.filter" alias="reactjsx" />
             <argument>%assetic.filter.reactjsx.bin%</argument>
             <argument>%assetic.node.bin%</argument>
