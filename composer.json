@@ -38,7 +38,10 @@
         "kriswallsmith/spork": "to be able to dump assets in parallel"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Bundle\\AsseticBundle\\": "" }
+        "psr-4": { "Symfony\\Bundle\\AsseticBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
