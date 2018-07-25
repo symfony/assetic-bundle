@@ -14,6 +14,9 @@ namespace Symfony\Bundle\AsseticBundle\Command;
 use Assetic\Asset\AssetCollectionInterface;
 use Assetic\Asset\AssetInterface;
 use Assetic\Util\VarUtils;
+use Spork\Batch\Strategy\ChunkStrategy;
+use Spork\EventDispatcher\WrappedEventDispatcher;
+use Spork\ProcessManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +25,8 @@ abstract class AbstractCommand extends ContainerAwareCommand
 {
     protected $am;
     protected $basePath;
+    /** @var ProcessManager */
+    protected $spork;
 
     protected function initialize(InputInterface $input, OutputInterface $stdout)
     {
@@ -30,6 +35,22 @@ abstract class AbstractCommand extends ContainerAwareCommand
         $this->basePath = $this->getContainer()->getParameter('assetic.write_to');
         if ($input->hasArgument('write_to') && $basePath = $input->getArgument('write_to')) {
             $this->basePath = $basePath;
+        }
+
+        if (null !== $input->getOption('forks')) {
+            if (!class_exists('Spork\ProcessManager')) {
+                throw new \RuntimeException('The --forks option requires that package kriswallsmith/spork be installed');
+            }
+
+            if (!is_numeric($input->getOption('forks'))) {
+                throw new \InvalidArgumentException('The --forks options must be numeric');
+            }
+
+            $this->spork = new ProcessManager(
+                new WrappedEventDispatcher($this->getContainer()->get('event_dispatcher')),
+                null,
+                $this->getContainer()->getParameter('kernel.debug')
+            );
         }
     }
 
@@ -118,6 +139,26 @@ abstract class AbstractCommand extends ContainerAwareCommand
 
             if (false === @file_put_contents($target, $asset->dump())) {
                 throw new \RuntimeException('Unable to write file '.$target);
+            }
+        }
+    }
+
+    protected function dumpAssets($names, OutputInterface $stdout, $forks)
+    {
+        if ($this->spork && $forks) {
+            $batch = $this->spork->createBatchJob(
+                $names,
+                new ChunkStrategy($forks)
+            );
+
+            $self = $this;
+            $batch->execute(function ($name) use ($self, $stdout) {
+                $self->dumpAsset($name, $stdout);
+            });
+            $this->spork->wait();
+        } else {
+            foreach ($names as $name) {
+                $this->dumpAsset($name, $stdout);
             }
         }
     }
