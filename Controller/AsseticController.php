@@ -63,7 +63,7 @@ class AsseticController
         }
 
         $response = $this->createResponse();
-        $response->setExpires(new \DateTime());
+        $response->headers->addCacheControlDirective('public');
 
         $this->configureAssetValues($asset, $request);
 
