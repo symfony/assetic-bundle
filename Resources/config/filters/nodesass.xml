@@ -17,7 +17,7 @@
     </parameters>
 
     <services>
-        <service id="assetic.filter.nodesass" class="AsseticBundle\Filter\NodeSassFilter" public="true">
+        <service id="assetic.filter.nodesass" class="Symfony\Bundle\AsseticBundle\Filter\NodeSassFilter" public="true">
             <tag name="assetic.filter" alias="nodesass" />
             <argument>%assetic.filter.nodesass.bin%</argument>
             <call method="setImportPaths">
