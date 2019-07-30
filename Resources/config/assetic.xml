@@ -26,11 +26,11 @@
 
     <services>
         <!-- managers -->
-        <service id="assetic.filter_manager" class="%assetic.filter_manager.class%">
+        <service id="assetic.filter_manager" class="%assetic.filter_manager.class%" public="true">
             <argument type="service" id="service_container" />
             <argument type="collection"></argument>
         </service>
-        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%">
+        <service id="assetic.asset_manager" class="%assetic.asset_manager.class%"  public="true">
             <argument type="service" id="assetic.asset_factory" />
             <argument type="collection"></argument>
         </service>
@@ -74,5 +74,14 @@
         </service>
 
         <service id="assetic.value_supplier" alias="assetic.value_supplier.default" public="false" />
+
+        <service id="assetic.command.dump" class="Symfony\Bundle\AsseticBundle\Command\DumpCommand" public="false">
+            <tag name="console.command" />
+        </service>
+
+        <service id="assetic.command.watch" class="Symfony\Bundle\AsseticBundle\Command\WatchCommand" public="false">
+            <tag name="console.command" />
+        </service>
+
     </services>
 </container>

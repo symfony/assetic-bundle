@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="assetic.filter.nodesass.bin">%kernel.root_dir%/../node_modules/.bin/node-sass</parameter>
+        <parameter key="assetic.filter.nodesass.import_paths" type="collection" />
+        <parameter key="assetic.filter.nodesass.indent_type">null</parameter>
+        <parameter key="assetic.filter.nodesass.indent_width">null</parameter>
+        <parameter key="assetic.filter.nodesass.linefeed">null</parameter>
+        <parameter key="assetic.filter.nodesass.output_style">null</parameter>
+        <parameter key="assetic.filter.nodesass.precision">null</parameter>
+        <parameter key="assetic.filter.nodesass.source_comments">null</parameter>
+        <parameter key="assetic.filter.nodesass.source_map_location">null</parameter>
+        <parameter key="assetic.filter.nodesass.source_map_public_dir">null</parameter>
+    </parameters>
+
+    <services>
+        <service id="assetic.filter.nodesass" class="AsseticBundle\Filter\NodeSassFilter" public="true">
+            <tag name="assetic.filter" alias="nodesass" />
+            <argument>%assetic.filter.nodesass.bin%</argument>
+            <call method="setImportPaths">
+                <argument>%assetic.filter.nodesass.import_paths%</argument>
+            </call>
+            <call method="setOutputStyle">
+                <argument>%assetic.filter.nodesass.output_style%</argument>
+            </call>
+            <call method="setIndentType">
+                <argument>%assetic.filter.nodesass.indent_type%</argument>
+            </call>
+            <call method="setIndentWidth">
+                <argument>%assetic.filter.nodesass.indent_width%</argument>
+            </call>
+            <call method="setLinefeed">
+                <argument>%assetic.filter.nodesass.linefeed%</argument>
+            </call>
+            <call method="setPrecision">
+                <argument>%assetic.filter.nodesass.precision%</argument>
+            </call>
+            <call method="setSourceComments">
+                <argument>%assetic.filter.nodesass.source_comments%</argument>
+            </call>
+            <call method="setSourceMapLocation">
+                <argument>%assetic.filter.nodesass.source_map_location%</argument>
+            </call>
+            <call method="setSourceMapPublicDir">
+                <argument>%assetic.filter.nodesass.source_map_public_dir%</argument>
+            </call>
+        </service>
+    </services>
+</container>
